@@ -1,42 +1,19 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import { UserLayout } from "@/layouts";
-Vue.use(VueRouter);
+import Router from "vue-router";
+import { constantRouterMap } from "@/config/router.config";
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/user",
-    name: "User",
-    redirect: "/user/login",
-    component: UserLayout,
-    children: [
-      {
-        path: "login",
-        name: "login",
-        component: () => import("@/views/user/login")
-      }
-    ]
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
+// hack router push callback
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject)
+    return originalPush.call(this, location, onResolve, onReject);
+  return originalPush.call(this, location).catch(err => err);
+};
+Vue.use(Router);
 
-const router = new VueRouter({
+export default new Router({
   mode: "history",
-  routes
+  base: process.env.BASE_URL,
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
 });
-
-export default router;

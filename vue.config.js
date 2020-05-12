@@ -15,6 +15,14 @@ module.exports = {
   devServer: {
     public: "192.168.0.156:8080",
     hot: true,
-    disableHostCheck: true
+    disableHostCheck: true,
+    proxy: {
+      [process.env.VUE_APP_BASE_API]: {
+        target:
+          "https://www.fastmock.site/mock/53df7119c852e65d94f26a08478f75e4/api",
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 };

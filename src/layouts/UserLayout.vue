@@ -1,6 +1,6 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', device]">
-    <div class="waveWrapper waveAnimation">
+    <div class=" waveAnimation">
       <div class="waveWrapperInner bgTop">
         <div class="wave waveTop"></div>
       </div>
@@ -78,10 +78,13 @@ export default {
 @media screen and (max-width: 670px) {
   .container {
     padding: 110px 0 110px !important;
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
   }
   .container .main {
     width: 340px !important;
   }
+  .waveWrapper,
+  .waveWrapperInner,
   .waveTop,
   .waveMiddle,
   .waveBottom {
@@ -91,7 +94,7 @@ export default {
     bottom: 0 !important;
   }
   .footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
   }
 }
@@ -104,8 +107,8 @@ export default {
   }
 }
 .waveWrapper {
-  overflow: hidden;
   position: absolute;
+  height: 100%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -117,7 +120,6 @@ export default {
   width: 100%;
   overflow: hidden;
   height: 100%;
-  bottom: -1px;
   background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 }
 .bgTop {
@@ -165,16 +167,15 @@ export default {
   animation: move_wave 15s linear infinite;
 }
 .user-layout-wrapper {
-  min-height: 500px;
   height: 100%;
-  overflow: hidden;
 }
 .container {
   position: relative;
-  z-index: 9999;
+  z-index: 99;
   width: 100%;
   min-height: 100%;
   padding: 110px 0 144px;
+  // background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
   .main {
     min-width: 260px;
     width: 368px;
