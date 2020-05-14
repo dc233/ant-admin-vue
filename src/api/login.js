@@ -5,10 +5,10 @@ export function login(data) {
   return $axios.post(url, data);
 }
 export function getInfo() {
-  const url = "/getInfo";
+  const url = "/admin/getInfo";
   return $axios.get(url);
 }
 export function logout(data) {
-  const url = "login/logout";
+  const url = "/admin/logout";
   return $axios.post(url, data);
 }

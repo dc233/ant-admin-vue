@@ -1,7 +1,42 @@
-import { UserLayout } from "@/layouts";
+import { UserLayout, BasicLayout, RouteView } from "@/layouts";
 
 // 异步路由
-export const asyncRouterMap = [];
+export const asyncRouterMap = [
+  {
+    path: "/",
+    name: "index",
+    component: BasicLayout,
+    meta: { title: "首页" },
+    redirect: "/dashboard/workplace",
+    children: [
+      // dashboard
+      {
+        path: "dashboard",
+        name: "dashboard",
+        redirect: "/dashboard/workplace",
+        component: RouteView,
+        meta: {
+          title: "仪表盘",
+          keepAlive: true,
+          icon: "line-chart",
+          permission: ["dashboard"]
+        },
+        children: [
+          {
+            path: "workplace",
+            name: "Workplace",
+            component: () => import("@/views/dashboard/Workplace"),
+            meta: {
+              title: "工作台",
+              keepAlive: true,
+              permission: ["dashboard"]
+            }
+          }
+        ]
+      }
+    ]
+  }
+];
 
 /**
  * @description: 基本路由

@@ -28,7 +28,7 @@
             </a-input>
           </a-form-item>
           <a-form-item style="margin-bottom:10px">
-            <a-input
+            <a-input-password
               v-decorator="[
                 'password',
                 {
@@ -45,7 +45,7 @@
                 type="lock"
                 style="color: rgba(0,0,0,.25)"
               />
-            </a-input>
+            </a-input-password>
           </a-form-item>
         </a-tab-pane>
         <a-tab-pane key="2" tab="手机号登录" force-render>
@@ -186,8 +186,8 @@ export default {
         { force: true },
         (err, values) => {
           if (!err) {
-            Login(values).then(res => {
-              console.log(res);
+            Login(values).then(() => {
+              this.$router.push({ path: "/" });
             });
           }
         }

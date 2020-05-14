@@ -1,0 +1,62 @@
+#app {
+    height: 100%;
+}
+
+
+
+
+// header
+.header-animat {
+    .header {
+        height: 64px;
+        padding: 0 12px 0 0;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+        position: relative;
+    }
+}
+.header,
+.top-nav-header-index {
+    .user-wrapper {
+        float: right;
+        height: 100%;
+
+        .action {
+            cursor: pointer;
+            padding: 0 12px;
+            display: inline-block;
+            transition: all 0.3s;
+            height: 100%;
+            color: rgba(0, 0, 0, 0.65);
+
+            &:hover {
+                background: rgba(0, 0, 0, 0.025);
+            }
+
+            .avatar {
+                margin: 20px 8px 20px 0;
+                color: #1890ff;
+                background: hsla(0, 0%, 100%, 0.85);
+                vertical-align: middle;
+            }
+
+            .icon {
+                font-size: 16px;
+                padding: 4px;
+            }
+        }
+    }
+}
+
+.layout.ant-layout .trigger {
+    font-size: 20px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+}
+
+.layout.ant-layout .trigger:hover {
+    background: rgba(0, 0, 0, 0.025);
+}
