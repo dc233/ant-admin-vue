@@ -47,6 +47,7 @@
           paddingTop: fixedHeader ? '64px' : '0'
         }"
       >
+        <multi-tab></multi-tab>
         <transition name="page-transition">
           <route-view />
         </transition>
