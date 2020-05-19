@@ -48,7 +48,7 @@ import {
   notification,
   Statistic 
 } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css';
+import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
 
 Vue.use(ConfigProvider)

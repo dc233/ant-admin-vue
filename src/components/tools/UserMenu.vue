@@ -1,14 +1,30 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
+      <a-tooltip>
+        <template slot="title">
+          系统主题设置
+        </template>
+        <span
+          class="hoveraction"
+          @click="
+            () => {
+              visbil = true;
+            }
+          "
+        >
+          <a-icon type="layout" />
+        </span>
+      </a-tooltip>
+
       <a href="#" target="_blank">
-        <span class="action">
+        <span class="hoveraction">
           <a-icon type="question-circle-o"></a-icon>
         </span>
       </a>
-      <notice-icon class="action" />
+      <notice-icon class="hoveraction" />
       <a-dropdown>
-        <span class="action ant-dropdown-link user-dropdown-menu">
+        <span class="hoveraction ant-dropdown-link user-dropdown-menu">
           <a-avatar class="avatar" size="small" :src="avatar" />
           <span>{{ nickname }}</span>
         </span>
@@ -35,19 +51,31 @@
         </a-menu>
       </a-dropdown>
     </div>
+    <setting-drawe
+      :syncVisible.sync="visbil"
+      ref="drawer"
+      @close="handeloClose"
+    />
   </div>
 </template>
 
 <script>
 import NoticeIcon from "../NoticeIcon/NoticeIcon";
 import { mapActions, mapGetters } from "vuex";
+import SettingDrawe from "../SettingDrawe";
 export default {
   name: "UserMenu",
   components: {
-    NoticeIcon
+    NoticeIcon,
+    SettingDrawe
   },
   computed: {
     ...mapGetters(["nickname", "avatar"])
+  },
+  data() {
+    return {
+      visbil: false
+    };
   },
   methods: {
     ...mapActions(["Logout"]),
@@ -71,18 +99,24 @@ export default {
         },
         onCancel() {}
       });
+    },
+    handeloClose() {
+      this.visbil = false;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.action {
+.hoveraction {
   cursor: pointer;
   padding: 0 12px;
   display: inline-block;
   transition: all 0.3s;
   height: 100%;
   color: rgba(0, 0, 0, 0.65);
+  &:hover {
+    background: rgba(0, 0, 0, 0.025);
+  }
 }
 </style>

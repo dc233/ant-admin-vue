@@ -15,8 +15,8 @@ const app = {
   state: {
     sidebar: true,
     device: "desktop",
-    theme: "dark",
-    layout: "sidemenu",
+    theme: "",
+    layout: "",
     contentWidth: "",
     fixedHeader: false,
     fixSiderbar: false,

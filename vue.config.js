@@ -1,4 +1,6 @@
 const path = require("path");
+const webpack = require("webpack");
+const createThemeColorReplacerPlugin = require("./config/plugin.config");
 const resolve = dir => path.join(__dirname, dir);
 module.exports = {
   publicPath: "/", // 默认'/'，部署应用包时的基本 URL
@@ -8,9 +10,31 @@ module.exports = {
   productionSourceMap: false,
   parallel: require("os").cpus().length > 1,
   lintOnSave: false,
+  configureWebpack: {
+    // webpack plugins
+    plugins: [
+      // Ignore all locale files of moment.js
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      createThemeColorReplacerPlugin()
+    ]
+  },
   chainWebpack: config => {
     // 添加别名
     config.resolve.alias.set("@$", resolve("src"));
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          modifyVars: {
+            // "primary-color": "#1DA57A",
+            // "link-color": "#1DA57A",
+            "border-radius-base": "2px"
+          },
+          javascriptEnabled: true
+        }
+      }
+    }
   },
   devServer: {
     public: "192.168.0.156:8080",

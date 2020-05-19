@@ -27,35 +27,37 @@
       :collapsible="true"
     ></side-menu>
     <a-layout
-      :class="[layoutMode, `content-width-${contentWidth}`]"
+      :class="[layoutMode]"
       :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
     >
-      <!--layout header -->
-      <global-header
-        :mode="layoutMode"
-        :menus="menus"
-        :theme="navTheme"
-        :collapsed="collapsed"
-        :device="device"
-        @toggle="toggle"
-      />
-      <!-- layout contennt -->
-      <a-layout-content
-        :style="{
-          height: '100%',
-          margin: '24px 24px 0',
-          paddingTop: fixedHeader ? '64px' : '0'
-        }"
-      >
-        <multi-tab></multi-tab>
-        <transition name="page-transition">
-          <route-view />
-        </transition>
-      </a-layout-content>
-      <!-- layout footer -->
-      <a-layout-footer>
-        <global-footer />
-      </a-layout-footer>
+      <div :class="[`content-width-${contentWidth}`]">
+        <!--layout header -->
+        <global-header
+          :mode="layoutMode"
+          :menus="menus"
+          :theme="navTheme"
+          :collapsed="collapsed"
+          :device="device"
+          @toggle="toggle"
+        />
+        <!-- layout contennt -->
+        <a-layout-content
+          :style="{
+            height: '100%',
+            margin: '24px 24px 0',
+            paddingTop: fixedHeader ? '64px' : '0'
+          }"
+        >
+          <multi-tab v-if="multiTab"></multi-tab>
+          <transition name="page-transition">
+            <route-view />
+          </transition>
+        </a-layout-content>
+        <!-- layout footer -->
+        <a-layout-footer>
+          <global-footer />
+        </a-layout-footer>
+      </div>
     </a-layout>
   </a-layout>
 </template>

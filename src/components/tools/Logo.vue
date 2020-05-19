@@ -27,12 +27,13 @@ export default {
 
 <style lang="scss" scoped>
 .logo {
-  display: flex;
+  position: relative;
   height: 64px;
-  background: #002140;
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
+  background: #002140;
+  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   h1 {
     display: inline-block;
@@ -48,5 +49,7 @@ export default {
   width: 32px;
   height: 32px;
   vertical-align: middle;
+}
+.logo[data-theme="dark"] {
 }
 </style>
