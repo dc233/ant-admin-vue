@@ -17,6 +17,11 @@ const mixin = {
       multiTab: state => state.app.multiTab
     })
   },
+  data() {
+    return {
+      visbil: false
+    };
+  },
   methods: {
     isTopMenu() {
       return this.layoutMode === "topmenu";

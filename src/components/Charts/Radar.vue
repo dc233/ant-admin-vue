@@ -1,7 +1,8 @@
 <template>
   <v-chart
-    :forceFit="true"
-    height="400"
+    :forceFit="false"
+    width="400"
+    height="480"
     :data="data"
     :padding="[20, 20, 95, 20]"
     :scale="scale"

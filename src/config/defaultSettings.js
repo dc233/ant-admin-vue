@@ -14,14 +14,13 @@
  */
 
 export default {
-  primaryColor: "#52C41A", // primary color of ant design
-  navTheme: "dark", // theme for nav menu
-  layout: "sidemenu", // nav menu position: sidemenu or topmenu
-  contentWidth: "Fixed", // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: false, // sticky header
-  fixSiderbar: false, // sticky siderbar
-  autoHideHeader: false, //  auto hide header
-  colorWeak: false,
+  primaryColor: "#52C41A",
+  navTheme: "dark",
+  layout: "sidemenu",
+  contentWidth: "Fixed",
+  fixedHeader: false,
+  fixSiderbar: false,
+  autoHideHeader: false,
   multiTab: false,
   // vue-ls options
   storageOptions: {

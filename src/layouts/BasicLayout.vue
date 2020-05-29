@@ -8,6 +8,7 @@
       :closable="false"
       :visible="collapsed"
       @close="drawerClose"
+      :bodyStyle="mobileStyle"
     >
       <side-menu
         mode="inline"
@@ -16,6 +17,7 @@
         :collapsed="false"
         :collapsible="true"
         @menuSelect="menuSelect"
+        :class="['mobilemenu']"
       ></side-menu>
     </a-drawer>
     <side-menu
@@ -30,7 +32,7 @@
       :class="[layoutMode]"
       :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
     >
-      <div :class="[`content-width-${contentWidth}`]">
+      <a-layout :class="[`content-width-${contentWidth}`]">
         <!--layout header -->
         <global-header
           :mode="layoutMode"
@@ -57,7 +59,8 @@
         <a-layout-footer>
           <global-footer />
         </a-layout-footer>
-      </div>
+        <setting-drawe />
+      </a-layout>
     </a-layout>
   </a-layout>
 </template>
@@ -67,6 +70,7 @@ import RouteView from "./RouteView";
 import GlobalHeader from "./Global/header";
 import GlobalFooter from "./Global/footer";
 import SideMenu from "./Global/SideMenu";
+import SettingDrawe from "@/components/SettingDrawe";
 import { triggerWindowResizeEvent } from "@/utils/util";
 import { mixin, mixinDevice } from "@/utils/mixin";
 import { mapState, mapActions } from "vuex";
@@ -78,12 +82,17 @@ export default {
     SideMenu,
     GlobalHeader,
     RouteView,
-    GlobalFooter
+    GlobalFooter,
+    SettingDrawe
   },
   data() {
     return {
       collapsed: false,
-      menus: []
+      menus: [],
+      Open: false,
+      mobileStyle: {
+        padding: 0
+      }
     };
   },
   computed: {

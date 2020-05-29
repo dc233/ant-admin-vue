@@ -111,12 +111,12 @@
           </a-card>
           <a-card
             title="XX 指数"
-            style="margin-top: 24px"
+            style="margin-top: 24px;"
             :loading="radarLoading"
             :bordered="false"
             :body-style="{ padding: 0 }"
           >
-            <div style="min-height: 484px;">
+            <div style="text-align:center">
               <!-- :scale="scale" :axis1Opts="axis1Opts" :axis2Opts="axis2Opts"  -->
               <radar :data="radarData" />
             </div>

@@ -41,36 +41,6 @@ export const asyncRouterMap = [
               keepAlive: true,
               permission: ["dashboard"]
             }
-          },
-          {
-            path: "test1",
-            name: "test1",
-            component: () => import("@/views/dashboard/test1"),
-            meta: {
-              title: "测试1",
-              keepAlive: true,
-              permission: ["dashboard"]
-            }
-          },
-          {
-            path: "test2",
-            name: "test2",
-            component: () => import("@/views/dashboard/test2"),
-            meta: {
-              title: "测试2",
-              keepAlive: true,
-              permission: ["dashboard"]
-            }
-          },
-          {
-            path: "test3",
-            name: "test3",
-            component: () => import("@/views/dashboard/test3"),
-            meta: {
-              title: "测试3",
-              keepAlive: true,
-              permission: ["dashboard"]
-            }
           }
         ]
       }

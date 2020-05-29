@@ -1,11 +1,21 @@
 <template>
-  <div style="width:100%">
-    test123
+  <div>
+    <test-children :visbile.sync="database" />
   </div>
 </template>
 
 <script>
-export default {};
+import TestChildren from "./testChildren";
+export default {
+  components: {
+    TestChildren
+  },
+  data() {
+    return {
+      database: "dartalist"
+    };
+  }
+};
 </script>
 
 <style></style>

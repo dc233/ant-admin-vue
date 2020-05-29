@@ -1,32 +1,16 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
-      <a-tooltip>
-        <template slot="title">
-          系统主题设置
-        </template>
-        <span
-          class="hoveraction"
-          @click="
-            () => {
-              visbil = true;
-            }
-          "
-        >
-          <a-icon type="layout" />
-        </span>
-      </a-tooltip>
-
       <a href="#" target="_blank">
         <span class="hoveraction">
-          <a-icon type="question-circle-o"></a-icon>
+          <a-icon type="global" />
         </span>
       </a>
       <notice-icon class="hoveraction" />
       <a-dropdown>
         <span class="hoveraction ant-dropdown-link user-dropdown-menu">
           <a-avatar class="avatar" size="small" :src="avatar" />
-          <span>{{ nickname }}</span>
+          <span class="username">{{ nickname }}</span>
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
           <a-menu-item key="0">
@@ -51,31 +35,24 @@
         </a-menu>
       </a-dropdown>
     </div>
-    <setting-drawe
-      :syncVisible.sync="visbil"
-      ref="drawer"
-      @close="handeloClose"
-    />
   </div>
 </template>
 
 <script>
 import NoticeIcon from "../NoticeIcon/NoticeIcon";
 import { mapActions, mapGetters } from "vuex";
-import SettingDrawe from "../SettingDrawe";
+import { mixin } from "@/utils/mixin";
 export default {
   name: "UserMenu",
   components: {
-    NoticeIcon,
-    SettingDrawe
+    NoticeIcon
   },
+  mixins: [mixin],
   computed: {
     ...mapGetters(["nickname", "avatar"])
   },
   data() {
-    return {
-      visbil: false
-    };
+    return {};
   },
   methods: {
     ...mapActions(["Logout"]),
@@ -99,9 +76,6 @@ export default {
         },
         onCancel() {}
       });
-    },
-    handeloClose() {
-      this.visbil = false;
     }
   }
 };

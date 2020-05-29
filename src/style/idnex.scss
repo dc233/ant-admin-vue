@@ -21,7 +21,7 @@
      */
         .ant-table-wrapper {
             .ant-table-content {
-                overflow-y: auto;
+                overflow-y: auto;              
             }
 
             .ant-table-body {
@@ -35,6 +35,7 @@
             &.content-width-Fluid {
                 .header-index-wide {
                     margin-left: 0;
+                    // ro
                 }
             }
         }
@@ -70,7 +71,37 @@
 
 
 }
+.mobilemenu {
+    min-height: 100vh;
+}
+.mobile {
+    .topmenu {
+        .top-nav-header-index {
+            .header-index-left {
+                .logo  {
+                    width: 80px !important;
+                }
+                .top-nav-header {
+                    flex: 0 0 56px!important;
+                }
+            }
+        }
+        .username {
+            display: none;
+        }
+        .dark {
+            .trigger {
+                color: #fff;
+            }
+        }
+    }
+    .sidemenu {
+        .username {
+            display: none;
+        }
+    }
 
+}
 // header
 .header-animat {
     .header {
@@ -137,6 +168,7 @@
     .ant-fixed-sidemenu {
         position: fixed;
         height: 100%;
+        z-index: 9999;
       }
 }
 
@@ -256,7 +288,17 @@
         }
       }
     }
-
+    &.dark{
+        .header-index-wide {
+            .header-index-right {
+                .hoveraction {
+                    &:hover {
+                        background: #1890ff;
+                    }
+                }
+            }
+        } 
+    }
     &.light {
       background-color: #fff;
 

@@ -3,12 +3,12 @@
     <a-drawer
       title="主题设置"
       placement="right"
-      :closable="true"
-      :visible="syncVisible"
-      :after-visible-change="afterVisibleChange"
+      :closable="false"
+      :visible="visible"
       @close="onClose"
       :maskClosable="false"
-      width="350"
+      :handle="handle"
+      width="300"
     >
       <div class="setting-drawer-index-content">
         <!--  侧边栏 -->
@@ -192,6 +192,10 @@
         </div>
       </div>
     </a-drawer>
+    <div class="setting-drawer-index-handle" @click="toggle">
+      <a-icon type="setting" v-if="!visible" />
+      <a-icon type="close" v-else />
+    </div>
   </div>
 </template>
 
@@ -200,16 +204,12 @@ import config from "@/config/defaultSettings";
 import { updateTheme, updateColorWeak, colorList } from "./settingConfig";
 import { mixin, mixinDevice } from "@/utils/mixin";
 export default {
-  props: {
-    syncVisible: {
-      type: Boolean,
-      default: false
-    }
-  },
   mixins: [mixin, mixinDevice],
   data() {
     return {
-      colorList
+      colorList,
+      visible: false,
+      handle: <div />
     };
   },
   mounted() {
@@ -219,11 +219,23 @@ export default {
     }
   },
   methods: {
+    toggle() {
+      this.visible = !this.visible;
+      if (this.visible) {
+        document
+          .querySelector(".setting-drawer-index-handle")
+          .setAttribute("style", "right:300px");
+      } else {
+        document
+          .querySelector(".setting-drawer-index-handle")
+          .setAttribute("style", "right:0");
+      }
+    },
     afterVisibleChange() {
       //   this.syncVisible = true;
     },
     onClose() {
-      this.$emit("close", false);
+      this.visible = false;
     },
     handleMenuTheme(theme) {
       var logo = document.querySelector(".logo");
@@ -237,9 +249,14 @@ export default {
       }
     },
     handleLayout(mode) {
-      this.$store.dispatch("ToggleLayoutMode", mode);
-      // 因为顶部菜单不能固定左侧菜单栏，所以强制关闭
-      this.handleFixSiderbar(false);
+      if (this.layoutMode === "topmenu") {
+        this.$store.dispatch("ToggleLayoutMode", mode);
+        // 因为顶部菜单不能固定左侧菜单栏，所以强制关闭
+        this.$store.dispatch("ToggleFixSiderbar", true);
+      } else {
+        this.$store.dispatch("ToggleLayoutMode", mode);
+        this.handleFixSiderbar(false);
+      }
     },
     handleFixSiderbar(fixed) {
       if (this.layoutMode === "topmenu") {
@@ -261,7 +278,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .setting-drawer-index-content {
   .setting-drawer-index-blockChecbox {
     display: flex;
@@ -305,12 +322,12 @@ export default {
   }
 }
 .setting-drawer-index-handle {
-  position: absolute;
+  position: fixed;
   top: 240px;
   background: #1890ff;
   width: 48px;
   height: 48px;
-  right: 300px;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -320,6 +337,7 @@ export default {
   text-align: center;
   font-size: 16px;
   border-radius: 4px 0 0 4px;
+  transition: right 0.3s;
   i {
     color: rgb(255, 255, 255);
     font-size: 20px;
