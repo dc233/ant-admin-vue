@@ -152,6 +152,8 @@
 
 <script>
 import { mapActions } from "vuex";
+import RVerify from "rverify";
+import "rverify/dist/RVerify.min.css";
 export default {
   data() {
     return {
@@ -165,7 +167,27 @@ export default {
       }
     };
   },
-  mounted() {},
+  mounted() {
+    RVerify.configure({
+      tolerance: 10,
+      duration: 500,
+      mask: 0.5,
+      title: "身份验证",
+      text: "拖动滑块，使图片角度为正",
+      album: [
+        "https://rverify.now.sh/assets/1.jpg",
+        "https://rverify.now.sh/assets/2.jpg",
+        "https://rverify.now.sh/assets/3.jpg",
+        "https://rverify.now.sh/assets/4.jpg",
+        "https://rverify.now.sh/assets/5.jpg",
+        "https://rverify.now.sh/assets/6.jpg",
+        "https://rverify.now.sh/assets/7.jpg",
+        "https://rverify.now.sh/assets/8.jpg",
+        "https://rverify.now.sh/assets/9.jpg",
+        "https://rverify.now.sh/assets/10.jpg"
+      ]
+    });
+  },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
@@ -187,7 +209,18 @@ export default {
         (err, values) => {
           if (!err) {
             Login(values).then(() => {
-              this.$router.push({ path: "/" });
+              // this.$router.push({ path: "/" });
+              const that = this;
+              RVerify.action(function(code) {
+                switch (code) {
+                  case 1:
+                    that.$router.push({ path: "/" });
+                    break;
+                  case 2:
+                    alert("No action");
+                    break;
+                }
+              });
             });
           }
         }

@@ -352,3 +352,17 @@
             }
         }
   }
+::-webkit-scrollbar {
+    width: 4px
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ddd
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent
+}
+.rv-root {
+    z-index: 9999999999;
+}
