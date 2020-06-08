@@ -180,7 +180,6 @@ export default {
         "https://rverify.now.sh/assets/3.jpg",
         "https://rverify.now.sh/assets/4.jpg",
         "https://rverify.now.sh/assets/5.jpg",
-        "https://rverify.now.sh/assets/6.jpg",
         "https://rverify.now.sh/assets/7.jpg",
         "https://rverify.now.sh/assets/8.jpg",
         "https://rverify.now.sh/assets/9.jpg",

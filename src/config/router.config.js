@@ -43,6 +43,31 @@ export const asyncRouterMap = [
             }
           }
         ]
+      },
+      {
+        path: "form",
+        name: "Form",
+        redirect: "",
+        component: RouteView,
+        meta: {
+          title: "表单页",
+          keepAlive: true,
+          icon: "form",
+          permission: ["form"]
+        },
+        children: [
+          {
+            path: "/form/base-form",
+            name: "Baseform",
+            component: () => import("@/views/form/basicForm"),
+            meta: { title: "基础表单", keepAlive: true, permission: ["form"] }
+          }
+        ]
+      },
+      {
+        path: "*",
+        redirect: "/404",
+        hidden: true
       }
     ]
   }
