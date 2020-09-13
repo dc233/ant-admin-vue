@@ -41,26 +41,26 @@
 </template>
 
 <script>
-import RouteView from "./RouteView";
-import { mixinDevice } from "@/utils/mixin";
+import RouteView from './RouteView'
+import { mixinDevice } from '@/utils/mixin'
 export default {
-  name: "UserLayout",
+  name: 'UserLayout',
   components: {
     RouteView
   },
   mixins: [mixinDevice],
   data() {
     return {
-      imgSrc: require("../assets/logo.png")
-    };
+      imgSrc: require('../assets/logo.png')
+    }
   },
   mounted() {
-    document.body.classList.add("userLayout");
+    document.body.classList.add('userLayout')
   },
   beforeDestroy() {
-    document.body.classList.remove("userLayout");
+    document.body.classList.remove('userLayout')
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -143,7 +143,7 @@ export default {
   transform-origin: center bottom;
 }
 .waveTop {
-  background-image: url("../assets/wave-top.png");
+  background-image: url('../assets/wave-top.png');
   background-size: 50% 100px;
 }
 .waveAnimation .waveTop {
@@ -153,14 +153,14 @@ export default {
   animation-delay: 1s;
 }
 .waveMiddle {
-  background-image: url("../assets/wave-mid.png");
+  background-image: url('../assets/wave-mid.png');
   background-size: 50% 120px;
 }
 .waveAnimation .waveMiddle {
   animation: move_wave 10s linear infinite;
 }
 .waveBottom {
-  background-image: url("../assets/wave-bot.png");
+  background-image: url('../assets/wave-bot.png');
   background-size: 50% 100px;
 }
 .waveAnimation .waveBottom {

@@ -4,31 +4,19 @@
     :trigger="null"
     :collapsible="collapsible"
     width="256px"
-    :class="[
-      'sider',
-      isDesktop() ? null : 'shadow',
-      theme,
-      fixSiderbar ? 'ant-fixed-sidemenu' : null
-    ]"
+    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
   >
     <logo />
-    <s-menu
-      :collapsed="collapsed"
-      :menu="menus"
-      :theme="theme"
-      :mode="mode"
-      @select="onSelect"
-      style="padding: 16px 0px;"
-    ></s-menu>
+    <s-menu :collapsed="collapsed" :menu="menus" :theme="theme" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
   </a-layout-sider>
 </template>
 
 <script>
-import Logo from "@/components/tools/Logo";
-import SMenu from "./menu.js";
-import { mixin, mixinDevice } from "@/utils/mixin";
+import Logo from '@/components/tools/Logo'
+import SMenu from './menu.js'
+import { mixin, mixinDevice } from '@/utils/mixin'
 export default {
-  name: "SideMenu",
+  name: 'SideMenu',
   components: {
     Logo,
     SMenu
@@ -38,12 +26,12 @@ export default {
     mode: {
       type: String,
       required: false,
-      default: "inline"
+      default: 'inline'
     },
     theme: {
       type: String,
       required: false,
-      default: "dark"
+      default: 'dark'
     },
     collapsible: {
       type: Boolean,
@@ -62,10 +50,10 @@ export default {
   },
   methods: {
     onSelect(obj) {
-      this.$emit("menuSelect", obj);
+      this.$emit('menuSelect', obj)
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

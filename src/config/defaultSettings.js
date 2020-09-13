@@ -14,18 +14,18 @@
  */
 
 export default {
-  primaryColor: "#52C41A",
-  navTheme: "dark",
-  layout: "sidemenu",
-  contentWidth: "Fixed",
+  primaryColor: '#52C41A',
+  navTheme: 'dark',
+  layout: 'sidemenu',
+  contentWidth: 'Fixed',
   fixedHeader: false,
   fixSiderbar: false,
   autoHideHeader: false,
   multiTab: false,
   // vue-ls options
   storageOptions: {
-    namespace: "pro__", // key prefix
-    name: "ls", // name variable Vue.[ls] or this.[$ls],
-    storage: "local" // storage name session, local, memory
+    namespace: 'pro__', // key prefix
+    name: 'ls', // name variable Vue.[ls] or this.[$ls],
+    storage: 'local' // storage name session, local, memory
   }
-};
+}

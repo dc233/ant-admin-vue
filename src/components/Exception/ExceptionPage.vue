@@ -1,10 +1,7 @@
 <template>
   <div class="exception">
     <div class="imgBlock">
-      <div
-        class="imgEle"
-        :style="{ backgroundImage: `url(${config[type].img})` }"
-      ></div>
+      <div class="imgEle" :style="{ backgroundImage: `url(${config[type].img})` }"></div>
     </div>
     <div class="content">
       <h1>{{ config[type].title }}</h1>
@@ -17,29 +14,29 @@
 </template>
 
 <script>
-import types from "./type";
+import types from './type'
 export default {
-  name: "Exception",
+  name: 'Exception',
   props: {
     type: {
       type: String,
-      default: "404"
+      default: '404'
     }
   },
   data() {
     return {
       config: types
-    };
+    }
   },
   methods: {
     handleToHome() {
-      this.$router.push({ name: "dashboard" });
+      this.$router.push({ name: 'index' })
     }
   }
-};
+}
 </script>
 <style lang="scss">
-@import "~ant-design-vue/lib/style/index";
+@import '~ant-design-vue/lib/style/index';
 .exception {
   display: flex;
   align-items: center;
@@ -53,7 +50,7 @@ export default {
     zoom: 1;
     &::before,
     &::after {
-      content: " ";
+      content: ' ';
       display: table;
     }
     &::after {

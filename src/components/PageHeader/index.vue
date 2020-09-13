@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import Breadcrumb from "@/components/tools/Breadcrumb";
+import Breadcrumb from '@/components/tools/Breadcrumb'
 export default {
-  name: "PageHeader",
+  name: 'PageHeader',
   components: {
-    "s-breadcrumb": Breadcrumb
+    's-breadcrumb': Breadcrumb
   },
   props: {
     title: {
@@ -46,16 +46,16 @@ export default {
     },
     logo: {
       type: String,
-      default: "",
+      default: '',
       required: false
     },
     avatar: {
       type: String,
-      default: "",
+      default: '',
       required: false
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

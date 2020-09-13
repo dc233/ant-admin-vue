@@ -10,18 +10,20 @@
     </div>
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2020 <span>路人丁开源出品</span>
+      <a-icon type="copyright" />
+      2020
+      <span>路人丁开源出品</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "GlobalFooter",
+  name: 'GlobalFooter',
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

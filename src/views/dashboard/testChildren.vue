@@ -10,15 +10,15 @@ export default {
   props: {
     visbile: {
       type: String,
-      default: "123"
+      default: '123'
     }
   },
   methods: {
     handelChange() {
-      this.$emit("update:visbile", "changeFather");
+      this.$emit('update:visbile', 'changeFather')
     }
   }
-};
+}
 </script>
 
 <style></style>

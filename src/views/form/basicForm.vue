@@ -5,31 +5,25 @@
       <div class="title">
         基础表单
       </div>
-      <div>
+      <p>
         表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。
-      </div>
+      </p>
     </div>
     <div class="formode">
-      <a-form-model
-        ref="ruleForm"
-        :model="form"
-        :rules="rules"
-        :label-col="labelCol"
-        :wrapper-col="wrapperCol"
-        style="width:500px"
-      >
+      <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol" style="width:500px">
         <a-form-model-item ref="name" label="姓名" prop="name">
           <a-input
+            placeholder="请填写姓名"
             v-model="form.name"
             @blur="
               () => {
-                $refs.name.onFieldBlur();
+                $refs.name.onFieldBlur()
               }
             "
           />
         </a-form-model-item>
         <a-form-model-item label="地区" prop="region">
-          <a-select v-model="form.region" placeholder="please select your zone">
+          <a-select allowClear="true" placeholder="请填写地区" v-model="form.region">
             <a-select-option value="beijing">
               北京
             </a-select-option>
@@ -45,13 +39,7 @@
           </a-select>
         </a-form-model-item>
         <a-form-model-item label="时间" required prop="date1">
-          <a-date-picker
-            v-model="form.date1"
-            show-time
-            type="date"
-            placeholder="Pick a date"
-            style="width: 100%;"
-          />
+          <a-date-picker v-model="form.date1" show-time type="date" placeholder="请填写日期" style="width: 100%;" />
         </a-form-model-item>
         <a-form-model-item label="Instant delivery" prop="delivery">
           <a-switch v-model="form.delivery" />
@@ -99,7 +87,7 @@
 </template>
 
 <script>
-import { PageView } from "@/layouts";
+import { PageView } from '@/layouts'
 export default {
   components: {
     PageView
@@ -109,79 +97,77 @@ export default {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
       form: {
-        name: "",
-        region: null,
+        name: '',
+        region: 'beijing',
         date1: null,
         delivery: false,
         type: [],
-        resource: "",
-        desc: ""
+        resource: '',
+        desc: ''
       },
       rules: {
         name: [
           {
             required: true,
-            message: "Please input Activity name",
-            trigger: "blur"
+            message: '请输入姓名',
+            trigger: 'blur'
           },
           {
             min: 3,
             max: 5,
-            message: "Length should be 3 to 5",
-            trigger: "blur"
+            message: 'Length should be 3 to 5',
+            trigger: 'blur'
           }
         ],
         region: [
           {
             required: true,
-            message: "Please select Activity zone",
-            trigger: "change"
+            message: 'Please select Activity zone',
+            trigger: 'change'
           }
         ],
-        date1: [
-          { required: true, message: "Please pick a date", trigger: "change" }
-        ],
+        date1: [{ required: true, message: 'Please pick a date', trigger: 'change' }],
         type: [
           {
-            type: "array",
+            type: 'array',
             required: true,
-            message: "Please select at least one activity type",
-            trigger: "change"
+            message: 'Please select at least one activity type',
+            trigger: 'change'
           }
         ],
         resource: [
           {
             required: true,
-            message: "Please select activity resource",
-            trigger: "change"
+            message: 'Please select activity resource',
+            trigger: 'change'
           }
         ],
         desc: [
           {
             required: true,
-            message: "Please input activity form",
-            trigger: "blur"
+            message: 'Please input activity form',
+            trigger: 'blur'
           }
         ]
       }
-    };
+    }
   },
   methods: {
     onSubmit() {
-      this.$refs.ruleForm.validate(valid => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert("submit!");
+          alert('submit!')
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     resetForm() {
-      this.$refs.ruleForm.resetFields();
+      this.$refs.ruleForm.resetFields()
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

@@ -1,16 +1,7 @@
 <template>
-  <div
-    :style="
-      !$route.meta.hiddenHeaderContent ? 'margin: -24px -24px 0px;' : null
-    "
-  >
+  <div :style="!$route.meta.hiddenHeaderContent ? 'margin: -24px -24px 0px;' : null">
     <!-- pageHeader , route meta :true on hide -->
-    <page-header
-      v-if="!$route.meta.hiddenHeaderContent"
-      :title="pageTitle"
-      :logo="logo"
-      :avatar="avatar"
-    >
+    <page-header v-if="!$route.meta.hiddenHeaderContent" :title="pageTitle" :logo="logo" :avatar="avatar">
       <slot slot="action" name="action"></slot>
       <slot slot="content" name="headerContent"></slot>
       <div slot="content" v-if="!this.$slots.headerContent && description">
@@ -21,7 +12,7 @@
               :key="index"
               @click="
                 () => {
-                  link.callback && link.callback();
+                  link.callback && link.callback()
                 }
               "
             >
@@ -38,25 +29,12 @@
       </slot>
       <div slot="pageMenu">
         <div class="page-menu-search" v-if="search">
-          <a-input-search
-            style="width: 80%; max-width: 522px;"
-            placeholder="请输入..."
-            size="large"
-            enterButton="搜索"
-          />
+          <a-input-search style="width: 80%; max-width: 522px;" placeholder="请输入..." size="large" enterButton="搜索" />
         </div>
         <div class="page-menu-tabs" v-if="tabs && tabs.items">
           <!-- @change="callback" :activeKey="activeKey" -->
-          <a-tabs
-            :tabBarStyle="{ margin: 0 }"
-            :activeKey="tabs.active()"
-            @change="tabs.callback"
-          >
-            <a-tab-pane
-              v-for="item in tabs.items"
-              :tab="item.title"
-              :key="item.key"
-            ></a-tab-pane>
+          <a-tabs :tabBarStyle="{ margin: 0 }" :activeKey="tabs.active()" @change="tabs.callback">
+            <a-tab-pane v-for="item in tabs.items" :tab="item.title" :key="item.key"></a-tab-pane>
           </a-tabs>
         </div>
       </div>
@@ -76,10 +54,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import PageHeader from "@/components/PageHeader";
+import { mapState } from 'vuex'
+import PageHeader from '@/components/PageHeader'
 export default {
-  name: "PageView",
+  name: 'PageView',
   components: {
     PageHeader
   },
@@ -106,42 +84,42 @@ export default {
       pageTitle: null,
       description: null,
       linkList: [],
-      extraImage: "",
+      extraImage: '',
       search: false,
       tabs: {}
-    };
+    }
   },
   computed: {
     ...mapState({
-      multiTab: state => state.app.multiTab
+      multiTab: (state) => state.app.multiTab
     })
   },
   mounted() {
-    this.tabs = this.directTabs;
-    this.getPageMeta();
+    this.tabs = this.directTabs
+    this.getPageMeta()
   },
   updated() {
-    this.getPageMeta();
+    this.getPageMeta()
   },
   methods: {
     getPageMeta() {
       // eslint-disable-next-line
       this.pageTitle = (typeof(this.title) === 'string' || !this.title) ? this.title : this.$route.meta.title
-      const content = this.$refs.content;
+      const content = this.$refs.content
       if (content) {
         if (content.pageMeta) {
-          Object.assign(this, content.pageMeta);
+          Object.assign(this, content.pageMeta)
         } else {
-          this.description = content.description;
-          this.linkList = content.linkList;
-          this.extraImage = content.extraImage;
-          this.search = content.search === true;
-          this.tabs = content.tabs;
+          this.description = content.description
+          this.linkList = content.linkList
+          this.extraImage = content.extraImage
+          this.search = content.search === true
+          this.tabs = content.tabs
         }
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

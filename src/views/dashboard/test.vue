@@ -5,17 +5,18 @@
 </template>
 
 <script>
-import TestChildren from "./testChildren";
+import TestChildren from './testChildren'
 export default {
   components: {
     TestChildren
   },
   data() {
     return {
-      database: "dartalist"
-    };
+      database: 'dartalist',
+      asdas: '23'
+    }
   }
-};
+}
 </script>
 
 <style></style>

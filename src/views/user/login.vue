@@ -1,11 +1,6 @@
 <template>
   <div class="main">
-    <a-form
-      id="components-form-demo-normal-login"
-      :form="form"
-      class="login-form"
-      @submit="handleSubmit"
-    >
+    <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
       <a-tabs default-active-key="1" @change="handleTabClick">
         <a-tab-pane key="1" tab="账号密码登录">
           <a-form-item>
@@ -20,11 +15,7 @@
               placeholder="账号"
               @focus="fixScroll"
             >
-              <a-icon
-                slot="prefix"
-                type="user"
-                style="color: rgba(0,0,0,.25)"
-              />
+              <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
             </a-input>
           </a-form-item>
           <a-form-item style="margin-bottom:10px">
@@ -40,11 +31,7 @@
               placeholder="密码"
               @focus="fixScroll"
             >
-              <a-icon
-                slot="prefix"
-                type="lock"
-                style="color: rgba(0,0,0,.25)"
-              />
+              <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
             </a-input-password>
           </a-form-item>
         </a-tab-pane>
@@ -68,11 +55,7 @@
                 }
               ]"
             >
-              <a-icon
-                slot="prefix"
-                type="mobile"
-                :style="{ color: 'rgba(0,0,0,.25)' }"
-              />
+              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
           <a-row :gutter="16">
@@ -90,11 +73,7 @@
                     }
                   ]"
                 >
-                  <a-icon
-                    slot="prefix"
-                    type="mail"
-                    :style="{ color: 'rgba(0,0,0,.25)' }"
-                  />
+                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
                 </a-input>
               </a-form-item>
             </a-col>
@@ -104,9 +83,7 @@
                 tabindex="-1"
                 :disabled="state.smsSendBtn"
                 @click.stop.prevent="getCaptcha"
-                v-text="
-                  (!state.smsSendBtn && '获取验证码') || state.time + ' s'
-                "
+                v-text="(!state.smsSendBtn && '获取验证码') || state.time + ' s'"
               ></a-button>
             </a-col>
           </a-row>
@@ -129,35 +106,27 @@
         </a>
       </a-form-item>
       <a-form-item>
-        <a-button
-          type="primary"
-          html-type="submit"
-          class="login-form-button"
-          block
-          :loading="loading"
-        >
+        <a-button type="primary" html-type="submit" class="login-form-button" block :loading="loading">
           登录
         </a-button>
         其它登录方式
         <a-icon type="alipay-circle" class="item-icon" />
         <a-icon type="taobao-circle" class="item-icon" />
         <a-icon type="wechat" class="item-icon" />
-        <router-link class="login-form-forgot" :to="{ name: 'register' }"
-          >注册账户</router-link
-        >
+        <router-link class="login-form-forgot" :to="{ name: 'register' }">注册账户</router-link>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import RVerify from "rverify";
-import "rverify/dist/RVerify.min.css";
+import { mapActions } from 'vuex'
+import RVerify from 'rverify'
+import 'rverify/dist/RVerify.min.css'
 export default {
   data() {
     return {
-      customActiveKey: "1",
+      customActiveKey: '1',
       loading: false,
       state: {
         time: 60,
@@ -165,69 +134,55 @@ export default {
         loginType: 0,
         smsSendBtn: false
       }
-    };
+    }
   },
   mounted() {
     RVerify.configure({
       tolerance: 10,
       duration: 500,
       mask: 0.5,
-      title: "身份验证",
-      text: "拖动滑块，使图片角度为正",
-      album: [
-        "https://rverify.now.sh/assets/1.jpg",
-        "https://rverify.now.sh/assets/2.jpg",
-        "https://rverify.now.sh/assets/3.jpg",
-        "https://rverify.now.sh/assets/4.jpg",
-        "https://rverify.now.sh/assets/5.jpg",
-        "https://rverify.now.sh/assets/7.jpg",
-        "https://rverify.now.sh/assets/8.jpg",
-        "https://rverify.now.sh/assets/9.jpg",
-        "https://rverify.now.sh/assets/10.jpg"
-      ]
-    });
+      title: '身份验证',
+      text: '拖动滑块，使图片角度为正',
+      album: ['https://pro.antdv.com/logo.png']
+    })
   },
   beforeCreate() {
-    this.form = this.$form.createForm(this, { name: "normal_login" });
+    this.form = this.$form.createForm(this, { name: 'normal_login' })
   },
   methods: {
-    ...mapActions(["Login", "Logout"]),
+    ...mapActions(['Login', 'Logout']),
     handleTabClick(key) {
-      this.customActiveKey = key;
+      this.customActiveKey = key
     },
     handleSubmit(e) {
-      e.preventDefault();
-      const { Login } = this;
-      const validateFieldsKey =
-        this.customActiveKey === "1"
-          ? ["userName", "password"]
-          : ["mobile", "captcha"];
-      this.form.validateFields(
-        validateFieldsKey,
-        { force: true },
-        (err, values) => {
-          if (!err) {
-            Login(values).then(() => {
-              // this.$router.push({ path: "/" });
-              const that = this;
-              RVerify.action(function(code) {
-                switch (code) {
-                  case 1:
-                    that.$router.push({ path: "/" });
-                    break;
-                  case 2:
-                    alert("No action");
-                    break;
-                }
-              });
-            });
-          }
+      e.preventDefault()
+      const { Login } = this
+      const validateFieldsKey = this.customActiveKey === '1' ? ['userName', 'password'] : ['mobile', 'captcha']
+      this.form.validateFields(validateFieldsKey, { force: true }, (err, values) => {
+        if (!err) {
+          Login(values).then(() => {
+            // this.$router.push({ path: "/" });
+            const that = this
+            RVerify.action(function(code) {
+              switch (code) {
+                case 0:
+                  alert('验证失败')
+                  break
+                case 1:
+                  that.$router.push({ path: '/' })
+                  break
+                case 2:
+                  alert('No action')
+                  break
+              }
+            })
+          })
         }
-      );
+      })
     },
     fixScroll() {}
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -9,11 +9,11 @@
 
 <script>
 export default {
-  name: "Logo",
+  name: 'Logo',
   props: {
     title: {
       type: String,
-      default: "Ant Admin Vue",
+      default: 'Ant Admin Vue',
       required: false
     },
     showTitle: {
@@ -22,7 +22,7 @@ export default {
       required: false
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -50,6 +50,6 @@ export default {
   height: 32px;
   vertical-align: middle;
 }
-.logo[data-theme="dark"] {
+.logo[data-theme='dark'] {
 }
 </style>

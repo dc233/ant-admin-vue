@@ -1,6 +1,7 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
+      <a-icon type="layout" />
       <a href="#" target="_blank">
         <span class="hoveraction">
           <a-icon type="global" />
@@ -39,46 +40,46 @@
 </template>
 
 <script>
-import NoticeIcon from "../NoticeIcon/NoticeIcon";
-import { mapActions, mapGetters } from "vuex";
-import { mixin } from "@/utils/mixin";
+import NoticeIcon from '../NoticeIcon/NoticeIcon'
+import { mapActions, mapGetters } from 'vuex'
+import { mixin } from '@/utils/mixin'
 export default {
-  name: "UserMenu",
+  name: 'UserMenu',
   components: {
     NoticeIcon
   },
   mixins: [mixin],
   computed: {
-    ...mapGetters(["nickname", "avatar"])
+    ...mapGetters(['nickname', 'avatar'])
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
-    ...mapActions(["Logout"]),
+    ...mapActions(['Logout']),
     handleLogout() {
       this.$confirm({
-        title: "提示",
-        content: "真的要注销登录吗 ?",
+        title: '提示',
+        content: '真的要注销登录吗 ?',
         onOk: () => {
           return this.Logout({})
             .then(() => {
               setTimeout(() => {
-                window.location.reload();
-              }, 16);
+                window.location.reload()
+              }, 16)
             })
-            .catch(err => {
+            .catch((err) => {
               this.$message.error({
-                title: "错误",
+                title: '错误',
                 description: err.message
-              });
-            });
+              })
+            })
         },
         onCancel() {}
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

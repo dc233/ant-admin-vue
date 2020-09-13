@@ -7,7 +7,7 @@
  */
 import Vue from 'vue'
 import {
-  ConfigProvider,
+  LocaleProvider,
   Layout,
   Input,
   InputNumber,
@@ -52,7 +52,7 @@ import {
 import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
 
-Vue.use(ConfigProvider)
+Vue.use(LocaleProvider)
 Vue.use(Layout)
 Vue.use(Input)
 Vue.use(InputNumber)

@@ -8,15 +8,15 @@
 
 <script>
 export default {
-  name: "HeadInfo",
+  name: 'HeadInfo',
   props: {
     title: {
       type: String,
-      default: ""
+      default: ''
     },
     content: {
       type: String,
-      default: ""
+      default: ''
     },
     bordered: {
       type: Boolean,
@@ -27,7 +27,7 @@ export default {
       default: true
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

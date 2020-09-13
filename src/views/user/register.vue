@@ -10,30 +10,20 @@
           v-decorator="[
             'email',
             {
-              rules: [
-                { required: true, type: 'email', message: '请输入邮箱地址' }
-              ],
+              rules: [{ required: true, type: 'email', message: '请输入邮箱地址' }],
               validateTrigger: ['change', 'blur']
             }
           ]"
         ></a-input>
       </a-form-item>
-      <a-popover
-        placement="rightTop"
-        :trigger="['focus']"
-        :c="trigger => trigger.parentElement"
-        v-model="state.passwordLevelChecked"
-      >
+      <a-popover placement="rightTop" :trigger="['focus']" :c="(trigger) => trigger.parentElement" v-model="state.passwordLevelChecked">
         <template slot="content">
           <div :style="{ width: '240px' }">
             <div :class="['user-register', passwordLevelClass]">
-              强度：<span>{{ passwordLevelName }}</span>
+              强度：
+              <span>{{ passwordLevelName }}</span>
             </div>
-            <a-progress
-              :percent="state.percent"
-              :showInfo="false"
-              :strokeColor="passwordLevelColor"
-            />
+            <a-progress :percent="state.percent" :showInfo="false" :strokeColor="passwordLevelColor" />
             <div style="margin-top: 10px;">
               <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
             </div>
@@ -49,10 +39,7 @@
             v-decorator="[
               'password',
               {
-                rules: [
-                  { required: true, message: '至少6位密码，区分大小写' },
-                  { validator: this.handlePasswordLevel }
-                ],
+                rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordLevel }],
                 validateTrigger: ['change', 'blur']
               }
             ]"
@@ -68,10 +55,7 @@
           v-decorator="[
             'password2',
             {
-              rules: [
-                { required: true, message: '至少6位密码，区分大小写' },
-                { validator: this.handlePasswordCheck }
-              ],
+              rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordCheck }],
               validateTrigger: ['change', 'blur']
             }
           ]"
@@ -117,11 +101,7 @@
                 }
               ]"
             >
-              <a-icon
-                slot="prefix"
-                type="mail"
-                :style="{ color: 'rgba(0,0,0,.25)' }"
-              />
+              <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-item>
         </a-col>
@@ -144,38 +124,37 @@
           :loading="registerBtn"
           @click.stop.prevent="handleSubmit"
           :disabled="registerBtn"
-          >注册
-        </a-button>
-        <router-link class="login" :to="{ name: 'login' }"
-          >使用已有账户登录</router-link
         >
+          注册
+        </a-button>
+        <router-link class="login" :to="{ name: 'login' }">使用已有账户登录</router-link>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script>
-import { mixinDevice } from "@/utils/mixin.js";
+import { mixinDevice } from '@/utils/mixin.js'
 const levelNames = {
-  0: "低",
-  1: "低",
-  2: "中",
-  3: "强"
-};
+  0: '低',
+  1: '低',
+  2: '中',
+  3: '强'
+}
 const levelClass = {
-  0: "error",
-  1: "error",
-  2: "warning",
-  3: "success"
-};
+  0: 'error',
+  1: 'error',
+  2: 'warning',
+  3: 'success'
+}
 const levelColor = {
-  0: "#ff0000",
-  1: "#ff0000",
-  2: "#ff7e05",
-  3: "#52c41a"
-};
+  0: '#ff0000',
+  1: '#ff0000',
+  2: '#ff7e05',
+  3: '#52c41a'
+}
 export default {
-  name: "Register",
+  name: 'Register',
   mixins: [mixinDevice],
   data() {
     return {
@@ -188,71 +167,71 @@ export default {
         percent: 10
       },
       registerBtn: false
-    };
+    }
   },
   computed: {
     passwordLevelClass() {
-      return levelClass[this.state.passwordLevel];
+      return levelClass[this.state.passwordLevel]
     },
     passwordLevelName() {
-      return levelNames[this.state.passwordLevel];
+      return levelNames[this.state.passwordLevel]
     },
     passwordLevelColor() {
-      return levelColor[this.state.passwordLevel];
+      return levelColor[this.state.passwordLevel]
     }
   },
   methods: {
     handlePasswordLevel(rule, value, callback) {
-      let level = 0;
+      let level = 0
       // 判断这个字符串中有没有数字
       if (/[0-9]/.test(value)) {
-        level++;
+        level++
       }
       // 判断字符串中有没有字母
       if (/[a-zA-Z]/.test(value)) {
-        level++;
+        level++
       }
       // 判断字符串中有没有特殊符号
       if (/[^0-9a-zA-Z_]/.test(value)) {
-        level++;
+        level++
       }
-      this.state.passwordLevel = level;
-      this.state.percent = level * 30;
+      this.state.passwordLevel = level
+      this.state.percent = level * 30
       if (level >= 2) {
         if (level >= 3) {
-          this.state.percent = 100;
+          this.state.percent = 100
         }
-        callback();
+        callback()
       } else {
         if (level === 0) {
-          this.state.percent = 10;
+          this.state.percent = 10
         }
-        callback(new Error("密码强度不够"));
+        callback(new Error('密码强度不够'))
       }
     },
     handlePasswordInputClick() {
       if (!this.isMobile()) {
-        this.state.passwordLevelChecked = true;
-        return;
+        this.state.passwordLevelChecked = true
+        return
       }
-      this.state.passwordLevelChecked = false;
+      this.state.passwordLevelChecked = false
     },
     handlePasswordCheck(rule, value, callback) {
-      const password = this.form.getFieldValue("password");
-      console.log("value", value);
+      const password = this.form.getFieldValue('password')
+      console.log('value', value)
       if (value === undefined) {
-        callback(new Error("请输入密码"));
+        callback(new Error('请输入密码'))
       }
       if (value && password && value.trim() !== password.trim()) {
-        callback(new Error("两次密码不一致"));
+        callback(new Error('两次密码不一致'))
       }
-      callback();
+      callback()
     },
     handlePhoneCheck(rule, value, callback) {
-      console.log("handlePhoneCheck, rule:", rule);
-      console.log("handlePhoneCheck, value", value);
-      console.log("handlePhoneCheck, callback", callback);
-      callback();
+      console.log('handlePhoneCheck, rule:', rule)
+      console.log('handlePhoneCheck, value', value)
+      console.log('handlePhoneCheck, callback', callback)
+      callback()
     },
     getCaptcha() {},
     handleSubmit() {
@@ -260,16 +239,16 @@ export default {
         form: { validateFields },
         state,
         $router
-      } = this;
+      } = this
       validateFields({ force: true }, (err, values) => {
         if (!err) {
-          state.passwordLevelChecked = false;
-          $router.push({ name: "registerResult", params: { ...values } });
+          state.passwordLevelChecked = false
+          $router.push({ name: 'registerResult', params: { ...values } })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

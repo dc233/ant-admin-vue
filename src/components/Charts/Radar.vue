@@ -1,25 +1,8 @@
 <template>
-  <v-chart
-    :forceFit="false"
-    width="400"
-    height="480"
-    :data="data"
-    :padding="[20, 20, 95, 20]"
-    :scale="scale"
-  >
+  <v-chart :forceFit="false" width="400" height="480" :data="data" :padding="[20, 20, 95, 20]" :scale="scale">
     <v-tooltip></v-tooltip>
-    <v-axis
-      :dataKey="axis1Opts.dataKey"
-      :line="axis1Opts.line"
-      :tickLine="axis1Opts.tickLine"
-      :grid="axis1Opts.grid"
-    />
-    <v-axis
-      :dataKey="axis2Opts.dataKey"
-      :line="axis2Opts.line"
-      :tickLine="axis2Opts.tickLine"
-      :grid="axis2Opts.grid"
-    />
+    <v-axis :dataKey="axis1Opts.dataKey" :line="axis1Opts.line" :tickLine="axis1Opts.tickLine" :grid="axis1Opts.grid" />
+    <v-axis :dataKey="axis2Opts.dataKey" :line="axis2Opts.line" :tickLine="axis2Opts.tickLine" :grid="axis2Opts.grid" />
     <v-legend dataKey="user" marker="circle" :offset="30" />
     <v-coord type="polar" radius="0.8" />
     <v-line position="item*score" color="user" :size="2" />
@@ -29,7 +12,7 @@
 
 <script>
 const axis1Opts = {
-  dataKey: "item",
+  dataKey: 'item',
   line: null,
   tickLine: null,
   grid: {
@@ -38,31 +21,31 @@ const axis1Opts = {
     },
     hideFirstLine: false
   }
-};
+}
 const axis2Opts = {
-  dataKey: "score",
+  dataKey: 'score',
   line: null,
   tickLine: null,
   grid: {
-    type: "polygon",
+    type: 'polygon',
     lineStyle: {
       lineDash: null
     }
   }
-};
+}
 const scale = [
   {
-    dataKey: "score",
+    dataKey: 'score',
     min: 0,
     max: 80
   },
   {
-    dataKey: "user",
-    alias: "类型"
+    dataKey: 'user',
+    alias: '类型'
   }
-];
+]
 export default {
-  name: "Radar",
+  name: 'Radar',
   props: {
     data: {
       type: Array,
@@ -74,9 +57,9 @@ export default {
       axis1Opts,
       axis2Opts,
       scale
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped></style>
