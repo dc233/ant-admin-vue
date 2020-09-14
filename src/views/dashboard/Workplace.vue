@@ -159,7 +159,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .usename {
   padding-left: 20px;
   font-size: 16px;

@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @keyframes move_wave {
   0% {
     transform: translateX(0) translateZ(0) scaleY(1);

@@ -12,6 +12,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-empty': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vue/no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     indent: 0,
     // 添加⾃定义规则
     'prettier/prettier': [

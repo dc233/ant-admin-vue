@@ -1,7 +1,11 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
-      <a-icon type="layout" />
+      <a target="_blank">
+        <span class="hoveraction">
+          <a-icon type="layout" />
+        </span>
+      </a>
       <a href="#" target="_blank">
         <span class="hoveraction">
           <a-icon type="global" />
@@ -82,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .hoveraction {
   cursor: pointer;
   padding: 0 12px;

@@ -185,7 +185,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .main {
   .login-form-forgot {
     float: right;

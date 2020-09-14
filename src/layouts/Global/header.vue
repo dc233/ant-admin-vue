@@ -105,8 +105,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../../style/idnex.scss';
+<style lang="less">
+@import '../../style/idnex.less';
 .header-animat {
   position: relative;
   z-index: 105;

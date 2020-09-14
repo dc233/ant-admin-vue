@@ -78,7 +78,7 @@ export default {
   top: 50px !important;
 }
 </style>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .header-notice {
   display: inline-block;
   transition: all 0.3s;

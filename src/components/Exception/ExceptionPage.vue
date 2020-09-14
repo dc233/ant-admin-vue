@@ -35,7 +35,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="less">
 @import '~ant-design-vue/lib/style/index';
 .exception {
   display: flex;

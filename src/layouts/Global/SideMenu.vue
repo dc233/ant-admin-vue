@@ -56,7 +56,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .ant-layout {
   /deep/ .ant-layout-sider {
     min-height: 100vh;

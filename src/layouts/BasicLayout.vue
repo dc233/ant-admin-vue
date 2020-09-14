@@ -113,7 +113,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .page-transition-enter {
   opacity: 0;
 }

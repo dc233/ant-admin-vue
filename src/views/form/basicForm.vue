@@ -170,7 +170,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .formode {
   display: flex;
   justify-content: center;
