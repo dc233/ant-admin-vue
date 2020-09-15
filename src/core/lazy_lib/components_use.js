@@ -7,7 +7,7 @@
  */
 import Vue from 'vue'
 import {
-  LocaleProvider,
+  ConfigProvider,
   Layout,
   Input,
   InputNumber,
@@ -47,12 +47,13 @@ import {
   message,
   notification,
   Statistic,
-  FormModel 
+  FormModel,
+  Result 
 } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
 
-Vue.use(LocaleProvider)
+Vue.use(ConfigProvider)
 Vue.use(Layout)
 Vue.use(Input)
 Vue.use(InputNumber)
@@ -92,6 +93,7 @@ Vue.use(Popconfirm)
 Vue.use(Statistic)
 Vue.use(notification)
 Vue.use(FormModel)
+Vue.use(Result)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message

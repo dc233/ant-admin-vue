@@ -28,7 +28,7 @@ export const asyncRouterMap = [
             component: () => import('@/views/dashboard/Workplace'),
             meta: {
               title: '工作台',
-              keepAlive: false,
+              keepAlive: true,
               permission: ['dashboard']
             }
           },
@@ -60,7 +60,19 @@ export const asyncRouterMap = [
             path: '/form/base-form',
             name: 'Baseform',
             component: () => import('@/views/form/basicForm'),
-            meta: { title: '基础表单', keepAlive: true, permission: ['form'] }
+            meta: { title: '基础表单', keepAlive: false, permission: ['form'] }
+          },
+          {
+            path: '/form/step-form',
+            name: 'Stepform',
+            component: () => import('@/views/form/stepForm/index'),
+            meta: { title: '分步表单', keepAlive: true }
+          },
+          {
+            path: '/form/advace-form',
+            name: 'advanceForm',
+            component: () => import('@/views/form/advancedForm/AdvancedForm'),
+            meta: { title: '高级表单', keepAlive: true }
           }
         ]
       }

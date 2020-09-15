@@ -23,7 +23,7 @@
           />
         </a-form-model-item>
         <a-form-model-item label="地区" prop="region">
-          <a-select allowClear="true" placeholder="请填写地区" v-model="form.region">
+          <a-select :allowClear="true" placeholder="请填写地区" v-model="form.region">
             <a-select-option value="beijing">
               北京
             </a-select-option>
@@ -87,11 +87,7 @@
 </template>
 
 <script>
-import { PageView } from '@/layouts'
 export default {
-  components: {
-    PageView
-  },
   data() {
     return {
       labelCol: { span: 4 },
@@ -122,7 +118,7 @@ export default {
         region: [
           {
             required: true,
-            message: 'Please select Activity zone',
+            message: '请填写地区',
             trigger: 'change'
           }
         ],

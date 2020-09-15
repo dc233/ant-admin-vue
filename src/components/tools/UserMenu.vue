@@ -1,16 +1,16 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
-      <a target="_blank">
-        <span class="hoveraction">
-          <a-icon type="layout" />
-        </span>
-      </a>
-      <a href="#" target="_blank">
-        <span class="hoveraction">
-          <a-icon type="global" />
-        </span>
-      </a>
+      <a-tooltip>
+        <template slot="title">
+          系统布局
+        </template>
+        <a target="_blank" @click="taggelshowLayaout">
+          <span class="hoveraction">
+            <a-icon type="layout" />
+          </span>
+        </a>
+      </a-tooltip>
       <notice-icon class="hoveraction" />
       <a-dropdown>
         <span class="hoveraction ant-dropdown-link user-dropdown-menu">
@@ -61,6 +61,9 @@ export default {
   },
   methods: {
     ...mapActions(['Logout']),
+    taggelshowLayaout() {
+      this.$store.dispatch('showLayout', true)
+    },
     handleLogout() {
       this.$confirm({
         title: '提示',

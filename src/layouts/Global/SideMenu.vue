@@ -57,8 +57,9 @@ export default {
 </script>
 
 <style lang="less">
+@deep: ~'>>>';
 .ant-layout {
-  /deep/ .ant-layout-sider {
+  @{deep} .ant-layout-sider {
     min-height: 100vh;
   }
 }

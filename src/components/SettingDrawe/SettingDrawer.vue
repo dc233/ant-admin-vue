@@ -1,6 +1,6 @@
 <template>
   <div class="setting-drawer">
-    <a-drawer title="主题设置" placement="right" :closable="false" :visible="visible" @close="onClose" :maskClosable="false" :handle="handle" width="300">
+    <a-drawer title="主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="false" :handle="handle" width="300">
       <div class="setting-drawer-index-content">
         <!--  侧边栏 -->
         <div :style="{ marginBottom: '24px' }">
@@ -114,10 +114,6 @@
         </div>
       </div>
     </a-drawer>
-    <div class="setting-drawer-index-handle" @click="toggle">
-      <a-icon type="setting" v-if="!visible" />
-      <a-icon type="close" v-else />
-    </div>
   </div>
 </template>
 
@@ -153,7 +149,7 @@ export default {
       //   this.syncVisible = true;
     },
     onClose() {
-      this.visible = false
+      this.$store.dispatch('showLayout', false)
     },
     handleMenuTheme(theme) {
       var logo = document.querySelector('.logo')
