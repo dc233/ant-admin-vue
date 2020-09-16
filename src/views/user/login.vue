@@ -123,6 +123,7 @@
 import { mapActions } from 'vuex'
 import RVerify from 'rverify'
 import 'rverify/dist/RVerify.min.css'
+import { message } from 'ant-design-vue'
 export default {
   data() {
     return {
@@ -160,22 +161,22 @@ export default {
       const validateFieldsKey = this.customActiveKey === '1' ? ['userName', 'password'] : ['mobile', 'captcha']
       this.form.validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
-          Login(values).then(() => {
-            // this.$router.push({ path: "/" });
-            const that = this
-            RVerify.action(function(code) {
-              switch (code) {
-                case 0:
-                  alert('验证失败')
-                  break
-                case 1:
+          const that = this
+          RVerify.action(function(code) {
+            switch (code) {
+              case 0:
+                message.error('请将图片调整至正确角度')
+                break
+              case 1:
+                Login(values).then((res) => {
+                  // this.$router.push({ path: "/" });
                   that.$router.push({ path: '/' })
-                  break
-                case 2:
-                  alert('No action')
-                  break
-              }
-            })
+                })
+                break
+              case 2:
+                message.warning('关闭身份验证')
+                break
+            }
           })
         }
       })

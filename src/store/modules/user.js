@@ -40,6 +40,7 @@ const user = {
               const result = res.data.userInfo
               Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
               commit('SET_TOKEN', result.token)
+              console.log(res)
               resolve(res)
             } else {
               message.error(res.data.userInfo)
