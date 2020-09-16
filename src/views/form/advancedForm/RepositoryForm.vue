@@ -54,7 +54,17 @@
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
         <a-form-model-item label="有效时间" prop="deatime2">
-          <a-range-picker v-model="form.deatime2" format="YYYY-MM-DD HH:mm:ss" valueFormat="YYYY-MM-DD HH:mm:ss" />
+          <a-range-picker
+            style="width:100%"
+            v-model="form.deatime2"
+            format="YYYY-MM-DD HH:mm:ss"
+            valueFormat="YYYY-MM-DD HH:mm:ss"
+            :show-time="{
+              hideDisabledOptions: false,
+              defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')]
+            }"
+            :disabledDate="disabledDate"
+          />
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
@@ -114,6 +124,11 @@ export default {
     },
     handelChange([string, date]) {
       this.form.deatime = [string, date]
+    },
+    disabledDate(current) {
+      return current && current > moment().endOf('day') // 当天之前的不可选，包括当天
+      // return current < moment().subtract(29, 'days') || current > moment();  //   当天之前30天内可选。其他不可选  当天也可选
+      // return current < moment().subtract(30, 'day') || current &&current.endOf('day') > moment();      // 当天之前30天可选，其他不可选，当天也不能选
     }
   }
 }
