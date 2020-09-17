@@ -2,18 +2,18 @@
   <a-form-model ref="reposForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
     <a-row class="form-row" :gutter="16">
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="仓库名" prop="name" labelAlign="left">
-          <a-input placeholder="仓库名称" v-model="form.name" />
+        <a-form-model-item label="任务名" prop="name" labelAlign="left">
+          <a-input placeholder="任务名称" v-model="form.name" />
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="仓库域名" prop="url">
-          <a-input addonBefore="http://" addonAfter=".com" placeholder="请输入" v-model="form.url" />
+        <a-form-model-item label="任务描述" prop="url">
+          <a-input placeholder="请输入" v-model="form.url" />
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="仓库管理员" prop="username">
-          <a-select v-model="form.username" placeholder="请选择管理员">
+        <a-form-model-item label="执行人" prop="username">
+          <a-select v-model="form.username" placeholder="请选择执行人">
             <a-select-option value="0">
               王同学
             </a-select-option>
@@ -24,8 +24,8 @@
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="审批人" prop="Approver">
-          <a-select v-model="form.Approver" placeholder="请选择审批人">
+        <a-form-model-item label="责任人" prop="Approver">
+          <a-select v-model="form.Approver" placeholder="请选择责任人">
             <a-select-option value="0">
               王同学
             </a-select-option>
@@ -48,12 +48,12 @@
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="城市地址" prop="regist" labelAlign="right">
-          <a-input placeholder="请输入地址" v-model="form.regist" />
+        <a-form-model-item label="任务地址" prop="regist" labelAlign="right">
+          <a-input placeholder="请输入任务地址" v-model="form.regist" />
         </a-form-model-item>
       </a-col>
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-        <a-form-model-item label="有效时间" prop="deatime2">
+        <a-form-model-item label="提醒时间" prop="deatime2">
           <a-range-picker
             style="width:100%"
             v-model="form.deatime2"
@@ -113,7 +113,6 @@ export default {
         username: [{ required: true, message: '请选择管理员', trigger: 'change' }],
         Approver: [{ required: true, message: '请选择审批人', trigger: 'change' }],
         deatime: [{ required: true, message: '请选择时间', trigger: 'change' }],
-        deatime2: [{ required: true, message: '请选择时间', trigger: 'change' }],
         regist: [{ required: true, message: '请输入城市地址', trigger: 'blur' }],
         administrator: [{ required: true, message: '请选择管理人', trigger: 'change' }]
       }

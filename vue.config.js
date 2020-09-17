@@ -10,7 +10,7 @@ module.exports = {
   productionSourceMap: false,
   parallel: require('os').cpus().length > 1,
   // 是否保存时开启eslint
-  lintOnSave: true,
+  lintOnSave: undefined,
   configureWebpack: {
     // webpack plugins
     plugins: [
@@ -21,7 +21,7 @@ module.exports = {
   },
   chainWebpack: (config) => {
     // 添加别名
-    config.resolve.alias.set('@$', resolve('src'))
+    config.resolve.alias.set('@', resolve('src'))
     // 保存自动修复eslint错误
     config.module
       .rule('eslint')
