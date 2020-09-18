@@ -7,6 +7,7 @@
         :bordered="borders"
         :pagination="pagination"
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+        @tableChange="handelPaginationChange"
       >
         <a slot="name" slot-scope="text">{{ text.tableRow.name }}</a>
         <template slot="workId" slot-scope="text">
@@ -16,7 +17,7 @@
           {{ text.tableRow.department }}
         </template>
         <template slot="operation" slot-scope="text">
-          <a-button type="primary" size="small" style="margin-right:4px">
+          <a-button type="primary" size="small" style="margin-right:4px" @click="handelEdit(text)">
             编辑
           </a-button>
           <a-button type="danger" size="small">
@@ -44,9 +45,7 @@ export default {
         current: 1,
         pageSizeOptions: ['10', '20', '30', '40', '50'],
         showTotal: (total) => `共 ${total} 条`,
-        change: (page, pageSize) => {
-          console.log(page, pageSize)
-        }
+        showQuickJumper: true
       },
       selectedRowKeys: [],
       columns: [
@@ -109,11 +108,15 @@ export default {
   },
   methods: {
     onSelectChange(selectedRowKeys, selectedRows) {
-      console.log(selectedRows)
+      console.log(selectedRowKeys, selectedRows)
       this.selectedRowKeys = selectedRowKeys
     },
-    changePageSize(current, size) {
-      console.log(current, size)
+    handelPaginationChange(pagination) {
+      this.pagination.current = pagination.current
+      this.pagination.pageSize = pagination.pageSize
+    },
+    handelEdit(value) {
+      console.log(value)
     }
   }
 }

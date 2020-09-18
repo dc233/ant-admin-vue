@@ -1,5 +1,5 @@
 <template>
-  <a-table :columns="columns" :dataSource="data" :bordered="bordered" :pagination="pagination" :row-selection="rowSelection">
+  <a-table :columns="columns" :dataSource="data" :bordered="bordered" :pagination="pagination" :row-selection="rowSelection" @change="handleTableChange">
     <template v-for="colCustom in columnsCustom" :slot="colCustom.customRender" slot-scope="item, record">
       <slot :name="colCustom.customRender" :tableRow="(item, record)"></slot>
     </template>
@@ -56,7 +56,11 @@ export default {
   data() {
     return {}
   },
-  methods: {}
+  methods: {
+    handleTableChange(pagination) {
+      this.$emit('tableChange', pagination)
+    }
+  }
 }
 </script>
 
