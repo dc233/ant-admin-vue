@@ -150,9 +150,10 @@ export default {
   },
   methods: {
     onSubmit() {
+      console.log(this.$refs.ruleForm)
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert('submit!')
+          console.log(this.form)
         } else {
           console.log('error submit!!')
           return false

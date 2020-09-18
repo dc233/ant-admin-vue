@@ -1,5 +1,5 @@
 <template>
-  <a-form-model ref="reposForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
+  <a-form-model ref="taskForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
     <a-row class="form-row" :gutter="16">
       <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
         <a-form-model-item label="任务名" prop="name" labelAlign="left">
@@ -119,7 +119,18 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {},
+    handleSubmit() {
+      return new Promise((reslove, reject) => {
+        this.$refs.taskForm.validate((vlaue) => {
+          if (vlaue) {
+            reslove(this.form)
+          } else {
+            reject('error from')
+            return false
+          }
+        })
+      })
+    },
     moment,
     getTodyStady() {
       return moment().format('YYYY-MM-DD 00:00:00')

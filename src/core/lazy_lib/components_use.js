@@ -52,7 +52,6 @@ import {
 } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
-
 Vue.use(ConfigProvider)
 Vue.use(Layout)
 Vue.use(Input)

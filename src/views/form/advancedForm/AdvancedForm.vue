@@ -64,6 +64,16 @@
 import RepositoryForm from './RepositoryForm'
 import TaskForm from './TaskForm'
 import FooterToolBar from '@/components/FooterTollBar'
+const fieldLabels = {
+  name: '仓库名',
+  url: '仓库域名',
+  username: '仓库管理员',
+  approver: '审批人',
+  deatime: '生效日期',
+  regist: '城市地址',
+  deatime2: '有效时间',
+  administrator: '管理人'
+}
 export default {
   components: {
     RepositoryForm,
@@ -74,6 +84,7 @@ export default {
     return {
       memberLoading: false,
       loading: false,
+      errors: [],
       columns: [
         {
           title: '成员姓名',
@@ -191,6 +202,22 @@ export default {
       const {
         $refs: { repository, task }
       } = this
+      repository
+        .handleSubmit()
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      task
+        .handleSubmit()
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }

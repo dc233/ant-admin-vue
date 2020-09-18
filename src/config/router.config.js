@@ -75,6 +75,26 @@ export const asyncRouterMap = [
             meta: { title: '高级表单', keepAlive: true }
           }
         ]
+      },
+      {
+        path: 'table',
+        name: 'Table',
+        redirect: '',
+        component: RouteView,
+        meta: {
+          title: '表格',
+          keepAlive: true,
+          icon: 'table',
+          permission: ['table']
+        },
+        children: [
+          {
+            path: '/table/tablesearch',
+            name: 'TableSearch',
+            component: () => import('@/views/table/tableSearch'),
+            meta: { title: '查询表格', keepAlive: true }
+          }
+        ]
       }
     ]
   },

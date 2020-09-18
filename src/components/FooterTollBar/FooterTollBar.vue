@@ -1,5 +1,5 @@
 <template>
-  <div :class="prefixCls" :style="{ width: barWidth, transition: '0.3s all' }">
+  <div :class="prefixCls">
     <div style="float: left">
       <slot name="extra">{{ extra }}</slot>
     </div>
@@ -28,11 +28,6 @@ export default {
     isMobile: {
       type: Boolean,
       default: false
-    }
-  },
-  computed: {
-    barWidth() {
-      return this.isMobile ? undefined : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || 256}px)`
     }
   }
 }
