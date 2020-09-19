@@ -48,7 +48,8 @@ import {
   notification,
   Statistic,
   FormModel,
-  Result 
+  Result,
+  Space  
 } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
@@ -93,6 +94,7 @@ Vue.use(Statistic)
 Vue.use(notification)
 Vue.use(FormModel)
 Vue.use(Result)
+Vue.use(Space)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message
