@@ -9,6 +9,12 @@
         <div v-if="mode === 'sidemenu'" class="header">
           <a-icon v-if="device === 'mobile'" class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
           <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle" />
+          <a-tooltip>
+            <template slot="title">
+              刷新页面
+            </template>
+            <a-icon class="trigger" type="undo" @click="handelRefresh" />
+          </a-tooltip>
           <user-menu></user-menu>
         </div>
         <div v-else :class="['top-nav-header-index', theme]">
@@ -32,6 +38,7 @@ import SMenu from './menu'
 import Logo from '../../components/tools/Logo'
 import { mixin } from '@/utils/mixin'
 export default {
+  inject: ['reload'],
   props: {
     mode: {
       type: String,
@@ -97,6 +104,9 @@ export default {
     },
     toggle() {
       this.$emit('toggle')
+    },
+    handelRefresh() {
+      this.reload()
     }
   },
   beforeDestroy() {

@@ -1,5 +1,13 @@
 <template>
-  <a-table :columns="columns" :dataSource="data" :bordered="bordered" :pagination="pagination" :row-selection="rowSelection" @change="handleTableChange">
+  <a-table
+    :columns="columns"
+    :dataSource="data"
+    :bordered="bordered"
+    :pagination="pagination"
+    :row-selection="rowSelection"
+    @change="handleTableChange"
+    size="middle"
+  >
     <template v-for="colCustom in columnsCustom" :slot="colCustom.customRender" slot-scope="item, record">
       <slot :name="colCustom.customRender" :tableRow="(item, record)"></slot>
     </template>

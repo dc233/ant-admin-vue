@@ -18,10 +18,10 @@ export default {
   navTheme: 'dark',
   layout: 'sidemenu',
   contentWidth: 'Fixed',
-  fixedHeader: false,
-  fixSiderbar: false,
+  fixedHeader: true,
+  fixSiderbar: true,
   autoHideHeader: false,
-  multiTab: false,
+  multiTab: true,
   // vue-ls options
   storageOptions: {
     namespace: 'pro__', // key prefix

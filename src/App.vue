@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :locale="locale">
     <div id="app">
-      <router-view />
+      <router-view v-if="isRouterAliver" />
     </div>
   </a-config-provider>
 </template>
@@ -14,9 +14,23 @@ moment.locale('zh-cn')
 import { AppDeviceEnquire } from '@/utils/mixin'
 export default {
   mixins: [AppDeviceEnquire],
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
   data() {
     return {
-      locale: zhCN
+      locale: zhCN,
+      isRouterAliver: true
+    }
+  },
+  methods: {
+    reload() {
+      this.isRouterAliver = false
+      this.$nextTick(function() {
+        this.isRouterAliver = true
+      })
     }
   }
 }

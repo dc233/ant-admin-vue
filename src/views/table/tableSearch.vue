@@ -90,14 +90,16 @@
               </a-col>
             </template>
             <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
-              <span class="table-page-search-submitButtons" :style="(advanced && { float: 'left', overflow: 'hidden' }) || {}">
-                <a-button type="primary">查询</a-button>
-                <a-button style="margin-left: 8px">重置</a-button>
-                <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
-                  <a-icon :type="advanced ? 'up' : 'down'" />
-                </a>
-              </span>
+              <a-form-model-item>
+                <span class="table-page-search-submitButtons" :style="(advanced && { float: 'left', overflow: 'hidden' }) || {}">
+                  <a-button type="primary">查询</a-button>
+                  <a-button style="margin-left: 8px">重置</a-button>
+                  <a @click="toggleAdvanced" style="margin-left: 8px">
+                    {{ advanced ? '收起' : '展开' }}
+                    <a-icon :type="advanced ? 'up' : 'down'" />
+                  </a>
+                </span>
+              </a-form-model-item>
             </a-col>
           </a-row>
         </a-form-model>
@@ -207,7 +209,6 @@ export default {
           dataIndex: 'name',
           key: 'name',
           align: 'center',
-          width: '20%',
           filterMultiple: true,
           scopedSlots: { customRender: 'name' }
         },
@@ -216,7 +217,6 @@ export default {
           dataIndex: 'workId',
           key: 'workId',
           align: 'center',
-          width: '20%',
           scopedSlots: { customRender: 'workId' }
         },
         {
@@ -224,7 +224,6 @@ export default {
           dataIndex: 'department',
           key: 'department',
           align: 'center',
-          width: '40%',
           scopedSlots: { customRender: 'department' }
         },
         {
@@ -283,8 +282,18 @@ export default {
 
     // modal
     handelDetermine(val) {
-      console.log(val)
-      this.modaldata = {}
+      if (this.title === '编辑') {
+        this.visible = false
+        this.modaldata = {}
+        // 修改接口
+        this.$message.success('修改成功')
+      } else {
+        const obj = Object.assign({ key: '4', editable: false }, val)
+        this.data.push(obj)
+        this.$message.success('新增成功')
+        this.visible = false
+        this.modaldata = {}
+      }
     },
     handelParntcancel(val) {
       this.visible = false

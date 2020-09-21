@@ -135,6 +135,7 @@ export default {
     if (this.colorWeak !== config.colorWeak) {
       updateColorWeak(this.colorWeak)
     }
+    // this.onMultiTab(true)
   },
   methods: {
     toggle() {

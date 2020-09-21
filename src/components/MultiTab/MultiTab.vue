@@ -38,7 +38,26 @@ export default {
     this.fullPathList.push(this.$route.fullPath)
     this.selectedLastPath()
   },
+  watch: {
+    $route: function(newVal) {
+      this.activeKey = newVal.fullPath
+      if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
+        this.fullPathList.push(newVal.fullPath)
+        this.pages.push(newVal)
+        this.stroreRouter()
+      }
+    },
+    activeKey: function(newPathKey) {
+      this.$router.push({ path: newPathKey })
+    }
+  },
   methods: {
+    stroreRouter() {
+      sessionStorage.setItem('FULL_PATHLISR', JSON.stringify(this.fullPathList))
+    },
+    storePagelist() {
+      sessionStorage.setItem('PAGE_LIST', JSON.stringify(this.pages))
+    },
     onEdit(targetKey, action) {
       this[action](targetKey)
     },
@@ -123,18 +142,6 @@ export default {
           <span style={{ userSelect: 'none' }}>{title}</span>
         </a-dropdown>
       )
-    }
-  },
-  watch: {
-    $route: function(newVal) {
-      this.activeKey = newVal.fullPath
-      if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
-        this.fullPathList.push(newVal.fullPath)
-        this.pages.push(newVal)
-      }
-    },
-    activeKey: function(newPathKey) {
-      this.$router.push({ path: newPathKey })
     }
   },
   render() {
