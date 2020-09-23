@@ -13,7 +13,7 @@ ant-admin-vue是一个后台管理 spa 页面，它基于 [vue](https://github.c
 git clone https://github.com/dc233/ant-admin-vue.git
 
 # 进入项目目录
-cd vue-admin-webapp
+cd ant-admin-vue
 
 # 安装依赖
 npm install
