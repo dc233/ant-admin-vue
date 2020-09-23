@@ -1,0 +1,128 @@
+.
+├── README.md
+├── babel.config.js
+├── config
+│   └── plugin.config.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   └── index.html
+├── src
+│   ├── App.vue
+│   ├── api
+│   │   ├── login.js
+│   │   └── workplace.js
+│   ├── assets
+│   │   ├── avatr.png
+│   │   ├── logo.png
+│   │   ├── wave-bot.png
+│   │   ├── wave-mid.png
+│   │   └── wave-top.png
+│   ├── components
+│   │   ├── Charts
+│   │   │   └── Radar.vue
+│   │   ├── Exception
+│   │   │   ├── ExceptionPage.vue
+│   │   │   ├── index.js
+│   │   │   └── type.js
+│   │   ├── FooterTollBar
+│   │   │   ├── FooterTollBar.vue
+│   │   │   ├── index.js
+│   │   │   └── index.less
+│   │   ├── MultiTab
+│   │   │   ├── MultiTab.vue
+│   │   │   ├── events.js
+│   │   │   ├── index.js
+│   │   │   └── index.less
+│   │   ├── NoticeIcon
+│   │   │   └── NoticeIcon.vue
+│   │   ├── PageHeader
+│   │   │   └── index.vue
+│   │   ├── SettingDrawe
+│   │   │   ├── SettingDrawer.vue
+│   │   │   ├── index.js
+│   │   │   ├── settingConfig.js
+│   │   │   └── themeColor.js
+│   │   ├── Table
+│   │   │   └── Table.vue
+│   │   ├── excelExport
+│   │   │   └── excelExport.vue
+│   │   ├── excelImport
+│   │   │   └── excelImport.vue
+│   │   ├── index.js
+│   │   ├── index.less
+│   │   ├── modal
+│   │   │   └── modal.vue
+│   │   └── tools
+│   │       ├── Breadcrumb.vue
+│   │       ├── HeadInfo.vue
+│   │       ├── Logo.vue
+│   │       └── UserMenu.vue
+│   ├── config
+│   │   ├── defaultSettings.js
+│   │   └── router.config.js
+│   ├── core
+│   │   ├── bootstrap.js
+│   │   ├── lazy_lib
+│   │   │   └── components_use.js
+│   │   └── user.js
+│   ├── layouts
+│   │   ├── BasicLayout.vue
+│   │   ├── Global
+│   │   │   ├── SideMenu.vue
+│   │   │   ├── footer.vue
+│   │   │   ├── header.vue
+│   │   │   └── menu.js
+│   │   ├── RouteView.vue
+│   │   ├── UserLayout.vue
+│   │   ├── index.js
+│   │   └── pageview.vue
+│   ├── main.js
+│   ├── permission.js
+│   ├── router
+│   │   └── index.js
+│   ├── store
+│   │   ├── getters.js
+│   │   ├── index.js
+│   │   ├── modules
+│   │   │   ├── app.js
+│   │   │   ├── permission.js
+│   │   │   └── user.js
+│   │   └── mutation-types.js
+│   ├── style
+│   │   └── idnex.less
+│   ├── utils
+│   │   ├── device.js
+│   │   ├── domUtil.js
+│   │   ├── mixin.js
+│   │   ├── request.js
+│   │   ├── routeConvert.js
+│   │   └── util.js
+│   └── views
+│       ├── dashboard
+│       │   ├── Workplace.vue
+│       │   ├── test.vue
+│       │   └── testChildren.vue
+│       ├── exception
+│       │   └── 404.vue
+│       ├── form
+│       │   ├── advancedForm
+│       │   │   ├── AdvancedForm.vue
+│       │   │   ├── RepositoryForm.vue
+│       │   │   └── TaskForm.vue
+│       │   ├── basicForm.vue
+│       │   └── stepForm
+│       │       ├── index.vue
+│       │       ├── step1.vue
+│       │       ├── step2.vue
+│       │       └── step3.vue
+│       ├── table
+│       │   └── tableSearch.vue
+│       └── user
+│           ├── login.vue
+│           └── register.vue
+├── tree.text
+└── vue.config.js
+
+36 directories, 89 files
