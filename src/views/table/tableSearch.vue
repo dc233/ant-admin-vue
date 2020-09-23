@@ -110,10 +110,15 @@
           <a-button type="primary" size="default" icon="plus" @click="handelAdd">
             添加成员
           </a-button>
-          <a-button type="primary" size="default">
+          <excel-import :on-success="onSuccess" :on-error="onError">
+            <a-button type="primary" size="default">
+              导入表格
+            </a-button>
+          </excel-import>
+          <a-button type="primary" size="default" @click="expoort">
             导出当前
           </a-button>
-          <a-button type="primary" size="default">
+          <a-button type="primary" size="default" @click="exportTable">
             导出所有
           </a-button>
         </a-space>
@@ -165,6 +170,8 @@
         </a-form-model>
       </template>
     </xkt-modal>
+    <!-- 表格导出 -->
+    <excel-export :bookType="bookType" :filename="filename" :sheet="sheet" :manual="true" ref="excelExport"></excel-export>
   </page-view>
 </template>
 
@@ -239,7 +246,8 @@ export default {
           name: '小明',
           workId: '001',
           editable: false,
-          department: '行政部'
+          department: '行政部',
+          num: 123
         },
         {
           key: '2',
@@ -262,7 +270,33 @@ export default {
       width: 600,
       wrapperCol: { span: 20 },
       labelCol: { span: 4 },
-      advanced: false
+      advanced: false,
+      // 导出表格
+      bookType: 'xlsx',
+      filename: '岗位表格',
+      sheet: [
+        {
+          title: '人员表格',
+          tHeader: ['成员姓名', '工号', '所属部门'],
+          table: [''],
+          keys: ['name', 'workId', 'department'],
+          sheetName: '',
+          cellStyle: [
+            {
+              cell: 'A1',
+              font: {
+                sz: 14,
+                color: { rgb: 'ffffff' },
+                bold: true
+              },
+              fill: {
+                fgColor: { rgb: 'ff7e00' }
+              }
+            }
+          ]
+        }
+      ],
+      json: ''
     }
   },
   methods: {
@@ -320,6 +354,29 @@ export default {
     handelAdd() {
       this.visible = true
       this.title = '新增成员'
+    },
+    // 导出表格
+    exportTable() {
+      if (this.data.length === 0) {
+        this.$message.warning('表格数据为空，请先查询后在导出')
+        return
+      }
+      let time = moment(new Date())
+        .add(0, 'year')
+        .format('YYYYMMDD')
+      this.filename = `岗位表格${time}`
+      this.sheet.forEach((item) => {
+        item.table = this.data
+      })
+      this.$refs.excelExport.pikaExportExcel()
+    },
+    // 导入表格
+    onSuccess(response, file) {
+      console.log(response, file)
+    },
+    // 导入表格错误
+    onError(err, file) {
+      this.$message.error(err)
     }
   }
 }

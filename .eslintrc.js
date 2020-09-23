@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-14 14:39:58
+ * @LastEditTime: 2020-09-23 17:13:19
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \xkt-project\ant-admin-vue\.eslintrc.js
+ */
 module.exports = {
   root: true,
   env: {
@@ -13,6 +21,7 @@ module.exports = {
     'no-empty': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-const-assign': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     indent: 0,
     // 添加⾃定义规则
     'prettier/prettier': [

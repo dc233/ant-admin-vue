@@ -131,7 +131,6 @@ export default {
     }
   },
   mounted() {
-    updateTheme(this.primaryColor)
     if (this.colorWeak !== config.colorWeak) {
       updateColorWeak(this.colorWeak)
     }
