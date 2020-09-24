@@ -39,9 +39,7 @@
           </transition>
         </a-layout-content>
         <!-- layout footer -->
-        <a-layout-footer>
-          <global-footer />
-        </a-layout-footer>
+        <a-layout-footer></a-layout-footer>
         <setting-drawe />
       </a-layout>
     </a-layout>
@@ -51,7 +49,6 @@
 <script>
 import RouteView from './RouteView'
 import GlobalHeader from './Global/header'
-import GlobalFooter from './Global/footer'
 import SideMenu from './Global/SideMenu'
 import SettingDrawe from '@/components/SettingDrawe'
 import { triggerWindowResizeEvent } from '@/utils/util'
@@ -65,7 +62,6 @@ export default {
     SideMenu,
     GlobalHeader,
     RouteView,
-    GlobalFooter,
     SettingDrawe
   },
   data() {

@@ -115,7 +115,7 @@
               导入表格
             </a-button>
           </excel-import>
-          <a-button type="primary" size="default" @click="expoort">
+          <a-button type="primary" size="default" @click="exportTable">
             导出当前
           </a-button>
           <a-button type="primary" size="default" @click="exportTable">

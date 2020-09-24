@@ -95,6 +95,25 @@ export const asyncRouterMap = [
             meta: { title: '查询表格', keepAlive: true }
           }
         ]
+      },
+      {
+        path: 'systemsting',
+        name: 'SystemSting',
+        component: RouteView,
+        meta: {
+          title: '系统设置',
+          keepAlive: true,
+          icon: 'setting'
+        },
+        permission: ['setting'],
+        children: [
+          {
+            path: '/systemsting/mechanism',
+            name: 'mechanism',
+            component: () => import('@/views/systemSting/mechanism'),
+            meta: { title: '机构管理', keepAlive: true }
+          }
+        ]
       }
     ]
   },
