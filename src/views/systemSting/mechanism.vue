@@ -4,6 +4,7 @@
       <div class="tree">
         <a-input-search style="margin-bottom: 8px" placeholder="请搜索机构名" @change="onChange" />
         <a-tree
+          v-if="showTree"
           v-model="checkedKeys"
           :tree-data="treedata"
           :replaceFields="replaceFields"
@@ -20,12 +21,14 @@
             <span v-html="name.replace(new RegExp(searchValue, 'g'), '<span style=color:#f50>' + searchValue + '</span>')"></span>
           </template>
         </a-tree>
+        <a-empty :image="simpleImage" v-else description="没有检索到相关数据  " />
       </div>
     </div>
   </page-view>
 </template>
 
 <script>
+import { Empty } from 'ant-design-vue'
 export default {
   data() {
     return {
@@ -107,8 +110,13 @@ export default {
       expandedKeys: [],
       backupsExpandedKeys: [],
       autoExpandParent: true,
-      searchValue: ''
+      searchValue: '',
+      showTree: true,
+      simpleImage: ''
     }
+  },
+  beforeCreate() {
+    this.simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
   },
   mounted() {
     this.$nextTick(function() {
@@ -120,6 +128,7 @@ export default {
     onChange(e) {
       this.searchValue = e.target.value
       if (this.searchValue === '') {
+        this.showTree = true
         this.expandedKeys = this.getAllKey(this.treedata, [])
       } else {
         this.expandedKeys = []
@@ -145,9 +154,11 @@ export default {
         let node = tree[i]
         //如果该节点存在value值则push
         if (node.name.indexOf(this.searchValue) > -1) {
+          this.showTree = true
           keyList.push(node.key)
         } else {
           // 逻辑判断
+          this.showTree = false
         }
         //如果拥有子节点继续遍历
         if (node.children) {

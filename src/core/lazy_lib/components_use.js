@@ -50,7 +50,8 @@ import {
   FormModel,
   Result,
   Space ,
-  Tree
+  Tree,
+  Empty
 } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.less';
 // import VueCropper from 'vue-cropper'
@@ -97,6 +98,7 @@ Vue.use(FormModel)
 Vue.use(Result)
 Vue.use(Space)
 Vue.use(Tree)
+Vue.use(Empty)
 
 
 Vue.prototype.$confirm = Modal.confirm
