@@ -1,16 +1,31 @@
 <template>
   <page-view :title="false">
     <div class="content-layouts">
+      <div class="operating">
+        <a-space>
+          <a-button type="primary" @click="handelAddMechanism">
+            添加
+          </a-button>
+          <a-button type="primary" @click="handelEditMechanism" :disabled="disabled">
+            修改
+          </a-button>
+          <a-button type="danger" :disabled="disabled" @click="showDeleteConfirm">
+            删除
+          </a-button>
+        </a-space>
+      </div>
       <div class="tree">
         <a-input-search style="margin-bottom: 8px" placeholder="请搜索机构名" @change="onChange" />
         <a-tree
           v-if="showTree"
           v-model="checkedKeys"
+          :checkable="true"
           :tree-data="treedata"
           :replaceFields="replaceFields"
           :expandedKeys="expandedKeys"
           :autoExpandParent="autoExpandParent"
-          :defaultExpandedKeys="['1', '1-1']"
+          :checkStrictly="checkStrictly"
+          :blockNode="true"
           @select="onSelect"
           @check="onCheck"
           @expand="onExpand"
@@ -24,53 +39,93 @@
         <a-empty :image="simpleImage" v-else description="没有检索到相关数据  " />
       </div>
     </div>
+    <!-- 弹框 -->
+    <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
+      <template v-slot="{ data }">
+        <a-form-model ref="ruleFrom" :rules="rules" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
+          <a-form-model-item ref="name" prop="name" label="机构名" labelAlign="left">
+            <a-input v-model="data.name" placeholder="请输入机构名"></a-input>
+          </a-form-model-item>
+          <a-form-model-item ref="value" prop="value" label="上级机构" labelAlign="left">
+            <a-tree-select
+              :treeData="treedata"
+              v-model="data.value"
+              show-search
+              :replaceFields="replaceFields2"
+              placeholder="请选择上级机构"
+              searchPlaceholder="请搜索机构名"
+              :treeExpandedKeys="treeExpandedKeys"
+              @search="handelSearch"
+              @treeExpand="handelExpand"
+              @change="handelChange"
+            ></a-tree-select>
+          </a-form-model-item>
+          <a-form-model-item ref="sort" prop="sort" label="机构排序" labelAlign="left">
+            <a-input-number id="inputNumber" v-model="data.sort" :min="1" :max="1000" />
+          </a-form-model-item>
+          <a-form-model-item ref="status" prop="status" label="状态" labelAlign="left">
+            <a-switch v-model="data.status" checked-children="启用" un-checked-children="停用" default-checked />
+          </a-form-model-item>
+        </a-form-model>
+      </template>
+    </xkt-modal>
   </page-view>
 </template>
 
 <script>
 import { Empty } from 'ant-design-vue'
+import XktModal from '@/components/modal/modal.vue'
 export default {
+  components: {
+    XktModal
+  },
   data() {
     return {
       treedata: [
         {
           name: '江西新课堂总部',
+          value: '江西新课堂总部',
           key: '1',
           id: 1,
-          status: 1,
+          status: true,
           add_time: 1576578795,
           scopedSlots: { title: 'title' },
           icon: 'mail',
           isdel: 0,
+          disableCheckbox: true,
           children: [
             {
               name: '南昌新课堂',
+              value: '南昌新课堂',
               scopedSlots: { title: 'title' },
               key: '1-1',
               id: '1-1',
-              status: 1,
+              status: true,
               add_time: 1576578795,
               isdel: 0,
               icon: null,
               children: [
                 {
                   name: '红谷滩新课堂',
+                  value: '红谷滩新课堂',
                   scopedSlots: { title: 'title' },
                   key: '1-1-1',
                   id: '1-1-1',
-                  status: 1,
+                  status: true,
                   add_time: 1576578795,
                   icon: null,
                   isdel: 0,
                   children: [
                     {
-                      name: 'xxx-部门',
+                      name: 'xxx部门',
+                      value: 'xxx部门',
                       scopedSlots: { title: 'title' },
                       key: '1-1-1-1',
                       id: '1-1-1-1',
                       add_time: 1576578795,
                       icon: null,
-                      isdel: 0
+                      isdel: 0,
+                      status: true
                     }
                   ]
                 }
@@ -78,23 +133,26 @@ export default {
             },
             {
               name: '九江新课堂',
+              value: '九江新课堂',
               scopedSlots: { title: 'title' },
               key: '1-2',
               id: '1-2',
-              status: 1,
+              status: true,
               add_time: 1576578795,
               icon: null,
               isdel: 0,
               children: [
                 {
                   name: '九江xxxx新课堂',
+                  value: '九江xxxx新课堂',
                   scopedSlots: { title: 'title' },
                   key: '1-2-1',
                   id: '1-2-1',
-                  status: 1,
+                  status: true,
                   add_time: 1576578795,
                   icon: null,
-                  isdel: 0
+                  isdel: 0,
+                  sort: 66
                 }
               ]
             }
@@ -106,13 +164,59 @@ export default {
         children: 'children',
         key: 'key'
       },
+      replaceFields2: {
+        title: 'name',
+        value: 'name',
+        children: 'children',
+        key: 'key'
+      },
       checkedKeys: [],
       expandedKeys: [],
       backupsExpandedKeys: [],
       autoExpandParent: true,
       searchValue: '',
       showTree: true,
-      simpleImage: ''
+      simpleImage: '',
+      disabled: true,
+      visible: false,
+      title: '新增机构',
+      modaldata: {},
+      width: 600,
+      wrapperCol: { span: 21 },
+      labelCol: { span: 3 },
+      backupsExpandedKeys2: [],
+      treeExpandedKeys: [],
+      checkStrictly: true,
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '请输入机构名',
+            trigger: 'blur'
+          }
+        ],
+        value: [
+          {
+            required: true,
+            message: '请选择上级机构',
+            trigger: 'change'
+          }
+        ],
+        sort: [
+          {
+            required: true,
+            message: '请输入排序数字',
+            trigger: 'blur'
+          }
+        ],
+        status: [
+          {
+            required: true,
+            message: '请选择机构状态',
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   beforeCreate() {
@@ -122,6 +226,7 @@ export default {
     this.$nextTick(function() {
       const allKey = this.getAllKey(this.treedata, [])
       this.expandedKeys = allKey
+      this.treeExpandedKeys = allKey
     })
   },
   methods: {
@@ -153,7 +258,7 @@ export default {
       for (let i = 0; i < tree.length; i++) {
         let node = tree[i]
         //如果该节点存在value值则push
-        if (node.name.indexOf(this.searchValue) > -1) {
+        if (node.name.indexOf(value) > -1) {
           this.showTree = true
           keyList.push(node.key)
         } else {
@@ -219,11 +324,69 @@ export default {
       console.log(selectedKeys, info)
     },
     onCheck(checkedKeys, info) {
-      console.log(checkedKeys, info)
+      console.log(checkedKeys, info.node.dataRef)
+      if (checkedKeys.checked.length > 1) {
+        this.checkedKeys.checked = []
+        this.disabled = true
+        this.$message.error('不能选择多个同时编辑')
+      } else {
+        this.disabled = !this.disabled
+        this.modaldata = info.node.dataRef
+      }
     },
-    onExpand(expandedKeys) {
+    onExpand(expandedKeys, info) {
+      console.log(expandedKeys)
       this.expandedKeys = expandedKeys
-      this.autoExpandParent = true
+      this.autoExpandParent = false
+    },
+    handelAddMechanism() {
+      this.visible = true
+      this.title = '新增机构'
+    },
+    handelEditMechanism() {
+      this.visible = true
+      this.title = '编辑机构'
+    },
+    handelDetermine(val) {
+      if (this.title === '编辑机构') {
+      } else {
+        this.$refs.ruleFrom.validate((valid) => {
+          if (valid) {
+            console.log('ojbk')
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      }
+    },
+    handelParntcancel(val) {
+      this.visible = false
+      this.modaldata = {}
+      this.checkedKeys.checked = []
+      this.disabled = true
+      this.$refs.ruleFrom.resetFields()
+    },
+    handelSearch(val) {},
+    handelExpand(expandedKeys) {
+      this.treeExpandedKeys = expandedKeys
+    },
+    handelChange(value, label, extra) {
+      console.log(value, label, extra)
+    },
+    showDeleteConfirm() {
+      this.$confirm({
+        title: '你确定要删除此机构?',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          console.log('OK')
+        },
+        onCancel() {
+          console.log('Cancel')
+        }
+      })
     }
   }
 }
@@ -235,5 +398,8 @@ export default {
 }
 .treestyle {
   border-right: 1px solid #d9d9d9;
+}
+.operating {
+  padding-bottom: 10px;
 }
 </style>
