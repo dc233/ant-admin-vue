@@ -352,15 +352,15 @@
             }
         }
   }
-::-webkit-scrollbar {
-    width: 4px
+body::-webkit-scrollbar {
+    width: 4px;
 }
 
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
     background-color: #ddd
 }
 
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
     background-color: transparent
 }
 .rv-root {
@@ -370,4 +370,8 @@
 .content-layouts {
     padding: 10px;
     background-color: #fff;
+}
+// table size:small 背景颜色
+.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-header > table > .ant-table-thead > tr > th {
+    background-color: #fafafa !important;
 }

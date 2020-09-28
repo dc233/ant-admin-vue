@@ -107,7 +107,7 @@
       <!-- 表格操作 -->
       <div class="table-operation">
         <a-space>
-          <a-button type="primary" size="default" icon="plus" @click="handelAdd">
+          <a-button type="primary" size="default" icon="plus" @click="handelAdd" v-action:import>
             添加成员
           </a-button>
           <excel-import :on-success="onSuccess" :on-error="onError">
@@ -129,6 +129,13 @@
         :data="data"
         :bordered="borders"
         :pagination="pagination"
+        :scroll="{ x: 1500 }"
+        size="small"
+        :rowKey="
+          (record, index) => {
+            return index
+          }
+        "
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         @tableChange="handelPaginationChange"
       >
@@ -212,10 +219,17 @@ export default {
       selectedRowKeys: [],
       columns: [
         {
+          title: '序号',
+          customRender: (value, row, index) => `${(this.pagination.current - 1) * 10 + index + 1}`,
+          align: 'center',
+          width: 100
+        },
+        {
           title: '成员姓名',
           dataIndex: 'name',
           key: 'name',
           align: 'center',
+          width: 100,
           filterMultiple: true,
           scopedSlots: { customRender: 'name' }
         },
@@ -224,6 +238,7 @@ export default {
           dataIndex: 'workId',
           key: 'workId',
           align: 'center',
+          width: 100,
           scopedSlots: { customRender: 'workId' }
         },
         {
@@ -231,12 +246,135 @@ export default {
           dataIndex: 'department',
           key: 'department',
           align: 'center',
+          width: 100,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: 'Column 1',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '2',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '3',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '5',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '6',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '7',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '8',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '9',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '10',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '11',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '12',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '13',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '14',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '15',
+          align: 'center',
+          width: 150,
+          scopedSlots: { customRender: 'department' }
+        },
+        {
+          title: 'Column 1',
+          dataIndex: 'department',
+          key: '16',
+          align: 'center',
+          width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
           title: '操作',
           key: 'action',
           align: 'center',
+          fixed: 'right',
+          width: 150,
           scopedSlots: { customRender: 'operation' }
         }
       ],
@@ -255,6 +393,144 @@ export default {
           workId: '002',
           editable: false,
           department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '1',
+          name: '小明',
+          workId: '001',
+          editable: false,
+          department: '行政部',
+          num: 123
+        },
+        {
+          key: '2',
+          name: '李莉',
+          workId: '002',
+          editable: false,
+          department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '1',
+          name: '小明',
+          workId: '001',
+          editable: false,
+          department: '行政部',
+          num: 123
+        },
+        {
+          key: '2',
+          name: '李莉',
+          workId: '002',
+          editable: false,
+          department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '1',
+          name: '小明',
+          workId: '001',
+          editable: false,
+          department: '行政部',
+          num: 123
+        },
+        {
+          key: '2',
+          name: '李莉',
+          workId: '002',
+          editable: false,
+          department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '1',
+          name: '小明',
+          workId: '001',
+          editable: false,
+          department: '行政部',
+          num: 123
+        },
+        {
+          key: '2',
+          name: '李莉',
+          workId: '002',
+          editable: false,
+          department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '1',
+          name: '小明',
+          workId: '001',
+          editable: false,
+          department: '行政部',
+          num: 123
+        },
+        {
+          key: '2',
+          name: '李莉',
+          workId: '002',
+          editable: false,
+          department: 'IT部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
+        },
+        {
+          key: '3',
+          name: '王小帅',
+          workId: '003',
+          editable: false,
+          department: '财务部'
         },
         {
           key: '3',

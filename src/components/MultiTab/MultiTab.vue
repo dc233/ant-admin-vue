@@ -36,7 +36,6 @@ export default {
       })
     this.pages.push(this.$route)
     this.fullPathList.push(this.$route.fullPath)
-    this.selectedLastPath()
   },
   watch: {
     $route: function(newVal) {
@@ -44,7 +43,6 @@ export default {
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
         this.pages.push(newVal)
-        this.stroreRouter()
       }
     },
     activeKey: function(newPathKey) {
@@ -52,12 +50,6 @@ export default {
     }
   },
   methods: {
-    stroreRouter() {
-      sessionStorage.setItem('FULL_PATHLISR', JSON.stringify(this.fullPathList))
-    },
-    storePagelist() {
-      sessionStorage.setItem('PAGE_LIST', JSON.stringify(this.pages))
-    },
     onEdit(targetKey, action) {
       this[action](targetKey)
     },

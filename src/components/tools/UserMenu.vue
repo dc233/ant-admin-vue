@@ -14,7 +14,7 @@
       <notice-icon class="hoveraction" />
       <a-dropdown>
         <span class="hoveraction ant-dropdown-link user-dropdown-menu">
-          <a-avatar class="avatar" size="small" :src="avatar" />
+          <a-avatar class="avatar" size="large" :src="avatar" />
           <span class="username">{{ nickname }}</span>
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">

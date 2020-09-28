@@ -92,7 +92,7 @@ export const asyncRouterMap = [
             path: '/table/tablesearch',
             name: 'TableSearch',
             component: () => import('@/views/table/tableSearch'),
-            meta: { title: '查询表格', keepAlive: true }
+            meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
           }
         ]
       },
@@ -103,9 +103,9 @@ export const asyncRouterMap = [
         meta: {
           title: '系统设置',
           keepAlive: true,
-          icon: 'setting'
+          icon: 'setting',
+          permission: ['setting']
         },
-        permission: ['setting'],
         children: [
           {
             path: '/systemsting/mechanism',

@@ -5,8 +5,10 @@
     :bordered="bordered"
     :pagination="pagination"
     :row-selection="rowSelection"
+    :rowKey="rowKey"
+    :scroll="scroll"
     @change="handleTableChange"
-    size="middle"
+    :size="size"
   >
     <template v-for="colCustom in columnsCustom" :slot="colCustom.customRender" slot-scope="item, record">
       <slot :name="colCustom.customRender" :tableRow="(item, record)"></slot>
@@ -50,6 +52,19 @@ export default {
     // 列表项是否可选择   配置项的选择见官网  table API下的 rowSelection
     rowSelection: {
       type: Object
+    },
+    // 表格行 key 的取值，可以是字符串或一个函数
+    rowKey: {
+      type: [String, Function]
+    },
+    // scroll设置横向或纵向滚动，也可用于指定滚动区域的宽和高
+    scroll: {
+      type: Object
+    },
+    // 表格大小
+    size: {
+      type: String,
+      default: 'default'
     }
   },
   computed: {

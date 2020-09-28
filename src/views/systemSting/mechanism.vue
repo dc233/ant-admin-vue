@@ -1,5 +1,5 @@
 <template>
-  <page-view :title="false">
+  <page-view :title="true">
     <div class="content-layouts">
       <div class="operating">
         <a-space>
@@ -14,30 +14,58 @@
           </a-button>
         </a-space>
       </div>
-      <div class="tree">
-        <a-input-search style="margin-bottom: 8px" placeholder="请搜索机构名" @change="onChange" />
-        <a-tree
-          v-if="showTree"
-          v-model="checkedKeys"
-          :checkable="true"
-          :tree-data="treedata"
-          :replaceFields="replaceFields"
-          :expandedKeys="expandedKeys"
-          :autoExpandParent="autoExpandParent"
-          :checkStrictly="checkStrictly"
-          :blockNode="true"
-          @select="onSelect"
-          @check="onCheck"
-          @expand="onExpand"
-          class="treestyle"
-        >
-          <a-icon slot="switcherIcon" type="down" />
-          <template slot="title" slot-scope="{ name }">
-            <span v-html="name.replace(new RegExp(searchValue, 'g'), '<span style=color:#f50>' + searchValue + '</span>')"></span>
-          </template>
-        </a-tree>
-        <a-empty :image="simpleImage" v-else description="没有检索到相关数据  " />
-      </div>
+      <a-row type="flex" :gutter="16">
+        <a-col :span="6">
+          <div class="tree">
+            <a-input-search style="margin-bottom: 8px" placeholder="请搜索机构名" @change="onChange" />
+            <a-tree
+              v-if="showTree"
+              v-model="checkedKeys"
+              :checkable="true"
+              :tree-data="treedata"
+              :replaceFields="replaceFields"
+              :expandedKeys="expandedKeys"
+              :autoExpandParent="autoExpandParent"
+              :checkStrictly="checkStrictly"
+              :blockNode="true"
+              @select="onSelect"
+              @check="onCheck"
+              @expand="onExpand"
+              class="treestyle"
+            >
+              <a-icon slot="switcherIcon" type="down" />
+              <template slot="title" slot-scope="{ name }">
+                <span v-html="name.replace(new RegExp(searchValue, 'g'), '<span style=color:#f50>' + searchValue + '</span>')"></span>
+              </template>
+            </a-tree>
+            <a-empty :image="simpleImage" v-else description="没有检索到相关数据  " />
+          </div>
+        </a-col>
+        <a-col :span="18">
+          <xkt-table
+            :columns="columns"
+            :data="data"
+            :pagination="pagination"
+            @tableChange="handelPaginationChange"
+            :rowKey="
+              (record, index) => {
+                return index
+              }
+            "
+          >
+            <a slot="name" slot-scope="text">{{ text.tableRow.name }}</a>
+            <template slot="loginnum" slot-scope="text">
+              {{ text.tableRow.loginnum }}
+            </template>
+            <template slot="status" slot-scope="text">
+              {{ text.tableRow.status }}
+            </template>
+            <template slot="creatTime" slot-scope="text">
+              {{ text.tableRow.creatTime }}
+            </template>
+          </xkt-table>
+        </a-col>
+      </a-row>
     </div>
     <!-- 弹框 -->
     <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
@@ -74,10 +102,12 @@
 
 <script>
 import { Empty } from 'ant-design-vue'
+import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
 export default {
   components: {
-    XktModal
+    XktModal,
+    XktTable
   },
   data() {
     return {
@@ -216,7 +246,73 @@ export default {
             trigger: 'change'
           }
         ]
-      }
+      },
+      columns: [
+        {
+          title: '序号',
+          customRender: (value, row, index) => `${(this.pagination.current - 1) * 10 + index + 1}`,
+          align: 'center'
+        },
+        {
+          title: '成员名称',
+          dataIndex: 'name',
+          key: 'name',
+          align: 'center',
+          filterMultiple: true,
+          scopedSlots: { customRender: 'name' }
+        },
+        {
+          title: '登录次数',
+          dataIndex: 'loginnum',
+          key: 'loginnum',
+          align: 'center',
+          scopedSlots: { customRender: 'loginnum' }
+        },
+        {
+          title: '状态',
+          dataIndex: 'status',
+          key: 'status',
+          align: 'center',
+          scopedSlots: { customRender: 'status' }
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'creatTime',
+          key: 'creatTime',
+          align: 'center',
+          scopedSlots: { customRender: 'creatTime' }
+        }
+      ],
+      data: [
+        {
+          name: '咨询一部-小王',
+          loginnum: 23,
+          status: 0,
+          creatTime: '2020-8-23'
+        },
+        {
+          name: '咨询一部-小刘',
+          loginnum: 9999,
+          status: 0,
+          creatTime: '2010-5-23'
+        },
+        {
+          name: '咨询一部-小美',
+          loginnum: 511,
+          status: 0,
+          creatTime: '2016-5-23'
+        }
+      ],
+      pagination: {
+        showSizeChanger: true,
+        total: 100,
+        pageSize: 10,
+        current: 1,
+        pageSizeOptions: ['10', '20', '30', '40', '50'],
+        showTotal: (total) => `共 ${total} 条`,
+        showQuickJumper: true
+      },
+      selectedRowKeys: []
     }
   },
   beforeCreate() {
@@ -349,6 +445,14 @@ export default {
     },
     handelDetermine(val) {
       if (this.title === '编辑机构') {
+        this.$refs.ruleFrom.validate((valid) => {
+          if (valid) {
+            console.log('编辑ojbk')
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       } else {
         this.$refs.ruleFrom.validate((valid) => {
           if (valid) {
@@ -375,6 +479,7 @@ export default {
       console.log(value, label, extra)
     },
     showDeleteConfirm() {
+      let that = this
       this.$confirm({
         title: '你确定要删除此机构?',
         okText: '确定',
@@ -384,18 +489,21 @@ export default {
           console.log('OK')
         },
         onCancel() {
-          console.log('Cancel')
+          that.checkedKeys.checked = []
+          that.disabled = true
         }
       })
+    },
+    handelPaginationChange() {},
+    onSelectChange(selectedRowKeys, selectedRows) {
+      console.log(selectedRowKeys, selectedRows)
+      this.selectedRowKeys = selectedRowKeys
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.tree {
-  width: 30%;
-}
 .treestyle {
   border-right: 1px solid #d9d9d9;
 }
