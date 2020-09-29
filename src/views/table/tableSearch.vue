@@ -121,6 +121,7 @@
           <a-button type="primary" size="default" @click="exportTable">
             导出所有
           </a-button>
+          <table-config @Tablesize="receivesize" />
         </a-space>
       </div>
       <a-alert class="alert" type="info">
@@ -141,7 +142,7 @@
         :bordered="borders"
         :pagination="pagination"
         :scroll="{ x: 1500 }"
-        size="small"
+        :size="size"
         :rowKey="
           (record, index) => {
             return index
@@ -197,11 +198,13 @@
 import { getTableList } from '@/api/table.js'
 import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
+import TableConfig from '@/components/tableconfiguration'
 import moment from 'moment'
 export default {
   components: {
     XktTable,
-    XktModal
+    XktModal,
+    TableConfig
   },
   data() {
     return {
@@ -392,6 +395,7 @@ export default {
       ],
       data: [],
       loading: true,
+      size: 'small',
       visible: false,
       title: '添加',
       modaldata: {},
@@ -533,6 +537,10 @@ export default {
       } else {
         this.selectedRowKeys = []
       }
+    },
+    // 动态改变表格大小样式
+    receivesize(val) {
+      this.size = val
     }
   }
 }
