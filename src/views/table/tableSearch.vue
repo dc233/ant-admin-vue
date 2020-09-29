@@ -123,8 +123,19 @@
           </a-button>
         </a-space>
       </div>
+      <a-alert class="alert" type="info">
+        <template slot="message">
+          <span>
+            已选择
+            <a style="font-weight: 500;">{{ seletChecknum }}</a>
+            项
+          </span>
+          <a class="deletcheck" @click="hadelTableChekbox">清除</a>
+        </template>
+      </a-alert>
       <!-- 表格数据 -->
       <xkt-table
+        :loading="loading"
         :columns="columns"
         :data="data"
         :bordered="borders"
@@ -183,6 +194,7 @@
 </template>
 
 <script>
+import { getTableList } from '@/api/table.js'
 import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
 import moment from 'moment'
@@ -378,168 +390,8 @@ export default {
           scopedSlots: { customRender: 'operation' }
         }
       ],
-      data: [
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '1',
-          name: '小明',
-          workId: '001',
-          editable: false,
-          department: '行政部',
-          num: 123
-        },
-        {
-          key: '2',
-          name: '李莉',
-          workId: '002',
-          editable: false,
-          department: 'IT部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        },
-        {
-          key: '3',
-          name: '王小帅',
-          workId: '003',
-          editable: false,
-          department: '财务部'
-        }
-      ],
+      data: [],
+      loading: true,
       visible: false,
       title: '添加',
       modaldata: {},
@@ -574,6 +426,14 @@ export default {
       ],
       json: ''
     }
+  },
+  computed: {
+    seletChecknum() {
+      return this.selectedRowKeys.length
+    }
+  },
+  created() {
+    this.handleGetData()
   },
   methods: {
     onSelectChange(selectedRowKeys, selectedRows) {
@@ -653,6 +513,26 @@ export default {
     // 导入表格错误
     onError(err, file) {
       this.$message.error(err)
+    },
+    // 请求表格数据
+    handleGetData() {
+      getTableList().then((res) => {
+        if (res.code === 200) {
+          let { infoList } = res.data
+          this.data = infoList
+          this.loading = false
+        } else {
+          this.$message.error(res.info)
+        }
+      })
+    },
+    // 清除table checkobx 选中的内容
+    hadelTableChekbox() {
+      if (this.selectedRowKeys.length === 0) {
+        this.$message.error('没有选中的内容')
+      } else {
+        this.selectedRowKeys = []
+      }
     }
   }
 }
@@ -663,6 +543,13 @@ export default {
   background-color: #fff;
 }
 .table-operation {
+  margin-top: 10px;
   padding: 20px 0;
+}
+.alert {
+  margin: 10px 0;
+}
+.deletcheck {
+  padding: 0 20px;
 }
 </style>

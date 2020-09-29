@@ -1,5 +1,6 @@
 <template>
   <a-table
+    :loading="loading"
     :columns="columns"
     :dataSource="data"
     :bordered="bordered"
@@ -19,6 +20,10 @@
 <script>
 export default {
   props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
     // 表头
     columns: {
       type: Array,
