@@ -121,7 +121,7 @@
           <a-button type="primary" size="default" @click="exportTable">
             导出所有
           </a-button>
-          <table-config @Tablesize="receivesize" />
+          <table-config @Tablesize="receivesize" :columns.sync="columns" />
         </a-space>
       </div>
       <a-alert class="alert" type="info">
@@ -273,113 +273,113 @@ export default {
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 2',
           dataIndex: 'department',
-          key: '2',
+          key: 'Column 2',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 3',
           dataIndex: 'department',
-          key: '3',
+          key: 'Column 3',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 4',
           dataIndex: 'department',
-          key: '5',
+          key: 'Column 4',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 5',
           dataIndex: 'department',
-          key: '6',
+          key: 'Column 5',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 6',
           dataIndex: 'department',
-          key: '7',
+          key: 'Column 6',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 7',
           dataIndex: 'department',
-          key: '8',
+          key: 'Column 7',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 9',
           dataIndex: 'department',
-          key: '9',
+          key: 'Column 9',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 10',
           dataIndex: 'department',
-          key: '10',
+          key: 'Column 10',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 11',
           dataIndex: 'department',
-          key: '11',
+          key: 'Column 11',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 12',
           dataIndex: 'department',
-          key: '12',
+          key: 'Column 12',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 13',
           dataIndex: 'department',
-          key: '13',
+          key: 'Column 13',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 14',
           dataIndex: 'department',
-          key: '14',
+          key: 'Column 14',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 15',
           dataIndex: 'department',
-          key: '15',
+          key: 'Column 15',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
+          title: 'Column 16',
           dataIndex: 'department',
-          key: '16',
+          key: 'Column 16',
           align: 'center',
           width: 150,
           scopedSlots: { customRender: 'department' }
@@ -388,7 +388,6 @@ export default {
           title: '操作',
           key: 'action',
           align: 'center',
-          fixed: 'right',
           width: 150,
           scopedSlots: { customRender: 'operation' }
         }
