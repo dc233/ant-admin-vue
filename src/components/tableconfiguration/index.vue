@@ -29,18 +29,16 @@
           <a-icon type="setting" class="table-icon" />
           <a-menu slot="overlay" @click="handleMenuClick" class="t-menu">
             <a-menu-item class="table-menu">
-              <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
-                列展示
-              </a-checkbox>
+              列展示
+
               <a-button type="link" @click="handelrecovery">重置</a-button>
             </a-menu-item>
             <a-menu-divider />
-            <vuedraggable v-model="arr" animation="300" filter=".forbid" @update="handelUpdata">
+            <vuedraggable v-model="arr" animation="300" filter=".forbid" @update="handelUpdata" class="vuedraggable">
               <a-menu-item :class="item.title === '操作' ? 'forbid' : ''" class="table-copymenu" v-for="(item, index) in arr" :key="item.title">
                 <span class="move">
                   <a-icon type="more" />
                 </span>
-                <a-checkbox />
                 <a class="columns-title">{{ item.title }}</a>
                 <span class="move-config">
                   <a-space>
@@ -78,6 +76,15 @@ export default {
   components: {
     vuedraggable
   },
+  computed: {
+    plainOptions() {
+      let list = []
+      for (let i = 0; i < this.arr.length; i++) {
+        list.push(this.arr[i]['title'])
+      }
+      return list
+    }
+  },
   data() {
     return {
       indeterminate: true,
@@ -91,7 +98,9 @@ export default {
     handelDrown(val) {
       this.$emit('Tablesize', val.key)
     },
-    onCheckAllChange() {},
+    onCheckAllChange(e) {
+      console.log(e)
+    },
     handleMenuClick(e) {},
     handelUpdata() {
       this.$emit('update:columns', this.arr)
@@ -112,7 +121,6 @@ export default {
       }
       this.arr.splice(index, 1)
       this.arr.unshift(tem)
-      console.log(this.arr)
     },
     // 固定在列尾
     handelTableBottom(val) {
@@ -145,7 +153,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 4px 10px;
   margin: 0;
 }
 .table-copymenu:hover .move-config {
@@ -178,5 +185,22 @@ export default {
 }
 .table-size {
   font-size: 16px;
+}
+.vuedraggable {
+  li {
+    clear: both;
+    margin: 0;
+    padding: 5px 12px;
+    color: rgba(0, 0, 0, 0.65);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background-color: #e6f7ff;
+    }
+  }
 }
 </style>
