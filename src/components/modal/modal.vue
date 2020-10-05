@@ -1,6 +1,7 @@
 <template>
-  <a-modal :visible="visible" :title="title" :width="width" @ok="handelok" @cancel="handelCancel">
+  <a-modal :visible="visible" :okText="okText" :title="title" :width="width" @ok="handelok" @cancel="handelCancel">
     <slot :data="data"></slot>
+    <slot name="customize"></slot>
   </a-modal>
 </template>
 
@@ -20,6 +21,9 @@ export default {
     },
     width: {
       type: [String, Number]
+    },
+    okText: {
+      type: String
     }
   },
   methods: {

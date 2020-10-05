@@ -1,6 +1,11 @@
 <template>
-  <div class="excel-import" @click="importFileClick">
-    <input type="file" @change="importFile(this)" id="importFile" style="display: none" accept=".xls,.xlsx" />
+  <div class="excel-import">
+    <a-upload accept=".xls,.xlsx" :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload" @change="importExcel">
+      <a-button>
+        <a-icon type="upload" />
+        上传文件
+      </a-button>
+    </a-upload>
     <slot></slot>
   </div>
 </template>
@@ -8,7 +13,7 @@
 <script>
 import XLSX from 'xlsx'
 export default {
-  name: 'ExcelExport',
+  name: 'ExcelImport',
   props: {
     // 表名
     sheetNames: Array,
@@ -52,167 +57,67 @@ export default {
   components: {},
   data() {
     return {
-      imFile: '',
-      // 枚举类
-      enum: {
-        // 文件类型
-        bookType: ['xlsx', 'xls']
-      }
+      fileList: [],
+      xlsxJson: []
     }
   },
-  created() {},
-  mounted() {
-    this.imFile = document.getElementById('importFile')
-  },
+
   methods: {
-    /**
-     * @name: 点击导入按钮
-     * @param {type}
-     * @return:
-     */
-    importFileClick() {
-      this.imFile.click()
-    },
-    /**
-     * @name: 导入文件
-     * @param {type}
-     * @return:
-     */
-    importFile() {
-      // 导入excel
-      const obj = this.imFile
-      // 无导入文件
-      if (!obj.files) {
-        this.onError('No imported file')
-        return
-      }
-      const file = obj.files[0]
-      // 导入前
-      const beforeImport = this.beforeImport(file)
-      this.onChange(file)
-      if (beforeImport === false) {
-        return
-      }
-      // 文件类型必须为xlsx或者xls
-      const bookType = file.name.substr(file.name.length - 4, file.name.length - 1)
-      const type = this.enum.bookType.some((e) => {
-        if (bookType.indexOf(e) !== -1) {
-          return true
+    importExcel({ file, fileList }) {
+      this.file2Xce(file).then((tabJson) => {
+        if (tabJson && tabJson.length > 0) {
+          // 业务逻辑
+          this.xlsxJson.push(...tabJson[0].sheet)
+          console.log(this.xlsxJson)
         }
-        return false
       })
-      if (!type) {
-        this.onError('您必须传入"xlsx"或者"xls"类型的文件', file)
-        return
-      }
-      const reader = new FileReader()
-      const that = this
-      // 导入时
-      reader.onprogress = (e) => {
-        this.onProgress(e, file)
-      }
-      // 导入完成
-      reader.onload = (e) => {
-        const data = e.target.result
-        if (that.rABS) {
-          that.wb = XLSX.read(btoa(this.fixdata(data)), {
-            // 手动转化
-            type: 'base64'
-          })
-        } else {
-          that.wb = XLSX.read(data, {
+    },
+    file2Xce(file) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader()
+        reader.onload = function(e) {
+          const data = e.target.result
+          this.wb = XLSX.read(data, {
             type: 'binary'
           })
-        }
-        let json = []
-        // 查询对应表名数据
-        if (that.sheetNames) {
-          that.sheetNames.forEach((name) => {
-            const sheetIndex = that.wb.SheetNames.findIndex((s) => s === name)
-            if (sheetIndex !== -1) {
-              const data = XLSX.utils.sheet_to_json(that.wb.Sheets[that.wb.SheetNames[sheetIndex]])
-              json.push({ sheetName: name, data })
-            }
-          })
-        } else {
-          // 查询全部数据
-          that.wb.SheetNames.forEach((item) => {
-            const data = XLSX.utils.sheet_to_json(that.wb.Sheets[item])
-            json.push({ sheetName: item, data })
-          })
-        }
-        json = this.dealData(json)
-        that.importData(json, file)
-      }
-      if (this.rABS) {
-        reader.readAsArrayBuffer(file)
-      } else {
-        reader.readAsBinaryString(file)
-      }
-    },
-    /**
-     * @name: 处理导入数据
-     * @param {type}
-     * @return:
-     */
-    dealData(data) {
-      if (this.removeBlankspace || this.removeSpecialchar) {
-        const json = data.map((item) => {
-          const itemData = item.data.map((i) => {
-            Object.keys(i).forEach((key) => {
-              if (this.removeBlankspace && Object.prototype.toString.call(i[key]) === '[object String]') {
-                // 字符串去除空格
-                i[key] = i[key].replace(/\s*/g, '')
-              }
-              // 去除特殊字符
-              if (this.removeSpecialchar && i[key] && Object.prototype.toString.call(i[key]) !== '[object Boolean]') {
-                i[key] = i[key].toString().replace(/[\u200b-\u200f\uFEFF\u202a-\u202e]/g, '')
-              }
+          const result = []
+          this.wb.SheetNames.forEach((sheetName) => {
+            result.push({
+              sheetName: sheetName,
+              sheet: XLSX.utils.sheet_to_json(this.wb.Sheets[sheetName])
             })
-            return i
           })
-          return { ...item, data: itemData }
-        })
-        return json
-      }
-      return data
+          resolve(result)
+        }
+        reader.readAsBinaryString(file)
+        // reader.readAsBinaryString(file) // 传统input方法
+      })
     },
-    /**
-     * @name: 导入数据
-     * @param {type}
-     * @return:
-     */
-    importData(data, file) {
-      this.imFile.value = ''
-      if (data.length <= 0) {
-        // 导入失败
-        this.onChange(file)
-        this.onError('The import failed', file)
-        return
+    beforeUpload(file) {
+      let accept = '.xls,.xlsx'
+      if (!accept.includes(file.type.toLowerCase())) {
+        this.$message.error('请上传.xls或.xlsx的文件')
+        return false
       } else {
-        //导入成功
-        this.onChange(file)
-        this.onSuccess(data, file)
-        return
+        this.fileList = [...this.fileList, file]
+        return false
       }
     },
-    /**
-     * @name: 文件流转BinaryString
-     * @param {type}
-     * @return:
-     */
-    fixdata(data) {
-      const o = ''
-      const l = 0
-      const w = 10240
-      for (; l < data.byteLength / w; ++l) {
-        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w + w)))
-      }
-      o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)))
-      return o
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file)
+      const newFileList = this.fileList.slice()
+      newFileList.splice(index, 1)
+      this.fileList = newFileList
+    },
+    clearData() {
+      this.fileList = []
+      this.xlsxJson = []
     }
-  },
-  computed: {},
-  watch: {}
+  }
 }
 </script>
+<style lang="less" scoped>
+.excel-import {
+  position: relative;
+}
+</style>

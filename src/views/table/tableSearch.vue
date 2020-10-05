@@ -107,38 +107,42 @@
         </div>
       </a-card>
 
-      <a-alert class="alert" type="info" v-if="seletChecknum">
-        <template slot="message">
-          <span>
-            已选择
-            <a style="font-weight: 500;">{{ seletChecknum }}</a>
-            项
-          </span>
-          <a class="deletcheck" @click="hadelTableChekbox">清除</a>
-        </template>
-      </a-alert>
       <!-- 表格数据 -->
       <a-card style="margin-top:20px" :bordered="false">
         <!-- 表格操作 -->
-        <div class="table-operation">
-          <a-space>
-            <a-button type="primary" size="default" icon="plus" @click="handelAdd" v-action:import>
-              添加成员
-            </a-button>
-            <excel-import :on-success="onSuccess" :on-error="onError">
-              <a-button type="primary" size="default">
-                导入表格
-              </a-button>
-            </excel-import>
-            <a-button type="primary" size="default" @click="exportTable">
-              导出当前
-            </a-button>
-            <a-button type="primary" size="default" @click="exportTable">
-              导出所有
-            </a-button>
-            <table-config @Tablesize="receivesize" :columns.sync="columns" />
-          </a-space>
-        </div>
+
+        <a-row>
+          <a-col :span="12"></a-col>
+          <a-col :span="12">
+            <div class="table-operation">
+              <a-space>
+                <a-button type="primary" size="default" icon="plus" @click="handelAdd" v-action:import>
+                  添加成员
+                </a-button>
+                <a-button type="primary" size="default" @click="importExcel">
+                  导入表格
+                </a-button>
+                <a-button type="primary" size="default" @click="exportTable">
+                  导出当前
+                </a-button>
+                <a-button type="primary" size="default" @click="exportTable">
+                  导出所有
+                </a-button>
+                <table-config @Tablesize="receivesize" :columns.sync="columns" />
+              </a-space>
+            </div>
+          </a-col>
+        </a-row>
+        <a-alert class="alert" type="info" v-if="seletChecknum">
+          <template slot="message">
+            <span>
+              已选择
+              <a style="font-weight: 500;">{{ seletChecknum }}</a>
+              项
+            </span>
+            <a class="deletcheck" @click="hadelTableChekbox">清除</a>
+          </template>
+        </a-alert>
         <xkt-table
           :loading="loading"
           :columns="columns"
@@ -174,7 +178,7 @@
         </xkt-table>
       </a-card>
     </div>
-
+    <!-- 编辑修改model -->
     <xkt-modal :visible="visible" :title="title" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
       <template v-slot="{ data }">
         <a-form-model ref="ruleFrom" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
@@ -194,8 +198,38 @@
         </a-form-model>
       </template>
     </xkt-modal>
+    <!-- 批量导入excel -->
+    <xkt-modal :visible="visible2" title="批量导入客户" okText="提交" @Modecancel="closeClient" @Modelok="handelUpload">
+      <template v-slot:customize>
+        <excel-import ref="excelImport" :on-success="onSuccess" :on-error="onError">
+          <a class="dowland" href="#">下载模板</a>
+        </excel-import>
+      </template>
+    </xkt-modal>
     <!-- 表格导出 -->
     <excel-export :bookType="bookType" :filename="filename" :sheet="sheet" :manual="true" ref="excelExport"></excel-export>
+    <table-batch :visible="batchShow">
+      <a-dropdown>
+        <a-menu slot="overlay">
+          <a-menu-item key="1">
+            <a-icon type="close" />
+            批量删除
+          </a-menu-item>
+          <a-menu-item key="2">
+            <a-icon type="edit" />
+            批量处理
+          </a-menu-item>
+          <a-menu-item key="3">
+            <a-icon type="solution" />
+            批量分配
+          </a-menu-item>
+        </a-menu>
+        <a-button type="primary" style="margin-left: 8px">
+          批量操作
+          <a-icon type="down" />
+        </a-button>
+      </a-dropdown>
+    </table-batch>
   </page-view>
 </template>
 
@@ -204,12 +238,14 @@ import { getTableList } from '@/api/table.js'
 import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
 import TableConfig from '@/components/tableconfiguration'
+import TableBatch from '@/components/tablebatch'
 import moment from 'moment'
 export default {
   components: {
     XktTable,
     XktModal,
-    TableConfig
+    TableConfig,
+    TableBatch
   },
   data() {
     return {
@@ -401,6 +437,7 @@ export default {
       loading: true,
       size: 'small',
       visible: false,
+      visible2: false,
       title: '添加',
       modaldata: {},
       width: 600,
@@ -432,7 +469,9 @@ export default {
           ]
         }
       ],
-      json: ''
+      json: '',
+      batchShow: false,
+      fileList: []
     }
   },
   computed: {
@@ -447,6 +486,11 @@ export default {
     onSelectChange(selectedRowKeys, selectedRows) {
       console.log(selectedRowKeys, selectedRows)
       this.selectedRowKeys = selectedRowKeys
+      if (this.selectedRowKeys.length === 0) {
+        this.batchShow = false
+      } else {
+        this.batchShow = true
+      }
     },
     handelPaginationChange(pagination) {
       this.pagination.current = pagination.current
@@ -540,23 +584,44 @@ export default {
         this.$message.error('没有选中的内容')
       } else {
         this.selectedRowKeys = []
+        this.batchShow = false
       }
     },
     // 动态改变表格大小样式
     receivesize(val) {
       this.size = val
+    },
+    // 批量导入表格
+    importExcel() {
+      this.visible2 = true
+    },
+    handleChange(info) {
+      console.log(info)
+    },
+    closeClient() {
+      this.visible2 = false
+      this.$refs.excelImport.clearData()
+    },
+    handelUpload() {
+      console.log(this.$refs.excelImport.xlsxJson)
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .table-operation {
-  padding: 10px 0;
+  padding: 10px 0 20px 0;
+  text-align: right;
 }
 .alert {
   margin: 10px 0;
 }
 .deletcheck {
   padding: 0 20px;
+}
+.dowland {
+  position: absolute;
+  left: 30%;
+  top: 20%;
 }
 </style>

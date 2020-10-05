@@ -30,7 +30,6 @@
           <a-menu slot="overlay" @click="handleMenuClick" class="t-menu">
             <a-menu-item class="table-menu">
               列展示
-
               <a-button type="link" @click="handelrecovery">重置</a-button>
             </a-menu-item>
             <a-menu-divider />
@@ -39,7 +38,7 @@
                 <span class="move">
                   <a-icon type="more" />
                 </span>
-                <a class="columns-title">{{ item.title }}</a>
+                <a>{{ item.title }}</a>
                 <span class="move-config">
                   <a-space>
                     <a-tooltip>
@@ -91,7 +90,8 @@ export default {
       checkAll: false,
       visible: false,
       recovery: this.columns,
-      arr: this.columns
+      arr: this.columns,
+      copyarr: this.columns
     }
   },
   methods: {
