@@ -112,6 +112,12 @@ export const asyncRouterMap = [
             name: 'mechanism',
             component: () => import('@/views/systemSting/mechanism'),
             meta: { title: '机构管理', keepAlive: true }
+          },
+          {
+            path: '/systemsting/competence',
+            name: 'competence',
+            component: () => import('@/views/systemSting/competence'),
+            meta: { title: '权限配置', keepAlive: true }
           }
         ]
       }

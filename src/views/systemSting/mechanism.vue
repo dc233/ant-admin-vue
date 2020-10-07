@@ -7,7 +7,7 @@
             添加
           </a-button>
           <a-button type="primary" @click="handelEditMechanism" :disabled="disabled">
-            修改
+            编辑
           </a-button>
           <a-button type="danger" :disabled="disabled" @click="showDeleteConfirm">
             删除
@@ -424,7 +424,7 @@ export default {
       if (checkedKeys.checked.length > 1) {
         this.checkedKeys.checked = []
         this.disabled = true
-        this.$message.error('不能选择多个同时编辑')
+        this.$message.error('不能选择多个同时操作')
       } else {
         this.disabled = !this.disabled
         this.modaldata = info.node.dataRef

@@ -1,6 +1,6 @@
 <template>
   <div class="excel-import">
-    <a-upload accept=".xls,.xlsx" :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload" @change="importExcel">
+    <a-upload accept=".xls,.xlsx" :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload">
       <a-button>
         <a-icon type="upload" />
         上传文件
@@ -63,7 +63,7 @@ export default {
   },
 
   methods: {
-    importExcel({ file, fileList }) {
+    importExcel(file) {
       this.file2Xce(file).then((tabJson) => {
         if (tabJson && tabJson.length > 0) {
           // 业务逻辑
@@ -94,11 +94,15 @@ export default {
       })
     },
     beforeUpload(file) {
-      let accept = '.xls,.xlsx'
-      if (!accept.includes(file.type.toLowerCase())) {
+      if (!/(\.xlsx)|(\.xls)/.test(file.name)) {
         this.$message.error('请上传.xls或.xlsx的文件')
         return false
       } else {
+        if (this.fileList.length > 0) {
+          this.$message.error('一次只能上传一个模板')
+          return false
+        }
+        this.importExcel(file)
         this.fileList = [...this.fileList, file]
         return false
       }
@@ -108,6 +112,7 @@ export default {
       const newFileList = this.fileList.slice()
       newFileList.splice(index, 1)
       this.fileList = newFileList
+      this.xlsxJson = []
     },
     clearData() {
       this.fileList = []

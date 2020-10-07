@@ -171,7 +171,7 @@
             <a-button type="primary" size="small" style="margin-right:4px" @click="handelEdit(tableRow)">
               编辑
             </a-button>
-            <a-button type="danger" size="small">
+            <a-button type="danger" size="small" @click="handelDeletdata">
               删除
             </a-button>
           </template>
@@ -286,7 +286,6 @@ export default {
           key: 'name',
           align: 'center',
           width: 100,
-          filterMultiple: true,
           scopedSlots: { customRender: 'name' }
         },
         {
@@ -295,6 +294,7 @@ export default {
           key: 'workId',
           align: 'center',
           width: 100,
+          sorter: true,
           scopedSlots: { customRender: 'workId' }
         },
         {
@@ -492,7 +492,8 @@ export default {
         this.batchShow = true
       }
     },
-    handelPaginationChange(pagination) {
+    handelPaginationChange(pagination, sorter) {
+      // console.log(sorter)
       this.pagination.current = pagination.current
       this.pagination.pageSize = pagination.pageSize
     },
@@ -572,6 +573,7 @@ export default {
         if (res.code === 200) {
           let { infoList } = res.data
           this.data = infoList
+          this.pagination.total = infoList.length
           this.loading = false
         } else {
           this.$message.error(res.info)
@@ -603,7 +605,26 @@ export default {
       this.$refs.excelImport.clearData()
     },
     handelUpload() {
-      console.log(this.$refs.excelImport.xlsxJson)
+      if (this.$refs.excelImport.xlsxJson.length === 0) {
+        this.$message.error('数据不能为空，请上传文件后再提交')
+      } else {
+        console.log(this.$refs.excelImport.xlsxJson)
+      }
+    },
+    // 删除表格中的数据
+    handelDeletdata() {
+      this.$confirm({
+        title: '你确定要删除该条数据',
+        okText: '确定',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+          console.log('OK')
+        },
+        onCancel() {
+          console.log('Cancel')
+        }
+      })
     }
   }
 }

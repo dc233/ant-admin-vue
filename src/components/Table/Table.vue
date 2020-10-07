@@ -8,6 +8,7 @@
     :row-selection="rowSelection"
     :rowKey="rowKey"
     :scroll="scroll"
+    :components="components"
     @change="handleTableChange"
     :size="size"
   >
@@ -18,6 +19,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueDraggableResizable from 'vue-draggable-resizable'
+Vue.component('vue-draggable-resizable', VueDraggableResizable)
 export default {
   props: {
     loading: {
@@ -82,14 +86,63 @@ export default {
     }
   },
   data() {
+    this.components = {
+      header: {
+        cell: (h, props, children) => {
+          const { key, ...restProps } = props
+          const col = this.columns.find((col) => {
+            const k = col.dataIndex || col.key
+            return k === key
+          })
+
+          if (!col || !col.width) {
+            return h('th', { ...restProps }, [...children])
+          }
+
+          const dragProps = {
+            key: col.dataIndex || col.key,
+            class: 'table-draggable-handle',
+            attrs: {
+              w: 10,
+              x: col.width,
+              z: 1,
+              axis: 'x',
+              draggable: true,
+              resizable: false
+            },
+            on: {
+              dragging: (x, y) => {
+                col.width = Math.max(x, 1)
+              }
+            }
+          }
+          const drag = h('vue-draggable-resizable', { ...dragProps })
+          return h('th', { ...restProps, class: 'resize-table-th' }, [...children, drag])
+        }
+      }
+    }
     return {}
   },
   methods: {
-    handleTableChange(pagination) {
+    handleTableChange(pagination, filters, { field, order }) {
+      console.log(field, order)
       this.$emit('tableChange', pagination)
     }
   }
 }
 </script>
 
-<style></style>
+<style lang="less">
+.resize-table-th {
+  position: relative;
+}
+.table-draggable-handle {
+  /* width: 10px !important; */
+  height: 100% !important;
+  left: auto !important;
+  right: -5px;
+  cursor: col-resize;
+  touch-action: none;
+  border: none;
+}
+</style>
