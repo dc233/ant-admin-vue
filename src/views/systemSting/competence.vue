@@ -1,14 +1,19 @@
 <template>
   <page-view :title="false">
     <a-card :bordered="false">
-      <a-row>
-        <a-col :span="8">
+      <a-row type="flex" justify="space-between" align="middle">
+        <a-col :span="6">
           <a-input-search placeholder="搜索角色名称" enter-button="搜索" size="large" @search="onSearch" />
+        </a-col>
+        <a-col :span="6" style="text-align: right;">
+          <a-button type="primary" icon="plus" @click="hanelAddRoles">
+            添加角色
+          </a-button>
         </a-col>
       </a-row>
     </a-card>
     <div class="roles">
-      <a-row>
+      <a-row :gutter="16">
         <a-col :span="8">
           <a-card bordered class="card-roles">
             <a-list item-layout="horizontal" :data-source="list">
@@ -20,6 +25,10 @@
                 :key="index"
                 @click="handleroles(item)"
               >
+                <template slot="actions">
+                  <a-switch size="small" v-model="item.status" checked-children="开" un-checked-children="关" />
+                </template>
+                <a slot="actions">删除</a>
                 <a-list-item-meta :description="item.allocation">
                   <template v-slot:title>
                     <a>{{ item.title }}</a>
@@ -43,6 +52,7 @@
             <a-tree
               v-model="checkedKeys"
               checkable
+              :blockNode="true"
               :expanded-keys="expandedKeys"
               :auto-expand-parent="autoExpandParent"
               :selected-keys="selectedKeys"
@@ -53,7 +63,21 @@
             />
           </a-card>
         </a-col>
-        <a-col :span="8"></a-col>
+        <a-col :span="8">
+          <a-card bordered class="tree-roles">
+            <div>
+              <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
+                全选
+              </a-checkbox>
+            </div>
+            <a-divider />
+            <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChange">
+              <template slot="label" slot-scope="option">
+                {{ option.label }}
+              </template>
+            </a-checkbox-group>
+          </a-card>
+        </a-col>
       </a-row>
       <a-row type="flex" justify="center" class="roles-btn">
         <a-col>
@@ -63,62 +87,103 @@
         </a-col>
       </a-row>
     </div>
+    <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
+      <template v-slot="{ data }">
+        <a-form-model ref="ruleFrom" :rules="rules" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
+          <a-form-model-item ref="name" prop="name" label="角色名" labelAlign="left">
+            <a-input v-model="data.name" placeholder="请输入角色名"></a-input>
+          </a-form-model-item>
+          <a-form-model-item ref="status" prop="status" label="状态" labelAlign="left">
+            <a-switch v-model="data.status" checked-children="启用" un-checked-children="停用" />
+          </a-form-model-item>
+          <a-form-model-item ref="remarks" prop="remarks" label="备注" labelAlign="left">
+            <a-textarea v-model="data.remarks" placeholder="请填写备注信息" :auto-size="{ minRows: 3, maxRows: 5 }" />
+          </a-form-model-item>
+        </a-form-model>
+      </template>
+    </xkt-modal>
   </page-view>
 </template>
 
 <script>
+import XktModal from '@/components/modal/modal.vue'
 export default {
+  components: {
+    XktModal
+  },
   data() {
     return {
       role: null,
+      title: '新增角色',
+      visible: false,
+      modaldata: {
+        status: true
+      },
+      width: 600,
+      rules: {},
+      defaultChecked: true,
+      wrapperCol: { span: 21 },
+      labelCol: { span: 3 },
       list: [
         {
           title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面'
+          allocation: '拥有最高权限，可操作任何页面',
+          status: false
         },
         {
           title: '经理',
-          allocation: '可进行部门数据查看，可导出数据'
+          allocation: '可进行部门数据查看，可导出数据',
+          status: true
         },
         {
           title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据'
+          allocation: '可查看整个公司数据，可导出数据',
+          status: true
         },
         {
           title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据'
+          allocation: '可查看整个团队数据，可导出数据',
+          status: true
         },
         {
           title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面'
+          allocation: '拥有最高权限，可操作任何页面',
+          status: true
         },
         {
           title: '经理',
-          allocation: '可进行部门数据查看，可导出数据'
+          allocation: '可进行部门数据查看，可导出数据',
+          status: true
         },
         {
           title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据'
+          allocation: '可查看整个公司数据，可导出数据',
+          status: true
         },
         {
           title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据'
+          allocation: '可查看整个团队数据，可导出数据',
+          status: true
         },
         {
           title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面'
+          allocation: '拥有最高权限，可操作任何页面',
+          status: true
         },
         {
           title: '经理',
-          allocation: '可进行部门数据查看，可导出数据'
+          allocation: '可进行部门数据查看，可导出数据',
+          status: true
         },
         {
           title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据'
+          allocation: '可查看整个公司数据，可导出数据',
+          status: true
         },
         {
           title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据'
+          allocation: '可查看整个团队数据，可导出数据',
+          status: true
         }
       ],
       treeData: [
@@ -190,7 +255,24 @@ export default {
       expandedKeys: [],
       autoExpandParent: true,
       checkedKeys: [],
-      selectedKeys: []
+      selectedKeys: [],
+      plainOptions: [
+        {
+          label: '导入',
+          value: '1'
+        },
+        {
+          label: '导出',
+          value: '2'
+        },
+        {
+          label: '查询',
+          value: '3'
+        }
+      ],
+      checkedList: [],
+      indeterminate: false,
+      checkAll: false
     }
   },
   mounted() {
@@ -227,6 +309,20 @@ export default {
     onSelect(selectedKeys, info) {
       console.log('onSelect', info)
       this.selectedKeys = selectedKeys
+      this.plainOptions = [
+        {
+          label: '客户批量导入',
+          value: '0'
+        },
+        {
+          label: '客户批量导入',
+          value: '1'
+        },
+        {
+          label: '客户批量导入',
+          value: '2'
+        }
+      ]
     },
     getAllKey(tree, keyList) {
       for (let i = 0; i < tree.length; i++) {
@@ -239,6 +335,34 @@ export default {
         }
       }
       return keyList
+    },
+    onChange(checkedList) {
+      console.log(checkedList)
+    },
+    onCheckAllChange(e) {
+      console.log(e)
+      let arr = []
+      const arrList = this.plainOptions.forEach((item) => {
+        arr.push(item.value)
+      })
+      Object.assign(this, {
+        checkedList: e.target.checked ? arr : [],
+        indeterminate: false,
+        checkAll: e.target.checked
+      })
+    },
+    hanelAddRoles() {
+      this.visible = true
+      this.title = '新增角色'
+    },
+    handelDetermine(val) {
+      console.log(val)
+    },
+    handelParntcancel(val) {
+      this.visible = false
+      this.modaldata = {
+        status: true
+      }
     }
   }
 }
@@ -247,6 +371,7 @@ export default {
 <style lang="less">
 .card-roles {
   height: 600px;
+  padding: 10px;
   overflow: auto;
   .ant-card-body {
     padding: 0;
@@ -282,7 +407,6 @@ export default {
 }
 .roles {
   background-color: #fff;
-  padding: 10px;
   margin-top: 10px;
 }
 .roles-btn {

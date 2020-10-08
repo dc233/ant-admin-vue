@@ -613,7 +613,7 @@ export default {
     },
     // 删除表格中的数据
     handelDeletdata() {
-      this.$confirm({
+      const modal = this.$confirm({
         title: '你确定要删除该条数据',
         okText: '确定',
         okType: 'danger',
@@ -623,6 +623,7 @@ export default {
         },
         onCancel() {
           console.log('Cancel')
+          modal.destroy()
         }
       })
     }
