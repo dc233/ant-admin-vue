@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const createThemeColorReplacerPlugin = require('./config/plugin.config')
 const resolve = (dir) => path.join(__dirname, dir)
 
+
+
 // 外部引入的cdn
 const cdn = {
   css: [],
@@ -27,13 +29,19 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   // 是否保存时开启eslint
   lintOnSave: undefined,
-  configureWebpack: {
-    // webpack plugins
-    plugins: [
-      // Ignore all locale files of moment.js
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      createThemeColorReplacerPlugin()
-    ]
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
+      return {
+        externals: externals
+      }
+    }
+    return  {
+      plugins:[
+        // Ignore all locale files of moment.js
+        createThemeColorReplacerPlugin(),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+      ]
+    }
   },
   chainWebpack: (config) => {
     // 添加别名
@@ -66,14 +74,6 @@ module.exports = {
           }
         }
       })
-  },
-  configureWebpack: (config) => {
-    if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
-      return {
-        externals: externals
-      }
-    }
-    
   },
   css: {
     loaderOptions: {

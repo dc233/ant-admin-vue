@@ -23,15 +23,18 @@
                 :class="{ selectedckecd: role == item }"
                 slot-scope="item, index"
                 :key="index"
-                @click="handleroles(item)"
+                @click.stop="handleroles(item)"
               >
-                <template slot="actions">
-                  <a-switch size="small" v-model="item.status" checked-children="开" un-checked-children="关" />
-                </template>
-                <a slot="actions">删除</a>
-                <a-list-item-meta :description="item.allocation">
+                <a slot="actions" @click.stop="handelrolesEdit(item)">编辑</a>
+                <a slot="actions" @click.stop="hadnelrolesDelet(item)">
+                  <a-popconfirm title="您确定要删除该角色？" ok-text="确定" cancel-text="取消" @confirm="confirm(item)" @cancel="cancel">
+                    删除
+                  </a-popconfirm>
+                </a>
+
+                <a-list-item-meta :description="item.remarks">
                   <template v-slot:title>
-                    <a>{{ item.title }}</a>
+                    <a>{{ item.name }}</a>
                   </template>
                   <template v-slot:avatar>
                     <a-avatar icon="user" />
@@ -79,13 +82,11 @@
           </a-card>
         </a-col>
       </a-row>
-      <a-row type="flex" justify="center" class="roles-btn">
-        <a-col>
-          <a-button type="primary">
-            保存
-          </a-button>
-        </a-col>
-      </a-row>
+    </div>
+    <div class="roles-btn">
+      <a-button type="primary">
+        保存
+      </a-button>
     </div>
     <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
       <template v-slot="{ data }">
@@ -116,73 +117,93 @@ export default {
       role: null,
       title: '新增角色',
       visible: false,
-      modaldata: {
-        status: true
-      },
+      modaldata: {},
       width: 600,
-      rules: {},
+      rules: {
+        name: [
+          {
+            required: true,
+            message: '请输入角色名',
+            trigger: 'blur'
+          }
+        ],
+        status: [
+          {
+            required: true,
+            message: '请选择状态',
+            trigger: 'change'
+          }
+        ],
+        remarks: [
+          {
+            required: true,
+            message: '请填写备注信息',
+            trigger: 'blur'
+          }
+        ]
+      },
       defaultChecked: true,
       wrapperCol: { span: 21 },
       labelCol: { span: 3 },
       list: [
         {
-          title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面',
+          name: '系统管理员',
+          remarks: '拥有最高权限，可操作任何页面',
           status: false
         },
         {
-          title: '经理',
-          allocation: '可进行部门数据查看，可导出数据',
+          name: '经理',
+          remarks: '可进行部门数据查看，可导出数据',
           status: true
         },
         {
-          title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据',
+          name: 'CEO',
+          remarks: '可查看整个公司数据，可导出数据',
           status: true
         },
         {
-          title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据',
+          name: 'Leader',
+          remarks: '可查看整个团队数据，可导出数据',
           status: true
         },
         {
-          title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面',
+          name: '系统管理员',
+          remarks: '拥有最高权限，可操作任何页面',
           status: true
         },
         {
-          title: '经理',
-          allocation: '可进行部门数据查看，可导出数据',
+          name: '经理',
+          remarks: '可进行部门数据查看，可导出数据',
           status: true
         },
         {
-          title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据',
+          name: 'CEO',
+          remarks: '可查看整个公司数据，可导出数据',
           status: true
         },
         {
-          title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据',
+          name: 'Leader',
+          remarks: '可查看整个团队数据，可导出数据',
           status: true
         },
         {
-          title: '系统管理员',
-          allocation: '拥有最高权限，可操作任何页面',
+          name: '系统管理员',
+          remarks: '拥有最高权限，可操作任何页面',
           status: true
         },
         {
-          title: '经理',
-          allocation: '可进行部门数据查看，可导出数据',
+          name: '经理',
+          remarks: '可进行部门数据查看，可导出数据',
           status: true
         },
         {
-          title: 'CEO',
-          allocation: '可查看整个公司数据，可导出数据',
+          name: 'CEO',
+          remarks: '可查看整个公司数据，可导出数据',
           status: true
         },
         {
-          title: 'Leader',
-          allocation: '可查看整个团队数据，可导出数据',
+          name: 'Leader',
+          remarks: '可查看整个团队数据，可导出数据',
           status: true
         }
       ],
@@ -284,6 +305,7 @@ export default {
   methods: {
     handleroles(item) {
       this.role = item
+      console.log('click', item)
     },
     onSearch(value) {
       console.log(value)
@@ -354,15 +376,61 @@ export default {
     hanelAddRoles() {
       this.visible = true
       this.title = '新增角色'
-    },
-    handelDetermine(val) {
-      console.log(val)
-    },
-    handelParntcancel(val) {
-      this.visible = false
       this.modaldata = {
         status: true
       }
+    },
+    handelDetermine(val) {
+      if (this.title === '新增角色') {
+        this.$refs.ruleFrom.validate((valid) => {
+          if (valid) {
+            console.log('新增OJBK')
+            console.log(val)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      } else {
+        this.$refs.ruleFrom.validate((valid) => {
+          if (valid) {
+            console.log('编辑OJBK')
+            console.log(val)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      }
+    },
+    handelParntcancel(val) {
+      this.visible = false
+      if (this.title === '新增角色') {
+        this.modaldata = {
+          status: true
+        }
+      }
+      this.$refs.ruleFrom.resetFields()
+    },
+    // 删除角色
+    hadnelrolesDelet(item) {
+      return item
+    },
+    // 编辑角色
+    handelrolesEdit(item) {
+      const obj = Object.assign({}, item)
+      this.visible = true
+      this.modaldata = obj
+      this.title = '编辑角色'
+    },
+    handelStausChange(checked, event) {
+      event.stopPropagation()
+    },
+    confirm(val) {
+      console.log(val)
+    },
+    cancel(e) {
+      e.stopPropagation()
     }
   }
 }
@@ -408,8 +476,12 @@ export default {
 .roles {
   background-color: #fff;
   margin-top: 10px;
+  padding: 10px;
 }
 .roles-btn {
-  padding: 20px 0;
+  box-sizing: border-box;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px 0;
 }
 </style>
