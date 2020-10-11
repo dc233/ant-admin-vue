@@ -1,5 +1,7 @@
 <script>
 import events from './events'
+import { FULL_PATH_LIST, PRO_PAGES } from '@/store/mutation-types'
+import Vue from 'vue'
 export default {
   name: 'MultiTab',
   data() {
@@ -34,8 +36,15 @@ export default {
           this.$forceUpdate()
         } catch (e) {}
       })
-    this.pages.push(this.$route)
-    this.fullPathList.push(this.$route.fullPath)
+    let tab = Vue.ls.get(PRO_PAGES)
+    let pahtlist = Vue.ls.get(FULL_PATH_LIST)
+    if (this.pages.length === 0 && this.fullPathList.length === 0) {
+      this.pages.push(this.$route)
+      this.fullPathList.push(this.$route.fullPath)
+    } else {
+      this.pages.push(...tab)
+      this.fullPathList.push(...pahtlist)
+    }
   },
   watch: {
     $route: function(newVal) {
@@ -43,6 +52,16 @@ export default {
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
         this.pages.push(newVal)
+        this.$store.dispatch('AddFuliPatnList', this.fullPathList)
+        const arr = this.pages.map((item, index, arr) => {
+          for (let key in item) {
+            if (key === 'matched') {
+              item[key].splice(0, 3)
+            }
+          }
+          return item
+        })
+        this.$store.dispatch('AddPages', arr)
       }
     },
     activeKey: function(newPathKey) {
@@ -141,6 +160,7 @@ export default {
       onEdit,
       $data: { pages }
     } = this
+    console.log(pages)
     const panes = pages.map((page) => {
       return (
         <a-tab-pane

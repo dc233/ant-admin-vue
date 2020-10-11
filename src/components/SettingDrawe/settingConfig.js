@@ -47,11 +47,13 @@ const updateTheme = (newPrimaryColor) => {
     }, 10)
   })
 }
-
+const globalTheme = (newPrimaryColor) => {
+  themeColor.changeColor(newPrimaryColor).finally((t) => {})
+}
 const updateColorWeak = (colorWeak) => {
   // document.body.className = colorWeak ? 'colorWeak' : '';
   const app = document.body.querySelector('#app')
   colorWeak ? app.classList.add('colorWeak') : app.classList.remove('colorWeak')
 }
 
-export { updateTheme, colorList, updateColorWeak }
+export { updateTheme, colorList, updateColorWeak, globalTheme }

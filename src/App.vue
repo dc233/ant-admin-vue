@@ -10,14 +10,18 @@
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+import { globalTheme } from '@/components/SettingDrawe/settingConfig'
 moment.locale('zh-cn')
-import { AppDeviceEnquire } from '@/utils/mixin'
+import { mixin, AppDeviceEnquire } from '@/utils/mixin'
 export default {
-  mixins: [AppDeviceEnquire],
+  mixins: [mixin, AppDeviceEnquire],
   provide() {
     return {
       reload: this.reload
     }
+  },
+  mounted() {
+    globalTheme(this.primaryColor)
   },
   data() {
     return {

@@ -9,7 +9,9 @@ import {
   DEFAULT_FIXED_SIDEMENU,
   DEFAULT_FIXED_HEADER_HIDDEN,
   DEFAULT_CONTENT_WIDTH_TYPE,
-  DEFAULT_MULTI_TAB
+  DEFAULT_MULTI_TAB,
+  FULL_PATH_LIST,
+  PRO_PAGES
 } from '@/store/mutation-types'
 const app = {
   state: {
@@ -24,7 +26,9 @@ const app = {
     color: null,
     weak: false,
     multiTab: true,
-    showlayout: false
+    showlayout: false,
+    fullPathList: [],
+    pages: []
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -77,6 +81,14 @@ const app = {
     },
     SHOW_LOAYOUT: (state, show) => {
       state.showlayout = show
+    },
+    ADD_FULLPATHLIST: (state, val) => {
+      state.fullPathList = val
+      Vue.ls.set(FULL_PATH_LIST, val)
+    },
+    ADD_PAGES: (state, val) => {
+      state.pages = val
+      Vue.ls.set(PRO_PAGES, val)
     }
   },
   actions: {
@@ -121,6 +133,12 @@ const app = {
     },
     showLayout({ commit }, show) {
       commit('SHOW_LOAYOUT', show)
+    },
+    AddFuliPatnList({ commit }, val) {
+      commit('ADD_FULLPATHLIST', val)
+    },
+    AddPages({ commit }, val) {
+      commit('ADD_PAGES', val)
     }
   }
 }

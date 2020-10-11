@@ -3,23 +3,12 @@ const webpack = require('webpack')
 const createThemeColorReplacerPlugin = require('./config/plugin.config')
 const resolve = (dir) => path.join(__dirname, dir)
 
-
-
 // 外部引入的cdn
 const cdn = {
   css: [],
-  js: [
-    'https://unpkg.com/pikaz-excel-js',
-    'https://unpkg.com/viser-vue/umd/viser-vue.min.js',
-    'https://unpkg.com/@antv/data-set@0.11.7/build/data-set.js'
-  ]
+  js: []
 }
-
-const externals = {
-  'pikaz-xlsx-style': 'XLSX',
-  'viser-vue': 'Viser',
-  '@antv/data-set': 'DataSet'
-}
+const externals = {}
 module.exports = {
   publicPath: '/', // 默认'/'，部署应用包时的基本 URL
   outputDir: process.env.outputDir || 'dist', // 'dist', 生产环境构建文件的目录
@@ -32,7 +21,10 @@ module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
       return {
-        externals: externals
+        externals: externals,
+        plugins:[
+          createThemeColorReplacerPlugin()
+        ]
       }
     }
     return  {

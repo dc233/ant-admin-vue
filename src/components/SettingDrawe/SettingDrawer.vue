@@ -134,6 +134,7 @@ export default {
     if (this.colorWeak !== config.colorWeak) {
       updateColorWeak(this.colorWeak)
     }
+    // updateTheme(this.primaryColor)
     // this.onMultiTab(true)
   },
   methods: {

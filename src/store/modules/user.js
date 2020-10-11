@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, FULL_PATH_LIST, PRO_PAGES } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 import { message } from 'ant-design-vue'
 const user = {
@@ -102,6 +102,8 @@ const user = {
             commit('SET_TOKEN', '')
             commit('SET_ROLES', [])
             Vue.ls.remove(ACCESS_TOKEN)
+            Vue.ls.remove(FULL_PATH_LIST)
+            Vue.ls.remove(PRO_PAGES)
           })
       })
     }
