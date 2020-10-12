@@ -1,7 +1,5 @@
 <template>
-  <div>
-    content
-  </div>
+  <div>content {{ this.$route.params.id }}</div>
 </template>
 
 <script>

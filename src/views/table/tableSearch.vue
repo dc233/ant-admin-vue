@@ -171,6 +171,9 @@
             <a-button type="primary" size="small" style="margin-right:4px" @click="handelEdit(tableRow)">
               编辑
             </a-button>
+            <a-button size="small" style="margin-right:4px" @click="handelInfo(tableRow)">
+              详情
+            </a-button>
             <a-button type="danger" size="small" @click="handelDeletdata">
               删除
             </a-button>
@@ -429,7 +432,8 @@ export default {
           title: '操作',
           key: 'action',
           align: 'center',
-          width: 150,
+          width: 200,
+          fixed: 'right',
           scopedSlots: { customRender: 'operation' }
         }
       ],
@@ -625,6 +629,13 @@ export default {
           console.log('Cancel')
           modal.destroy()
         }
+      })
+    },
+    // 跳转详情页
+    handelInfo(val) {
+      this.$router.push({
+        name: 'content',
+        params: { id: val.workId }
       })
     }
   }

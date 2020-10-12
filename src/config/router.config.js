@@ -93,6 +93,13 @@ export const asyncRouterMap = [
             name: 'TableSearch',
             component: () => import('@/views/table/tableSearch'),
             meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
+          },
+          {
+            path: '/table/content/:id',
+            name: 'content',
+            hidden: true,
+            component: () => import('@/views/table/content'),
+            meta: { title: '表格详情', keepAlive: true, permission: ['table'] }
           }
         ]
       },
