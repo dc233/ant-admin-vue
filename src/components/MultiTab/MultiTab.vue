@@ -1,6 +1,6 @@
 <script>
 import events from './events'
-import { FULL_PATH_LIST, PRO_PAGES } from '@/store/mutation-types'
+import { FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
 import Vue from 'vue'
 export default {
   name: 'MultiTab',
@@ -38,12 +38,15 @@ export default {
       })
     let tab = Vue.ls.get(PRO_PAGES)
     let pahtlist = Vue.ls.get(FULL_PATH_LIST)
-    if (this.pages.length === 0 && this.fullPathList.length === 0) {
+    let active = Vue.ls.get(PRO_ACTIVEKEY)
+    console.log(tab)
+    if (tab === null && pahtlist === null && active === null) {
       this.pages.push(this.$route)
       this.fullPathList.push(this.$route.fullPath)
     } else {
       this.pages.push(...tab)
       this.fullPathList.push(...pahtlist)
+      this.activeKey = active
     }
   },
   watch: {
@@ -62,10 +65,12 @@ export default {
           return item
         })
         this.$store.dispatch('AddPages', arr)
+        this.$store.dispatch('AddActiveKey', this.activeKey)
       }
     },
     activeKey: function(newPathKey) {
       this.$router.push({ path: newPathKey })
+      this.$store.dispatch('AddActiveKey', newPathKey)
     }
   },
   methods: {
@@ -75,6 +80,8 @@ export default {
     remove(targetKey) {
       this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
       this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
+      this.$store.dispatch('AddFuliPatnList', this.fullPathList)
+      this.$store.dispatch('AddPages', this.pages)
       // 判断当前标签是否关闭，若关闭则跳转到最后一个还存在的标签页
       if (!this.fullPathList.includes(this.activeKey)) {
         this.selectedLastPath()
@@ -82,6 +89,7 @@ export default {
     },
     selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
+      this.$store.dispatch('AddActiveKey', this.activeKey)
     },
     // content menu
     closeThat(e) {
@@ -160,7 +168,6 @@ export default {
       onEdit,
       $data: { pages }
     } = this
-    console.log(pages)
     const panes = pages.map((page) => {
       return (
         <a-tab-pane

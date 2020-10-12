@@ -38,6 +38,7 @@ module.exports = {
   chainWebpack: (config) => {
     // 添加别名
     config.resolve.alias.set('@', resolve('src'))
+    config.entry('main').add('babel-polyfill') 
     // 保存自动修复eslint错误
     config.module
       .rule('eslint')
@@ -67,6 +68,9 @@ module.exports = {
         }
       })
   },
+  transpileDependencies:[
+    'rverify'
+  ],
   css: {
     loaderOptions: {
       less: {

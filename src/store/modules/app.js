@@ -11,7 +11,8 @@ import {
   DEFAULT_CONTENT_WIDTH_TYPE,
   DEFAULT_MULTI_TAB,
   FULL_PATH_LIST,
-  PRO_PAGES
+  PRO_PAGES,
+  PRO_ACTIVEKEY
 } from '@/store/mutation-types'
 const app = {
   state: {
@@ -28,7 +29,8 @@ const app = {
     multiTab: true,
     showlayout: false,
     fullPathList: [],
-    pages: []
+    pages: [],
+    activeKey: ''
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -89,6 +91,10 @@ const app = {
     ADD_PAGES: (state, val) => {
       state.pages = val
       Vue.ls.set(PRO_PAGES, val)
+    },
+    ADD_ACTIVEKEY: (state, val) => {
+      state.activeKey = val
+      Vue.ls.set(PRO_ACTIVEKEY, val)
     }
   },
   actions: {
@@ -139,6 +145,9 @@ const app = {
     },
     AddPages({ commit }, val) {
       commit('ADD_PAGES', val)
+    },
+    AddActiveKey({ commit }, val) {
+      commit('ADD_ACTIVEKEY', val)
     }
   }
 }
