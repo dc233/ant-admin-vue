@@ -83,7 +83,7 @@ export const asyncRouterMap = [
         component: RouteView,
         meta: {
           title: '表格',
-          keepAlive: true,
+          keepAlive: false,
           icon: 'table',
           permission: ['table']
         },
@@ -95,11 +95,11 @@ export const asyncRouterMap = [
             meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
           },
           {
-            path: '/table/content/:id',
+            path: '/table/content',
             name: 'content',
             hidden: true,
             component: () => import('@/views/table/content'),
-            meta: { title: '表格详情', keepAlive: true, permission: ['table'] }
+            meta: { title: '表格详情', keepAlive: false, permission: ['table'] }
           }
         ]
       },

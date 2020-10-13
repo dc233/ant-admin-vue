@@ -634,8 +634,8 @@ export default {
     // 跳转详情页
     handelInfo(val) {
       this.$router.push({
-        name: 'content',
-        params: { id: val.workId }
+        path: '/table/content',
+        query: { id: val.workId }
       })
     }
   }
