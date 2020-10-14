@@ -120,6 +120,7 @@ export default {
 .header-animat {
   position: relative;
   z-index: 105;
+  transition: top 0.2s;
 }
 .showHeader-enter-active {
   transition: all 0.25s ease;

@@ -24,7 +24,15 @@
     <a-layout :class="[layoutMode]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
       <a-layout :class="[`content-width-${contentWidth}`]">
         <!--layout header -->
-        <global-header :mode="layoutMode" :menus="menus" :theme="navTheme" :collapsed="collapsed" :device="device" @toggle="toggle" />
+        <global-header
+          :class="fixdTaps ? '' : 'hideusemenu'"
+          :mode="layoutMode"
+          :menus="menus"
+          :theme="navTheme"
+          :collapsed="collapsed"
+          :device="device"
+          @toggle="toggle"
+        />
         <!-- layout contennt -->
         <a-layout-content
           :style="{

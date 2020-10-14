@@ -20,6 +20,7 @@ export default {
   contentWidth: 'Fixed',
   fixedHeader: true,
   fixSiderbar: true,
+  fixdTaps: false,
   autoHideHeader: false,
   multiTab: true,
   // vue-ls options

@@ -9,7 +9,9 @@ export default {
       fullPathList: [],
       pages: [],
       activeKey: '',
-      newTabIndex: 0
+      newTabIndex: 0,
+      fixdTaps: false,
+      loading: false
     }
   },
   created() {
@@ -76,6 +78,7 @@ export default {
   methods: {
     onEdit(targetKey, action) {
       this[action](targetKey)
+      console.log('edit')
     },
     remove(targetKey) {
       this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
@@ -86,10 +89,12 @@ export default {
       if (!this.fullPathList.includes(this.activeKey)) {
         this.selectedLastPath()
       }
+      console.log('remove')
     },
     selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
       this.$store.dispatch('AddActiveKey', this.activeKey)
+      console.log('selet')
     },
     // content menu
     closeThat(e) {
@@ -161,24 +166,42 @@ export default {
           <span style={{ userSelect: 'none' }}>{title}</span>
         </a-dropdown>
       )
+    },
+    // 锁定tabs
+    changeTabs() {
+      this.fixdTaps = !this.fixdTaps
+      if (this.fixdTaps) {
+        this.$store.commit('setFixedTabs', false)
+      } else {
+        this.$store.commit('setFixedTabs', true)
+      }
+    },
+    haneltabClick() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
     }
   },
   render() {
     const {
       onEdit,
+      haneltabClick,
+      refresh,
       $data: { pages }
     } = this
     const panes = pages.map((page) => {
       return (
-        <a-tab-pane
-          style={{ height: 0 }}
-          tab={this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
-          key={page.fullPath}
-          closable={pages.length > 1}></a-tab-pane>
+        <a-tab-pane style={{ height: 0 }} key={page.fullPath} closable={pages.length > 1}>
+          <span slot="tab">
+            <a-icon class={{ hide: page.fullPath != this.activeKey }} type={this.loading ? 'loading' : 'sync'} onClick={this.haneltabClick} />
+            {this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
+          </span>
+        </a-tab-pane>
       )
     })
     return (
-      <div class="ant-pro-multi-tab">
+      <div class={{ 'ant-pro-multi-tab': true, affixed: this.fixdTaps }}>
         <div class="ant-pro-multi-tab-wrapper">
           <a-tabs
             hideAdd
@@ -193,6 +216,11 @@ export default {
             {...{ on: { edit: onEdit } }}>
             {panes}
           </a-tabs>
+          <a-tooltip placement="left" title={this.fixdTaps ? '点击解除锁定' : '点击锁定页签头'} trigger={'click'}>
+            <div class="locktab">
+              <a-icon type={this.fixdTaps ? 'lock' : 'unlock'} onClick={this.changeTabs} />
+            </div>
+          </a-tooltip>
         </div>
       </div>
     )
