@@ -244,6 +244,7 @@ import TableConfig from '@/components/tableconfiguration'
 import TableBatch from '@/components/tablebatch'
 import moment from 'moment'
 export default {
+  name: 'TableSearch',
   components: {
     XktTable,
     XktModal,

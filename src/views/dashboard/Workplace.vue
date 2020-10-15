@@ -92,6 +92,7 @@ import { getProjecyt, getDynamic } from '@/api/workplace.js'
 import { Radar } from '@/components'
 const DataSet = require('@antv/data-set')
 export default {
+  name: 'Workplace',
   components: {
     PageView,
     HeadInfo,

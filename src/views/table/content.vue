@@ -143,7 +143,7 @@ const operationColumns = [
   }
 ]
 export default {
-  name: 'tableInfo',
+  name: 'content',
   components: { AStepItem, AStepItemGroup, DetailListItem, DetailList },
   activated() {
     this.tid = this.$route.query.id

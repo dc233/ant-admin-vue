@@ -88,6 +88,7 @@
 
 <script>
 export default {
+  name: 'Baseform',
   data() {
     return {
       labelCol: { span: 4 },
@@ -147,6 +148,9 @@ export default {
         ]
       }
     }
+  },
+  deactivated() {
+    console.log('停用了')
   },
   methods: {
     onSubmit() {

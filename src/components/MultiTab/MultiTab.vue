@@ -1,9 +1,11 @@
 <script>
 import events from './events'
 import { FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
+import { mixinDevice } from '@/utils/mixin'
 import Vue from 'vue'
 export default {
   name: 'MultiTab',
+  mixins: [mixinDevice],
   data() {
     return {
       fullPathList: [],
@@ -41,7 +43,6 @@ export default {
     let tab = Vue.ls.get(PRO_PAGES)
     let pahtlist = Vue.ls.get(FULL_PATH_LIST)
     let active = Vue.ls.get(PRO_ACTIVEKEY)
-    console.log(tab)
     if (tab === null && pahtlist === null && active === null) {
       this.pages.push(this.$route)
       this.fullPathList.push(this.$route.fullPath)
@@ -53,6 +54,16 @@ export default {
   },
   watch: {
     $route: function(newVal) {
+      let souce = false
+      this.pages.forEach((item) => {
+        if (item.path === newVal.path) {
+          souce = true
+        }
+      })
+      if (souce) {
+        this.activeKey = newVal.fullPath
+        return
+      }
       this.activeKey = newVal.fullPath
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
@@ -68,7 +79,17 @@ export default {
         })
         this.$store.dispatch('AddPages', arr)
         this.$store.dispatch('AddActiveKey', this.activeKey)
+        // 清除缓存
+        let clearcach = this.excludelist.filter((item) => {
+          newVal.name !== item
+        })
+        console.log(clearcach)
+        this.$store.commit('addSetexclude', clearcach)
       }
+
+      // console.log(clearcach)
+      // this.$store.commit('addSetexclude', clearcach)
+      // console.log(this.excludelist)
     },
     activeKey: function(newPathKey) {
       this.$router.push({ path: newPathKey })
@@ -78,9 +99,10 @@ export default {
   methods: {
     onEdit(targetKey, action) {
       this[action](targetKey)
-      console.log('edit')
     },
     remove(targetKey) {
+      let [nocach] = this.pages.filter((page) => page.fullPath === targetKey)
+      this.$store.commit('addSetexclude', nocach.name)
       this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
       this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
       this.$store.dispatch('AddFuliPatnList', this.fullPathList)
@@ -89,12 +111,10 @@ export default {
       if (!this.fullPathList.includes(this.activeKey)) {
         this.selectedLastPath()
       }
-      console.log('remove')
     },
     selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
       this.$store.dispatch('AddActiveKey', this.activeKey)
-      console.log('selet')
     },
     // content menu
     closeThat(e) {

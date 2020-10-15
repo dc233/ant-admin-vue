@@ -7,6 +7,7 @@
 <script>
 import TestChildren from './testChildren'
 export default {
+  name: 'test',
   components: {
     TestChildren
   },

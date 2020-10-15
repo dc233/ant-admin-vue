@@ -109,6 +109,7 @@
 <script>
 import XktModal from '@/components/modal/modal.vue'
 export default {
+  name: 'competence',
   components: {
     XktModal
   },

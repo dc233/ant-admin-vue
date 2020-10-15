@@ -36,7 +36,8 @@ const mixin = {
 const mixinDevice = {
   computed: {
     ...mapState({
-      device: (state) => state.app.device
+      device: (state) => state.app.device,
+      excludelist: (state) => state.app.excludelist
     })
   },
   methods: {

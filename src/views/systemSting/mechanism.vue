@@ -105,6 +105,7 @@ import { Empty } from 'ant-design-vue'
 import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
 export default {
+  name: 'mechanism',
   components: {
     XktModal,
     XktTable

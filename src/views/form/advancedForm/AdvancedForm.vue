@@ -75,6 +75,7 @@ const fieldLabels = {
   administrator: '管理人'
 }
 export default {
+  name: 'advanceForm',
   components: {
     RepositoryForm,
     TaskForm,

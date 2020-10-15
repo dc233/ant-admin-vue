@@ -1,4 +1,5 @@
 <script>
+import { mixinDevice } from '@/utils/mixin'
 export default {
   name: 'RouteView',
   props: {
@@ -7,6 +8,7 @@ export default {
       default: true
     }
   },
+  mixins: [mixinDevice],
   data() {
     return {}
   },
@@ -16,7 +18,7 @@ export default {
       $store: { getters }
     } = this
     const inKeep = (
-      <keep-alive>
+      <keep-alive exclude={this.excludelist}>
         <router-view />
       </keep-alive>
     )
