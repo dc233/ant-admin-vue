@@ -31,8 +31,7 @@ const app = {
     showlayout: false,
     fullPathList: [],
     pages: [],
-    activeKey: '',
-    excludelist: []
+    activeKey: ''
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -100,13 +99,6 @@ const app = {
     },
     setFixedTabs: (state, val) => {
       state.fixdTaps = val
-    },
-    addSetexclude: (state, val) => {
-      if (val instanceof Array) {
-        state.excludelist = val
-      } else {
-        state.excludelist.push(val)
-      }
     }
   },
   actions: {

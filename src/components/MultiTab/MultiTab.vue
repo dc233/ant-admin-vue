@@ -1,11 +1,9 @@
 <script>
 import events from './events'
 import { FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
-import { mixinDevice } from '@/utils/mixin'
 import Vue from 'vue'
 export default {
   name: 'MultiTab',
-  mixins: [mixinDevice],
   data() {
     return {
       fullPathList: [],
@@ -191,8 +189,9 @@ export default {
       }
     },
     // 刷新Vue组件方法
-    haneltabClick() {
+    haneltabClick(page) {
       this.loading = true
+      this.$emit('refresh', page.fullPath, page)
       setTimeout(() => {
         this.loading = false
       }, 1000)
@@ -222,7 +221,7 @@ export default {
       return (
         <a-tab-pane style={{ height: 0 }} key={page.fullPath} closable={pages.length > 1}>
           <span slot="tab">
-            <a-icon class={{ hide: page.fullPath != this.activeKey }} type={this.loading ? 'loading' : 'sync'} onClick={this.haneltabClick} />
+            <a-icon class={{ hide: page.fullPath != this.activeKey }} type={this.loading ? 'loading' : 'sync'} onClick={() => this.haneltabClick(page)} />
             {this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
           </span>
         </a-tab-pane>
@@ -236,10 +235,7 @@ export default {
             type={'editable-card'}
             v-model={this.activeKey}
             tabBarStyle={{
-              background: '#FFF',
-              margin: 0,
-              paddingLeft: '16px',
-              paddingTop: '1px'
+              margin: 0
             }}
             {...{ on: { edit: onEdit } }}>
             {panes}
