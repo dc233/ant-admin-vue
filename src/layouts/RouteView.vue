@@ -1,5 +1,19 @@
+<template>
+  <basic-layout>
+    <multi-tab v-if="multiTab" @close="remove"></multi-tab>
+    <page-toggle-transition>
+      <a-keep-alive v-if="this.multiTab" v-model="clearCaches">
+        <router-view v-if="!refreshing" ref="tabContent" :key="$route.fullPath" />
+      </a-keep-alive>
+      <router-view v-else />
+    </page-toggle-transition>
+  </basic-layout>
+</template>
 <script>
-import { mixinDevice } from '@/utils/mixin'
+import { mixinDevice, mixin } from '@/utils/mixin'
+import BasicLayout from './BasicLayout'
+import AKeepAlive from '@/components/cache/AKeepAlive'
+import PageToggleTransition from '@/components/transition/PageToggleTransition'
 export default {
   name: 'RouteView',
   props: {
@@ -8,28 +22,40 @@ export default {
       default: true
     }
   },
-  mixins: [mixinDevice],
+  mixins: [mixinDevice, mixin],
+  components: { AKeepAlive, PageToggleTransition, BasicLayout },
   data() {
-    return {}
-  },
-  render() {
-    const {
-      $route: { meta },
-      $store: { getters }
-    } = this
-    const inKeep = (
-      <keep-alive exclude={this.excludelist}>
-        <router-view />
-      </keep-alive>
-    )
-    const notKeep = <router-view />
-    // 这里增加了 multiTab 的判断，当开启了 multiTab 时
-    // 应当全部组件皆缓存，否则会导致切换页面后页面还原成原始状态
-    // 若确实不需要，可改为 return meta.keepAlive ? inKeep : notKeep
-    if (!getters.multiTab && !meta.keepAlive) {
-      return notKeep
+    return {
+      clearCaches: [],
+      refreshing: false
     }
-    return this.keepAlive || getters.multiTab || meta.keepAlive ? inKeep : notKeep
+  },
+  methods: {
+    remove(key, next) {
+      // console.log(this.pages)
+      // let index = this.pages.findIndex((item) => item.fullPath === key)
+      // console.log(index)
+      this.$multiTab.close()
+    }
   }
+  // render() {
+  //   const {
+  //     $route: { meta },
+  //     $store: { getters }
+  //   } = this
+  //   const inKeep = (
+  //     <keep-alive exclude={this.excludelist} rf>
+  //       <router-view key={this.$route.fullPath} />
+  //     </keep-alive>
+  //   )
+  //   const notKeep = <router-view />
+  //   // 这里增加了 multiTab 的判断，当开启了 multiTab 时
+  //   // 应当全部组件皆缓存，否则会导致切换页面后页面还原成原始状态
+  //   // 若确实不需要，可改为 return meta.keepAlive ? inKeep : notKeep
+  //   if (!getters.multiTab && !meta.keepAlive) {
+  //     return notKeep
+  //   }
+  //   return this.keepAlive || getters.multiTab || meta.keepAlive ? inKeep : notKeep
+  // }
 }
 </script>

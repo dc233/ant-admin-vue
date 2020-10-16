@@ -44,7 +44,10 @@ export default {
     let pahtlist = Vue.ls.get(FULL_PATH_LIST)
     let active = Vue.ls.get(PRO_ACTIVEKEY)
     if (tab === null && pahtlist === null && active === null) {
-      this.pages.push(this.$route)
+      this.pages.push(this.creataPage(this.$route))
+      // this.$nextTick(() => {
+      //   this.setCachedKey(this.$route)
+      // })
       this.fullPathList.push(this.$route.fullPath)
     } else {
       this.pages.push(...tab)
@@ -54,42 +57,14 @@ export default {
   },
   watch: {
     $route: function(newVal) {
-      let souce = false
-      this.pages.forEach((item) => {
-        if (item.path === newVal.path) {
-          souce = true
-        }
-      })
-      if (souce) {
-        this.activeKey = newVal.fullPath
-        return
-      }
       this.activeKey = newVal.fullPath
       if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
         this.fullPathList.push(newVal.fullPath)
-        this.pages.push(newVal)
+        this.pages.push(this.creataPage(newVal))
         this.$store.dispatch('AddFuliPatnList', this.fullPathList)
-        const arr = this.pages.map((item, index, arr) => {
-          for (let key in item) {
-            if (key === 'matched') {
-              item[key].splice(0, 3)
-            }
-          }
-          return item
-        })
-        this.$store.dispatch('AddPages', arr)
+        this.$store.dispatch('AddPages', this.pages)
         this.$store.dispatch('AddActiveKey', this.activeKey)
-        // 清除缓存
-        let clearcach = this.excludelist.filter((item) => {
-          newVal.name !== item
-        })
-        console.log(clearcach)
-        this.$store.commit('addSetexclude', clearcach)
       }
-
-      // console.log(clearcach)
-      // this.$store.commit('addSetexclude', clearcach)
-      // console.log(this.excludelist)
     },
     activeKey: function(newPathKey) {
       this.$router.push({ path: newPathKey })
@@ -101,9 +76,10 @@ export default {
       this[action](targetKey)
     },
     remove(targetKey) {
-      let [nocach] = this.pages.filter((page) => page.fullPath === targetKey)
-      this.$store.commit('addSetexclude', nocach.name)
-      this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
+      let index = this.pages.findIndex((item) => item.fullPath === targetKey)
+      let clearCaches = this.pages.splice(index, 1).map((page) => page.cachedKey)
+      console.log(clearCaches)
+      // this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
       this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
       this.$store.dispatch('AddFuliPatnList', this.fullPathList)
       this.$store.dispatch('AddPages', this.pages)
@@ -111,6 +87,7 @@ export default {
       if (!this.fullPathList.includes(this.activeKey)) {
         this.selectedLastPath()
       }
+      this.$emit('close', targetKey)
     },
     selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
@@ -196,11 +173,33 @@ export default {
         this.$store.commit('setFixedTabs', true)
       }
     },
+    // 刷新Vue组件方法
     haneltabClick() {
       this.loading = true
       setTimeout(() => {
         this.loading = false
       }, 1000)
+    },
+    // 遍历router 取值
+    creataPage(route) {
+      return {
+        name: route.name,
+        meta: route.meta,
+        keyPath: route.matched[route.matched.length - 1].path,
+        fullPath: route.fullPath,
+        loading: false,
+        unclose: route.meta && route.meta.page && route.meta.page.closable === false
+      }
+    },
+    // 设置页面缓存的key
+    setCachedKey(route) {
+      const page = this.pages.find((item) => item.fullPath === route.fullPath)
+      page.unclose = route.meta && route.meta.page && route.meta.page.closable === false
+      console.log(page._init_)
+      if (!page._init_) {
+        page.cachedKey = this.$refs.tabContent.$vnode.key
+        page._init_ = true
+      }
     }
   },
   render() {

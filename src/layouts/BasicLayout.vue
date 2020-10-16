@@ -41,10 +41,7 @@
             paddingTop: fixedHeader ? '64px' : '0'
           }"
         >
-          <multi-tab v-if="multiTab"></multi-tab>
-          <transition name="page-transition">
-            <route-view />
-          </transition>
+          <slot></slot>
         </a-layout-content>
         <!-- layout footer -->
         <a-layout-footer></a-layout-footer>
@@ -55,7 +52,6 @@
 </template>
 
 <script>
-import RouteView from './RouteView'
 import GlobalHeader from './Global/header'
 import SideMenu from './Global/SideMenu'
 import SettingDrawe from '@/components/SettingDrawe'
@@ -69,7 +65,6 @@ export default {
   components: {
     SideMenu,
     GlobalHeader,
-    RouteView,
     SettingDrawe
   },
   data() {

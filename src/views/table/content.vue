@@ -12,7 +12,7 @@
       </detail-list>
     </div>
     <template slot="extra">
-      123
+      <a-input></a-input>
     </template>
     <a-card :bordered="false" title="流程进度">
       <a-steps :current="1" status="finish">
@@ -145,12 +145,16 @@ const operationColumns = [
 export default {
   name: 'content',
   components: { AStepItem, AStepItemGroup, DetailListItem, DetailList },
+  created() {
+    // console.log(this.$route.query.id)
+  },
   activated() {
     this.tid = this.$route.query.id
+    console.log(this.$route.query.id)
     console.log('激活')
   },
   deactivated() {
-    console.log('暂停')
+    console.log(this)
   },
   data() {
     return {

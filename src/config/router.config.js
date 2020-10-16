@@ -1,4 +1,4 @@
-import { UserLayout, BasicLayout, RouteView } from '@/layouts'
+import { UserLayout, BlankView, RouteView } from '@/layouts'
 
 // 异步路由
 export const asyncRouterMap = [
@@ -6,7 +6,7 @@ export const asyncRouterMap = [
     path: '/',
     name: 'index',
     redirect: '/dashboard/workplace',
-    component: BasicLayout,
+    component: RouteView,
     meta: { title: '首页' },
     children: [
       // dashboard
@@ -14,10 +14,9 @@ export const asyncRouterMap = [
         path: 'dashboard',
         name: 'dashboard',
         redirect: '/dashboard/workplace',
-        component: RouteView,
+        component: BlankView,
         meta: {
           title: '仪表盘',
-          keepAlive: true,
           icon: 'line-chart',
           permission: ['dashboard']
         },
@@ -28,7 +27,6 @@ export const asyncRouterMap = [
             component: () => import('@/views/dashboard/Workplace'),
             meta: {
               title: '工作台',
-              keepAlive: true,
               permission: ['dashboard']
             }
           },
@@ -38,7 +36,6 @@ export const asyncRouterMap = [
             component: () => import('@/views/dashboard/test'),
             meta: {
               title: '测试',
-              keepAlive: true,
               permission: ['dashboard']
             }
           }
@@ -48,10 +45,9 @@ export const asyncRouterMap = [
         path: 'form',
         name: 'Form',
         redirect: '',
-        component: RouteView,
+        component: BlankView,
         meta: {
           title: '表单页',
-          keepAlive: true,
           icon: 'form',
           permission: ['form']
         },
@@ -60,19 +56,19 @@ export const asyncRouterMap = [
             path: '/form/base-form',
             name: 'Baseform',
             component: () => import('@/views/form/basicForm'),
-            meta: { title: '基础表单', keepAlive: false, permission: ['form'] }
+            meta: { title: '基础表单', permission: ['form'] }
           },
           {
             path: '/form/step-form',
             name: 'Stepform',
             component: () => import('@/views/form/stepForm/index'),
-            meta: { title: '分步表单', keepAlive: true }
+            meta: { title: '分步表单' }
           },
           {
             path: '/form/advace-form',
             name: 'advanceForm',
             component: () => import('@/views/form/advancedForm/AdvancedForm'),
-            meta: { title: '高级表单', keepAlive: true }
+            meta: { title: '高级表单' }
           }
         ]
       },
@@ -80,10 +76,9 @@ export const asyncRouterMap = [
         path: 'table',
         name: 'Table',
         redirect: '',
-        component: RouteView,
+        component: BlankView,
         meta: {
           title: '表格',
-          keepAlive: false,
           icon: 'table',
           permission: ['table']
         },
@@ -92,24 +87,23 @@ export const asyncRouterMap = [
             path: '/table/tablesearch',
             name: 'TableSearch',
             component: () => import('@/views/table/tableSearch'),
-            meta: { title: '查询表格', keepAlive: true, permission: ['table'] }
+            meta: { title: '查询表格', permission: ['table'] }
           },
           {
             path: '/table/content',
             name: 'content',
             hidden: true,
             component: () => import('@/views/table/content'),
-            meta: { title: '表格详情', keepAlive: false, permission: ['table'] }
+            meta: { title: '表格详情', permission: ['table'] }
           }
         ]
       },
       {
         path: 'systemsting',
         name: 'SystemSting',
-        component: RouteView,
+        component: BlankView,
         meta: {
           title: '系统设置',
-          keepAlive: true,
           icon: 'setting',
           permission: ['setting']
         },
@@ -118,13 +112,13 @@ export const asyncRouterMap = [
             path: '/systemsting/mechanism',
             name: 'mechanism',
             component: () => import('@/views/systemSting/mechanism'),
-            meta: { title: '机构管理', keepAlive: true }
+            meta: { title: '机构管理' }
           },
           {
             path: '/systemsting/competence',
             name: 'competence',
             component: () => import('@/views/systemSting/competence'),
-            meta: { title: '角色管理', keepAlive: true }
+            meta: { title: '角色管理' }
           }
         ]
       }

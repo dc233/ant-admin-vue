@@ -16,7 +16,8 @@ const mixin = {
       sidebarOpened: (state) => state.app.sidebar,
       multiTab: (state) => state.app.multiTab,
       showLayout: (state) => state.app.showlayout,
-      fixdTaps: (state) => state.app.fixdTaps
+      fixdTaps: (state) => state.app.fixdTaps,
+      pages: (state) => state.app.pages
     })
   },
   data() {
