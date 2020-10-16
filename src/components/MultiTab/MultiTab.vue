@@ -45,9 +45,6 @@ export default {
     let active = Vue.ls.get(PRO_ACTIVEKEY)
     if (tab === null && pahtlist === null && active === null) {
       this.pages.push(this.creataPage(this.$route))
-      // this.$nextTick(() => {
-      //   this.setCachedKey(this.$route)
-      // })
       this.fullPathList.push(this.$route.fullPath)
     } else {
       this.pages.push(...tab)
@@ -78,8 +75,6 @@ export default {
     remove(targetKey) {
       let index = this.pages.findIndex((item) => item.fullPath === targetKey)
       let clearCaches = this.pages.splice(index, 1).map((page) => page.cachedKey)
-      console.log(clearCaches)
-      // this.pages = this.pages.filter((page) => page.fullPath !== targetKey)
       this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
       this.$store.dispatch('AddFuliPatnList', this.fullPathList)
       this.$store.dispatch('AddPages', this.pages)
@@ -87,7 +82,18 @@ export default {
       if (!this.fullPathList.includes(this.activeKey)) {
         this.selectedLastPath()
       }
-      this.$emit('close', targetKey)
+      this.$emit('close', clearCaches)
+    },
+    copyremove(targetKey) {
+      let index = this.pages.findIndex((item) => item.fullPath === targetKey)
+      this.pages.splice(index, 1).map((page) => page.cachedKey)
+      this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
+      this.$store.dispatch('AddFuliPatnList', this.fullPathList)
+      this.$store.dispatch('AddPages', this.pages)
+      // 判断当前标签是否关闭，若关闭则跳转到最后一个还存在的标签页
+      if (!this.fullPathList.includes(this.activeKey)) {
+        this.selectedLastPath()
+      }
     },
     selectedLastPath() {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
@@ -103,11 +109,15 @@ export default {
       }
     },
     closeLeft(e) {
+      const index = this.pages.findIndex((item) => item.fullPath === e)
+      const clearPages = this.pages.filter((item, i) => i < index && !item.unclose)
+      let clearCaches = clearPages.map((item) => item.cachedKey)
+      this.$emit('close', clearCaches)
       const currentIndex = this.fullPathList.indexOf(e)
       if (currentIndex > 0) {
         this.fullPathList.forEach((item, index) => {
           if (index < currentIndex) {
-            this.remove(item)
+            this.copyremove(item)
           }
         })
       } else {
@@ -115,11 +125,15 @@ export default {
       }
     },
     closeRight(e) {
+      const index = this.pages.findIndex((item) => item.fullPath === e)
+      const clearPages = this.pages.filter((item, i) => i > index && !item.unclose)
+      let clearCaches = clearPages.map((item) => item.cachedKey)
+      this.$emit('close', clearCaches)
       const currentIndex = this.fullPathList.indexOf(e)
       if (currentIndex < this.fullPathList.length - 1) {
         this.fullPathList.forEach((item, index) => {
           if (index > currentIndex) {
-            this.remove(item)
+            this.copyremove(item)
           }
         })
       } else {
@@ -127,10 +141,13 @@ export default {
       }
     },
     closeAll(e) {
+      const clearPages = this.pages.filter((item) => item.fullPath !== e && !item.unclose)
+      let clearCaches = clearPages.map((item) => item.cachedKey)
+      this.$emit('close', clearCaches)
       const currentIndex = this.fullPathList.indexOf(e)
       this.fullPathList.forEach((item, index) => {
         if (index !== currentIndex) {
-          this.remove(item)
+          this.copyremove(item)
         }
       })
     },
@@ -187,18 +204,10 @@ export default {
         meta: route.meta,
         keyPath: route.matched[route.matched.length - 1].path,
         fullPath: route.fullPath,
+        cachedKey: route.fullPath,
+        _init_: true,
         loading: false,
         unclose: route.meta && route.meta.page && route.meta.page.closable === false
-      }
-    },
-    // 设置页面缓存的key
-    setCachedKey(route) {
-      const page = this.pages.find((item) => item.fullPath === route.fullPath)
-      page.unclose = route.meta && route.meta.page && route.meta.page.closable === false
-      console.log(page._init_)
-      if (!page._init_) {
-        page.cachedKey = this.$refs.tabContent.$vnode.key
-        page._init_ = true
       }
     }
   },

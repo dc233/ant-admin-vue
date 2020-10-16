@@ -1,19 +1,17 @@
 <template>
   <basic-layout>
     <multi-tab v-if="multiTab" @close="remove"></multi-tab>
-    <page-toggle-transition>
-      <a-keep-alive v-if="this.multiTab" v-model="clearCaches">
-        <router-view v-if="!refreshing" ref="tabContent" :key="$route.fullPath" />
-      </a-keep-alive>
-      <router-view v-else />
-    </page-toggle-transition>
+    <a-keep-alive v-if="this.multiTab" v-model="clearCaches">
+      <router-view v-if="!refreshing" ref="tabContent" :key="$route.fullPath" />
+    </a-keep-alive>
+    <router-view v-else />
   </basic-layout>
 </template>
 <script>
 import { mixinDevice, mixin } from '@/utils/mixin'
 import BasicLayout from './BasicLayout'
 import AKeepAlive from '@/components/cache/AKeepAlive'
-import PageToggleTransition from '@/components/transition/PageToggleTransition'
+// import PageToggleTransition from '@/components/transition/PageToggleTransition'
 export default {
   name: 'RouteView',
   props: {
@@ -23,7 +21,7 @@ export default {
     }
   },
   mixins: [mixinDevice, mixin],
-  components: { AKeepAlive, PageToggleTransition, BasicLayout },
+  components: { AKeepAlive, BasicLayout },
   data() {
     return {
       clearCaches: [],
@@ -32,10 +30,12 @@ export default {
   },
   methods: {
     remove(key, next) {
-      // console.log(this.pages)
-      // let index = this.pages.findIndex((item) => item.fullPath === key)
-      // console.log(index)
-      this.$multiTab.close()
+      this.clearCaches = key
+    },
+    clearCache(page) {
+      console.log(page)
+      page._init_ = false
+      this.clearCaches = [page.cachedKey]
     }
   }
   // render() {

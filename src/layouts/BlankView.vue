@@ -1,9 +1,14 @@
 <template>
-  <router-view />
+  <page-toggle-transition>
+    <router-view />
+  </page-toggle-transition>
 </template>
 
 <script>
-export default {}
+import PageToggleTransition from '@/components/transition/PageToggleTransition'
+export default {
+  components: { PageToggleTransition }
+}
 </script>
 
 <style></style>
