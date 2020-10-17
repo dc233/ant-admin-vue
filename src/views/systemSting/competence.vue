@@ -25,6 +25,9 @@
                 :key="index"
                 @click.stop="handleroles(item)"
               >
+                <span slot="actions">
+                  <a-switch size="small" checked-children="启用" un-checked-children="关闭" v-model="item.status" @change="handeleChange" />
+                </span>
                 <a slot="actions" @click.stop="handelrolesEdit(item)">编辑</a>
                 <a slot="actions" @click.stop="hadnelrolesDelet(item)">
                   <a-popconfirm title="您确定要删除该角色？" ok-text="确定" cancel-text="取消" @confirm="confirm(item)" @cancel="cancel">
@@ -432,6 +435,9 @@ export default {
     },
     cancel(e) {
       e.stopPropagation()
+    },
+    handeleChange() {
+      console.log()
     }
   }
 }

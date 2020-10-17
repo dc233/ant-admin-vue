@@ -1,6 +1,6 @@
 <template>
   <div class="setting-drawer">
-    <a-drawer title="主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="false" :handle="handle" width="300">
+    <a-drawer title="主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="true" :handle="handle" width="300">
       <div class="setting-drawer-index-content">
         <!--  侧边栏 -->
         <div :style="{ marginBottom: '24px' }">
@@ -84,12 +84,12 @@
                   <div slot="title">内容区域宽度</div>
                 </a-list-item-meta>
               </a-list-item>
-              <a-list-item>
+              <!-- <a-list-item>
                 <a-switch slot="actions" size="small" :defaultChecked="fixedHeader" @change="handleFixedHeader" />
                 <a-list-item-meta>
                   <div slot="title">固定 Header</div>
                 </a-list-item-meta>
-              </a-list-item>
+              </a-list-item> -->
               <a-list-item>
                 <a-switch slot="actions" size="small" :disabled="layoutMode === 'topmenu'" :defaultChecked="fixSiderbar" @change="handleFixSiderbar" />
                 <a-list-item-meta>

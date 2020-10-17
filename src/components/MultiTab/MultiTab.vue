@@ -10,7 +10,6 @@ export default {
       pages: [],
       activeKey: '',
       newTabIndex: 0,
-      fixdTaps: false,
       loading: false
     }
   },
@@ -179,15 +178,6 @@ export default {
         </a-dropdown>
       )
     },
-    // 锁定tabs
-    changeTabs() {
-      this.fixdTaps = !this.fixdTaps
-      if (this.fixdTaps) {
-        this.$store.commit('setFixedTabs', false)
-      } else {
-        this.$store.commit('setFixedTabs', true)
-      }
-    },
     // 刷新Vue组件方法
     haneltabClick(page) {
       this.loading = true
@@ -213,7 +203,6 @@ export default {
   render() {
     const {
       onEdit,
-      haneltabClick,
       refresh,
       $data: { pages }
     } = this
@@ -228,24 +217,22 @@ export default {
       )
     })
     return (
-      <div class={{ 'ant-pro-multi-tab': true, affixed: this.fixdTaps }}>
-        <div class="ant-pro-multi-tab-wrapper">
-          <a-tabs
-            hideAdd
-            type={'editable-card'}
-            v-model={this.activeKey}
-            tabBarStyle={{
-              margin: 0
-            }}
-            {...{ on: { edit: onEdit } }}>
-            {panes}
-          </a-tabs>
-          <a-tooltip placement="left" title={this.fixdTaps ? '点击解除锁定' : '点击锁定页签头'} trigger={'click'}>
-            <div class="locktab">
-              <a-icon type={this.fixdTaps ? 'lock' : 'unlock'} onClick={this.changeTabs} />
-            </div>
-          </a-tooltip>
+      <div>
+        <div class={{ 'ant-pro-multi-tab': true }}>
+          <div class="ant-pro-multi-tab-wrapper">
+            <a-tabs
+              hideAdd
+              type={'editable-card'}
+              v-model={this.activeKey}
+              tabBarStyle={{
+                margin: 0
+              }}
+              {...{ on: { edit: onEdit } }}>
+              {panes}
+            </a-tabs>
+          </div>
         </div>
+        <div style="height:40px"></div>
       </div>
     )
   }

@@ -23,7 +23,6 @@ const app = {
     contentWidth: '',
     fixedHeader: false,
     fixSiderbar: true,
-    fixdTaps: true,
     autoHideHeader: false,
     color: null,
     weak: false,
@@ -96,9 +95,6 @@ const app = {
     ADD_ACTIVEKEY: (state, val) => {
       state.activeKey = val
       Vue.ls.set(PRO_ACTIVEKEY, val)
-    },
-    setFixedTabs: (state, val) => {
-      state.fixdTaps = val
     }
   },
   actions: {

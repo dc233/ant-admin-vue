@@ -1,7 +1,7 @@
 <template>
   <div class="user-wrapper">
     <div class="content-box">
-      <a-tooltip>
+      <a-tooltip :auto-adjust-overflow="true">
         <template slot="title">
           系统布局
         </template>
@@ -19,13 +19,13 @@
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
           <a-menu-item key="0">
-            <router-link :to="{ name: 'center' }">
+            <router-link :to="{ path: '/dashasd/center' }">
               <a-icon type="user" />
               <span>个人中心</span>
             </router-link>
           </a-menu-item>
           <a-menu-item key="1">
-            <router-link :to="{ name: 'settings' }">
+            <router-link :to="{ path: '/dasdhasd/settings' }">
               <a-icon type="setting" />
               <span>账户设置</span>
             </router-link>

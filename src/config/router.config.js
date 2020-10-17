@@ -95,6 +95,12 @@ export const asyncRouterMap = [
             hidden: true,
             component: () => import('@/views/table/content'),
             meta: { title: '表格详情', permission: ['table'] }
+          },
+          {
+            path: '/table/advancedtable',
+            name: 'advancedtable',
+            component: () => import('@/views/table/advancTable'),
+            meta: { title: '高级表格', permission: ['table'] }
           }
         ]
       },
