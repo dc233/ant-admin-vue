@@ -1,39 +1,41 @@
 <template>
-  <div class="table">
-    <advance-table
-      :columns="columns"
-      :data-source="dataSource"
-      title="高级表格-Beta"
-      :loading="loading"
-      rowKey="id"
-      @search="onSearch"
-      @refresh="onRefresh"
-      :format-conditions="true"
-      @reset="onReset"
-      :pagination="{
-        current: page,
-        pageSize: pageSize,
-        total: total,
-        showSizeChanger: true,
-        showLessItems: true,
-        showQuickJumper: true,
-        showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，总计 ${total} 条`,
-        onChange: onPageChange,
-        onShowSizeChange: onSizeChange
-      }"
-    >
-      <template slot="statusTitle">
-        状态
-        <a-icon style="margin: 0 4px" type="info-circle" />
-      </template>
-      <template slot="send" slot-scope="{ text }">
-        {{ text ? '是' : '否' }}
-      </template>
-      <template slot="status" slot-scope="{ text }">
-        {{ text | statusStr }}
-      </template>
-    </advance-table>
-  </div>
+  <page-view :title="true">
+    <div class="table">
+      <advance-table
+        :columns="columns"
+        :data-source="dataSource"
+        title="高级表格-Beta"
+        :loading="loading"
+        rowKey="id"
+        @search="onSearch"
+        @refresh="onRefresh"
+        :format-conditions="true"
+        @reset="onReset"
+        :pagination="{
+          current: page,
+          pageSize: pageSize,
+          total: total,
+          showSizeChanger: true,
+          showLessItems: true,
+          showQuickJumper: true,
+          showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，总计 ${total} 条`,
+          onChange: onPageChange,
+          onShowSizeChange: onSizeChange
+        }"
+      >
+        <template slot="statusTitle">
+          状态
+          <a-icon style="margin: 0 4px" type="info-circle" />
+        </template>
+        <template slot="send" slot-scope="{ text }">
+          {{ text ? '是' : '否' }}
+        </template>
+        <template slot="status" slot-scope="{ text }">
+          {{ text | statusStr }}
+        </template>
+      </advance-table>
+    </div>
+  </page-view>
 </template>
 
 <script>
