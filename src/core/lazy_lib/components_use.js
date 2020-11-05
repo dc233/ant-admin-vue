@@ -54,7 +54,7 @@ import {
   Empty,
   TreeSelect
 } from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.less';
+import "../../theme/index.less";
 // import VueCropper from 'vue-cropper'
 Vue.use(ConfigProvider)
 Vue.use(Layout)

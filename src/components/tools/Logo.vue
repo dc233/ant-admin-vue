@@ -32,7 +32,7 @@ export default {
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
-  background: #002140;
+  background-color: @layout-trigger-background;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   h1 {
@@ -49,7 +49,5 @@ export default {
   width: 32px;
   height: 32px;
   vertical-align: middle;
-}
-.logo[data-theme='dark'] {
 }
 </style>

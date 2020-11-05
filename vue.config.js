@@ -1,6 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
-const createThemeColorReplacerPlugin = require('./config/plugin.config')
+const ThemeColorReplacer = require('webpack-theme-color-replacer')
+const { getThemeColors, modifyVars } = require('./src/utils/themeUtil')
+const { resolveCss } = require('./src/utils/theme-color-replacer-extend')
 const resolve = (dir) => path.join(__dirname, dir)
 
 // 外部引入的cdn
@@ -18,27 +20,35 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   // 是否保存时开启eslint
   lintOnSave: undefined,
-  configureWebpack: config => {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, './src/theme/theme.less')]
+    }
+  },
+  configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
       return {
-        externals: externals,
-        plugins:[
-          createThemeColorReplacerPlugin()
-        ]
+        externals: externals
       }
     }
-    return  {
-      plugins:[
+    return {
+      plugins: [
         // Ignore all locale files of moment.js
-        createThemeColorReplacerPlugin(),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new ThemeColorReplacer({
+          fileName: 'css/theme-colors-[contenthash:8].css',
+          matchColors: getThemeColors(),
+          injectCss: true,
+          resolveCss
+        })
       ]
     }
   },
   chainWebpack: (config) => {
     // 添加别名
     config.resolve.alias.set('@', resolve('src'))
-    config.entry('main').add('babel-polyfill') 
+    config.entry('main').add('babel-polyfill')
     // 保存自动修复eslint错误
     config.module
       .rule('eslint')
@@ -48,38 +58,30 @@ module.exports = {
         options.fix = true
         return options
       })
-      // 分模块打包
-      config.optimization.splitChunks({
-        chunks: 'all',
-        maxInitialRequests: Infinity,
-        minSize: 300000, // 依赖包超过300000bit将被单独打包
-        automaticNameDelimiter: '-',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name(module) {
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              )[1]
-              return `chunk.${packageName.replace('@', '')}`
-            },
-            priority: 10
-          }
+    // 分模块打包
+    config.optimization.splitChunks({
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 300000, // 依赖包超过300000bit将被单独打包
+      automaticNameDelimiter: '-',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            return `chunk.${packageName.replace('@', '')}`
+          },
+          priority: 10
         }
-      })
+      }
+    })
   },
-  transpileDependencies:[
-    'rverify'
-  ],
+  transpileDependencies: ['rverify'],
   css: {
     loaderOptions: {
       less: {
         lessOptions: {
-          modifyVars: {
-            // "primary-color": "#1DA57A",
-            // "link-color": "#1DA57A",
-            'border-radius-base': '2px'
-          },
+          modifyVars: modifyVars(),
           javascriptEnabled: true
         }
       }

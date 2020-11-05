@@ -12,3 +12,7 @@ export function logout(data) {
   const url = '/admin/logout'
   return $axios.post(url, data)
 }
+export function getRole(data) {
+  const url = '/admin/roles'
+  return $axios.post(url, data)
+}

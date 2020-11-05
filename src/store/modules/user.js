@@ -1,8 +1,23 @@
 import Vue from 'vue'
-import { login, getInfo, logout } from '@/api/login'
+import { login, getInfo, logout, getRole } from '@/api/login'
 import { ACCESS_TOKEN, FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 import { message } from 'ant-design-vue'
+
+/**
+ * 遍历路由菜单里的按钮权限
+ *
+ * @param acitionlist
+ * @param permissionId
+ * @returns {*}
+ */
+function treeForeach(tree, func) {
+  tree.forEach((data) => {
+    func(data)
+    data.children && treeForeach(data.children, func) // 遍历子树
+  })
+}
+
 const user = {
   state: {
     token: '',
@@ -60,7 +75,7 @@ const user = {
             if (result.roles && result.roles.permissions.length > 0) {
               const role = result.roles
               role.permissions = result.roles.permissions
-              console.log(role.permissions)
+              // console.log(role.permissions)
               role.permissions.map((per) => {
                 if (per.actionEntitySet != null && per.actionEntitySet.length > 0) {
                   const action = per.actionEntitySet.map((action) => {
@@ -80,12 +95,32 @@ const user = {
 
             commit('SET_NAME', { name: result.name, welcome: welcome() })
             commit('SET_AVATAR', result.avatar)
-
+            console.log(res)
             resolve(res)
           })
           .catch((error) => {
             reject(error)
           })
+        // 测试role
+        getRole().then((res) => {
+          const result = res.data
+          let permissions = []
+          treeForeach(result, function(item) {
+            if (item.meta.permission != '') {
+              let emity = {
+                actionList: []
+              }
+              emity.permissionId = item.meta.permission
+              if (item.children) {
+                item.children.forEach((item) => {
+                  emity.actionList.push(item.action)
+                })
+              }
+              permissions.push(emity)
+            }
+          })
+          console.log(permissions)
+        })
       })
     },
     // 登出

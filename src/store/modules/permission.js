@@ -1,5 +1,46 @@
 import { asyncRouterMap, constantRouterMap } from '@/config/router.config'
+import { BlankView, RouteView } from '@/layouts'
 
+function loadView(view) {
+  return () => import(`@/views/${view}`)
+}
+
+function filterMenue(tree) {
+  tree.map((item) => {
+    delete item['id']
+    delete item['p_id']
+    delete item['url']
+    delete item['sort']
+    delete item['action']
+    delete item['create_time']
+    delete item['update_time']
+    delete item['is_del']
+    if (item.hidden) {
+      if (item.hidden === 2) {
+        item.hidden = false
+      } else if (item.hidden === 1) {
+        item.hidden = true
+      }
+    }
+    if (item.component === 'RouteView') {
+      item.component = RouteView
+    } else if (item.component === 'BlankView') {
+      item.component = BlankView
+    } else {
+      item.component = loadView(item.component)
+    }
+    if (item.children) {
+      item.children.map((val) => {
+        if (val.featuresurl != '') {
+          delete item.children
+        }
+      })
+    }
+
+    item.children && this.treejson(item.children)
+  })
+  return tree
+}
 /**
  *
  * @description: 过滤账户是否拥有某一个权限，并将菜单从加载列表移除
@@ -19,22 +60,6 @@ function hasPermission(permission, route) {
     return false
   }
   return true
-}
-
-/**
- * 单账户多角色时，使用该方法可过滤角色不存在的菜单
- *
- * @param roles
- * @param route
- * @returns {*}
- */
-// eslint-disable-next-line
-  function hasRole(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return route.meta.roles.includes(roles.id)
-  } else {
-    return true
-  }
 }
 
 function filterAsyncRouter(routerMap, roles) {
