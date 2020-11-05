@@ -5,7 +5,7 @@ const mixin = {
   computed: {
     ...mapState({
       layoutMode: (state) => state.app.layout,
-      navTheme: (state) => state.app.theme,
+      theme: (state) => state.app.theme,
       primaryColor: (state) => state.app.color,
       colorWeak: (state) => state.app.weak,
       fixedHeader: (state) => state.app.fixedHeader,
@@ -17,7 +17,8 @@ const mixin = {
       multiTab: (state) => state.app.multiTab,
       showLayout: (state) => state.app.showlayout,
       fixdTaps: (state) => state.app.fixdTaps,
-      pages: (state) => state.app.pages
+      pages: (state) => state.app.pages,
+      palettes: (state) => state.app.palettes
     })
   },
   data() {

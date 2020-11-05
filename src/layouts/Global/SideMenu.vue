@@ -4,10 +4,10 @@
     :trigger="null"
     :collapsible="collapsible"
     width="256px"
-    :class="['sider', isDesktop() ? null : 'shadow', theme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
+    :class="['sider', isDesktop() ? null : 'shadow', navtheme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
   >
     <logo />
-    <s-menu :collapsed="collapsed" :menu="menus" :theme="theme" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
+    <s-menu :collapsed="collapsed" :menu="menus" :theme="navtheme" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
   </a-layout-sider>
 </template>
 
@@ -28,7 +28,7 @@ export default {
       required: false,
       default: 'inline'
     },
-    theme: {
+    navtheme: {
       type: String,
       required: false,
       default: 'dark'

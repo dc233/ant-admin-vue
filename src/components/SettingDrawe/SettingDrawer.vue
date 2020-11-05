@@ -12,7 +12,7 @@
               </template>
               <div class="setting-drawer-index-item" @click="handleMenuTheme('dark')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/LCkqqYNmvBEbokSDscrm.svg" alt="dark" />
-                <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'dark'">
+                <div class="setting-drawer-index-selectIcon" v-if="theme.mode === 'dark'">
                   <a-icon type="check" />
                 </div>
               </div>
@@ -23,7 +23,7 @@
               </template>
               <div class="setting-drawer-index-item" @click="handleMenuTheme('light')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg" alt="light" />
-                <div class="setting-drawer-index-selectIcon" v-if="navTheme !== 'dark'">
+                <div class="setting-drawer-index-selectIcon" v-if="theme.mode !== 'dark'">
                   <a-icon type="check" />
                 </div>
               </div>
@@ -45,6 +45,12 @@
             </a-tooltip>
           </div>
         </div>
+        <setting-item title="主题色">
+          <color-checkbox-group :defaultValues="[palettes.indexOf(theme.color)]" :multiple="false">
+            <color-checkbox v-for="(color, index) in palettes" :key="index" :color="color" :value="index" />
+          </color-checkbox-group>
+          {{ theme.color }}
+        </setting-item>
         <!-- 导航模式 -->
         <a-divider />
         <div :style="{ marginBottom: '24px' }">
@@ -118,11 +124,15 @@
 </template>
 
 <script>
+import SettingItem from './SettingItem'
+import { ColorCheckbox } from '@/components/checkbox'
 import config from '@/config/defaultSettings'
 import { updateTheme, updateColorWeak, colorList } from './settingConfig'
 import { mixin, mixinDevice } from '@/utils/mixin'
+const ColorCheckboxGroup = ColorCheckbox.Group
 export default {
   mixins: [mixin, mixinDevice],
+  components: { SettingItem, ColorCheckbox, ColorCheckboxGroup },
   data() {
     return {
       colorList,

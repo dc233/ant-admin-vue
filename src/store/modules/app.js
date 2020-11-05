@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import { ADMIN } from '@/config/default'
+import config from '@/config'
 import {
   SIDEBAR_TYPE,
   DEFAULT_THEME,
@@ -18,7 +20,6 @@ const app = {
   state: {
     sidebar: true,
     device: 'desktop',
-    theme: '',
     layout: '',
     contentWidth: '',
     fixedHeader: false,
@@ -30,7 +31,9 @@ const app = {
     showlayout: false,
     fullPathList: [],
     pages: [],
-    activeKey: ''
+    activeKey: '',
+    palettes: ADMIN.palettes,
+    ...config
   },
   mutations: {
     SET_SIDEBAR_TYPE: (state, type) => {
@@ -47,7 +50,7 @@ const app = {
     TOGGLE_THEME: (state, theme) => {
       // setStore('_DEFAULT_THEME', theme)
       Vue.ls.set(DEFAULT_THEME, theme)
-      state.theme = theme
+      state.theme.mode = theme
     },
     TOGGLE_LAYOUT_MODE: (state, layout) => {
       Vue.ls.set(DEFAULT_LAYOUT_MODE, layout)
