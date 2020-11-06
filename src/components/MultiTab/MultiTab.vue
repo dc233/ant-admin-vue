@@ -2,8 +2,10 @@
 import events from './events'
 import { FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
 import Vue from 'vue'
+import { mixin } from '@/utils/mixin.js'
 export default {
   name: 'MultiTab',
+  mixins: [mixin],
   data() {
     return {
       fullPathList: [],
@@ -219,7 +221,12 @@ export default {
     return (
       <div>
         <div class={{ 'ant-pro-multi-tab': true }}>
-          <div class="ant-pro-multi-tab-wrapper">
+          <div
+            class={{
+              'ant-top-multi-tab-wrapper ': this.layoutMode === 'topmenu',
+              'ant-pro-multi-tab-wrapper': true,
+              'ant-filud-multi-tab-wrapper': this.contentWidth === 'Fluid' && this.layoutMode === 'topmenu'
+            }}>
             <a-tabs
               hideAdd
               type={'editable-card'}

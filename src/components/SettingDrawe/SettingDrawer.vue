@@ -23,7 +23,18 @@
               </template>
               <div class="setting-drawer-index-item" @click="handleMenuTheme('light')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg" alt="light" />
-                <div class="setting-drawer-index-selectIcon" v-if="theme.mode !== 'dark'">
+                <div class="setting-drawer-index-selectIcon" v-if="theme.mode === 'light'">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+            <a-tooltip>
+              <template slot="title">
+                暗夜模式
+              </template>
+              <div class="setting-drawer-index-item" @click="handleMenuTheme('night')">
+                <img src="https://gw.alipayobjects.com/zos/antfincdn/hmKaLQvmY2/LCkqqYNmvBEbokSDscrm.svg" alt="night" />
+                <div class="setting-drawer-index-selectIcon" v-if="theme.mode === 'night'">
                   <a-icon type="check" />
                 </div>
               </div>
@@ -45,12 +56,6 @@
             </a-tooltip>
           </div>
         </div>
-        <setting-item title="主题色">
-          <color-checkbox-group :defaultValues="[palettes.indexOf(theme.color)]" :multiple="false">
-            <color-checkbox v-for="(color, index) in palettes" :key="index" :color="color" :value="index" />
-          </color-checkbox-group>
-          {{ theme.color }}
-        </setting-item>
         <!-- 导航模式 -->
         <a-divider />
         <div :style="{ marginBottom: '24px' }">
@@ -65,7 +70,7 @@
               </div>
             </a-tooltip>
 
-            <a-tooltip title="顶部栏导航">
+            <a-tooltip title="顶部栏导航12">
               <div class="setting-drawer-index-item" @click="handleLayout('topmenu')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topmenu" />
                 <div class="setting-drawer-index-selectIcon" v-if="layoutMode !== 'sidemenu'">
@@ -124,28 +129,17 @@
 </template>
 
 <script>
-import SettingItem from './SettingItem'
-import { ColorCheckbox } from '@/components/checkbox'
 import config from '@/config/defaultSettings'
-import { updateTheme, updateColorWeak, colorList } from './settingConfig'
+import { colorList } from './settingConfig'
 import { mixin, mixinDevice } from '@/utils/mixin'
-const ColorCheckboxGroup = ColorCheckbox.Group
 export default {
   mixins: [mixin, mixinDevice],
-  components: { SettingItem, ColorCheckbox, ColorCheckboxGroup },
   data() {
     return {
       colorList,
       visible: false,
       handle: <div />
     }
-  },
-  mounted() {
-    if (this.colorWeak !== config.colorWeak) {
-      updateColorWeak(this.colorWeak)
-    }
-    // updateTheme(this.primaryColor)
-    // this.onMultiTab(true)
   },
   methods: {
     toggle() {
@@ -170,8 +164,8 @@ export default {
     changeColor(color) {
       if (this.primaryColor !== color) {
         this.$store.dispatch('ToggleColor', color)
-        updateTheme(color)
       }
+      console.log(color)
     },
     handleLayout(mode) {
       if (this.layoutMode === 'topmenu') {

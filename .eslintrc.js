@@ -22,8 +22,8 @@ module.exports = {
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-const-assign': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-undef':process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'vue/no-side-effects-in-computed-properties':process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-undef': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vue/no-side-effects-in-computed-properties': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     indent: 0,
     // 添加⾃定义规则
     'prettier/prettier': [

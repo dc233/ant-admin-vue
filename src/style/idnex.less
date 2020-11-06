@@ -149,7 +149,6 @@
     &.light {
         background-color: #fff;
         box-shadow: 2px 0px 8px 0px rgba(29, 35, 41, 0.05);
-
         .logo {
             position: relative;
             background: #fff;
@@ -232,6 +231,7 @@
         border: none;
         height: 64px;
         line-height: 64px;
+        box-shadow: none;
       }
 
       .header-index-left {
@@ -290,11 +290,22 @@
         .header-index-wide {
             .header-index-right {
                 .hoveraction {
+                    color: #fff;
+                    & .ant-badge {
+                        color: #fff
+                    }
                     &:hover {
-                        background: #1890ff;
+                        background: @primary-7;
                     }
                 }
             }
+            .header-index-left {
+                .logo {
+                  h1 {
+                    color: #fff;
+                  }
+                }
+              }
         } 
     }
     &.light {
@@ -302,10 +313,13 @@
 
       .header-index-wide {
         .header-index-left {
+        .ant-menu-submenu {
+            border-bottom: none;
+        }
           .logo {
             background-color: #fff;
             h1 {
-              color: unset;
+              color: @primary-7;
             }
           }
         }

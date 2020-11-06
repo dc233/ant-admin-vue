@@ -3,8 +3,6 @@ import config from '@/config/defaultSettings'
 import Viser from 'viser-vue'
 import MultiTab from '@/components/MultiTab'
 import action from './directives/action'
-// 引入antdesig_UI
-import '@/core/lazy_lib/components_use'
 import VueStorage from 'vue-ls'
 import { PageView } from '@/layouts'
 import ExcelExport from '@/components/excelExport/excelExport'

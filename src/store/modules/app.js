@@ -74,7 +74,7 @@ const app = {
     },
     TOGGLE_COLOR: (state, color) => {
       Vue.ls.set(DEFAULT_COLOR, color)
-      state.color = color
+      state.theme.color = color
     },
     TOGGLE_WEAK: (state, flag) => {
       Vue.ls.set(DEFAULT_COLOR_WEAK, flag)
