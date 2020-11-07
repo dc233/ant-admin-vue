@@ -32,6 +32,7 @@
             margin: '24px 24px 0',
             paddingTop: fixedHeader ? '64px' : '0'
           }"
+          :theme="theme.mode"
         >
           <slot></slot>
         </a-layout-content>

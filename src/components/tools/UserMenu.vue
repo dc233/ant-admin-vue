@@ -34,7 +34,7 @@
           <a-menu-item key="3">
             <a href="javascript:;" @click="handleLogout">
               <a-icon type="logout" />
-              <span>退出登录1</span>
+              <span>退出登录</span>
             </a>
           </a-menu-item>
         </a-menu>

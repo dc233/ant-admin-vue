@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ADMIN } from '@/config/default'
+import { ADMIN, ANIMATE } from '@/config/default'
 import config from '@/config'
 import {
   SIDEBAR_TYPE,
@@ -33,6 +33,7 @@ const app = {
     pages: [],
     activeKey: '',
     palettes: ADMIN.palettes,
+    preset: ANIMATE.preset,
     ...config
   },
   mutations: {
@@ -98,6 +99,12 @@ const app = {
     ADD_ACTIVEKEY: (state, val) => {
       state.activeKey = val
       Vue.ls.set(PRO_ACTIVEKEY, val)
+    },
+    SET_ANIMATE: (state, val) => {
+      state.animate.disabled = val
+    },
+    SET_ANIMATE_NAME: (state, val) => {
+      state.animate.name = val
     }
   },
   actions: {
@@ -151,6 +158,12 @@ const app = {
     },
     AddActiveKey({ commit }, val) {
       commit('ADD_ACTIVEKEY', val)
+    },
+    setAnimate({ commit }, val) {
+      commit('SET_ANIMATE', val)
+    },
+    setAnimateName({ commit }, val) {
+      commit('SET_ANIMATE_NAME', val)
     }
   }
 }

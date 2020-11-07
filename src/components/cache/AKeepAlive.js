@@ -44,6 +44,9 @@ function pruneCache(keepAliveInstance, filter) {
 
 function pruneCacheEntry2(cache, key, keys) {
   const cached = cache[key]
+  console.log(cache)
+  console.log(key)
+  console.log(keys)
   if (cached) {
     cached.componentInstance.$destroy()
   }

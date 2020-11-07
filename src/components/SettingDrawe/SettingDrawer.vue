@@ -1,6 +1,6 @@
 <template>
   <div class="setting-drawer">
-    <a-drawer title="主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="true" :handle="handle" width="300">
+    <a-drawer title="系统主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="true" :handle="handle" width="300">
       <div class="setting-drawer-index-content">
         <!--  侧边栏 -->
         <div :style="{ marginBottom: '24px' }">
@@ -70,7 +70,7 @@
               </div>
             </a-tooltip>
 
-            <a-tooltip title="顶部栏导航12">
+            <a-tooltip title="顶部栏导航">
               <div class="setting-drawer-index-item" @click="handleLayout('topmenu')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topmenu" />
                 <div class="setting-drawer-index-selectIcon" v-if="layoutMode !== 'sidemenu'">
@@ -120,8 +120,33 @@
                   <div slot="title">多页签模式</div>
                 </a-list-item-meta>
               </a-list-item>
+              <a-alert type="warning" show-icon>
+                <div slot="message">
+                  多页签模式开启后会缓存页面
+                </div>
+              </a-alert>
             </a-list>
           </div>
+        </div>
+
+        <!-- 页面切换动画 -->
+        <a-divider />
+        <div :style="{ marginBottom: '24px' }">
+          <h3 class="setting-drawer-index-title">页面切换动画</h3>
+          <a-list-item>
+            <a-switch slot="actions" size="small" :defaultChecked="disable" @change="changeAnimate" />
+            <a-list-item-meta>
+              <div slot="title">禁用动画</div>
+            </a-list-item-meta>
+          </a-list-item>
+          <a-list-item>
+            <a-list-item-meta>
+              <div slot="title">动画效果</div>
+            </a-list-item-meta>
+            <a-select size="small" style="width: 80px;" :defaultValue="animatename" @change="changeAnimateName">
+              <a-select-option v-for="(item, index) in preset" :key="index" :value="item.value">{{ item.name }}</a-select-option>
+            </a-select>
+          </a-list-item>
         </div>
       </div>
     </a-drawer>
@@ -192,6 +217,14 @@ export default {
     },
     onMultiTab(checked) {
       this.$store.dispatch('ToggleMultiTab', checked)
+    },
+    // 动画开启禁用
+    changeAnimate(checked) {
+      this.$store.dispatch('setAnimate', checked)
+    },
+    // 切换动画效果
+    changeAnimateName(checked) {
+      this.$store.dispatch('setAnimateName', checked)
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>我是visbile的值{{ visbile }}</p>
+    <p class="animate__animated animate__fadeInLeft">我是visbile的值{{ visbile }}</p>
     <button @click="handelChange">改变父组件的值</button>
   </div>
 </template>

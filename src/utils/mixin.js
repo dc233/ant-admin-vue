@@ -17,7 +17,10 @@ const mixin = {
       multiTab: (state) => state.app.multiTab,
       showLayout: (state) => state.app.showlayout,
       fixdTaps: (state) => state.app.fixdTaps,
-      palettes: (state) => state.app.palettes
+      palettes: (state) => state.app.palettes,
+      disable: (state) => state.app.animate.disabled,
+      animatename: (state) => state.app.animate.name,
+      preset: (state) => state.app.preset
     })
   },
   data() {

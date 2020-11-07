@@ -6,6 +6,11 @@ import { mixin } from '@/utils/mixin.js'
 export default {
   name: 'MultiTab',
   mixins: [mixin],
+  props: {
+    cachedKey: {
+      type: String
+    }
+  },
   data() {
     return {
       fullPathList: [],
@@ -190,6 +195,7 @@ export default {
     },
     // 遍历router 取值
     creataPage(route) {
+      console.log(route)
       return {
         name: route.name,
         meta: route.meta,

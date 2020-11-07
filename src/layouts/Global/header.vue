@@ -11,11 +11,11 @@
           <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle" />
           <user-menu></user-menu>
         </div>
-        <div v-else :class="['top-nav-header-index', theme.mode]">
+        <div v-else :class="['top-nav-header-index', sideTheme]">
           <div class="header-index-wide">
             <div class="header-index-left">
               <logo class="top-nav-header" :show-title="device !== 'mobile'" />
-              <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme.mode" />
+              <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="sideTheme" />
               <a-icon v-else class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
             </div>
             <user-menu class="header-index-right"></user-menu>
@@ -61,6 +61,11 @@ export default {
   },
   name: 'GlobalHeader',
   mixins: [mixin],
+  computed: {
+    sideTheme() {
+      return this.theme.mode == 'light' ? this.theme.mode : 'dark'
+    }
+  },
   components: {
     UserMenu,
     SMenu,

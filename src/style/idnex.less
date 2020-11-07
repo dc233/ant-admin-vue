@@ -364,6 +364,47 @@
             }
         }
   }
+// 暗夜模式
+.ant-layout-sider[theme="night"] {
+    .ant-layout-sider-children {
+        .logo{
+            h1 {
+                color: rgba(255, 255, 255, 0.85);
+            }
+        }
+    }
+}
+.ant-layout-content[theme="night"] {
+    .selected {
+        &:hover {
+            background-color: rgba(56, 56, 56, 0.911);
+        }
+    }
+}
+.header-animat[theme="night"] {
+    .top-nav-header-index {
+        .header-index-wide {
+            .header-index-left{
+                .logo {
+                    h1 {
+                        color: rgba(255, 255, 255, 0.85);
+                    }
+                }
+            }
+            .header-index-right {
+                .hoveraction {
+                    color: rgba(255, 255, 255, 0.85);
+                    &:hover {
+                        background: rgba(56, 56, 56, 0.911);
+                    }
+                    .ant-badge {
+                        color: rgba(255, 255, 255, 0.85);  
+                    }
+                }
+            }
+        }
+    }
+}
 body::-webkit-scrollbar {
     width: 4px;
 }

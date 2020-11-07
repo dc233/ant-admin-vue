@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     remove(key, next) {
+      console.log(key)
       this.clearCaches = key
     },
     refresh(key, page) {

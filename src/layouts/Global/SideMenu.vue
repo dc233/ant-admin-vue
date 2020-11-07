@@ -4,10 +4,10 @@
     :trigger="null"
     :collapsible="collapsible"
     width="256px"
-    :class="['sider', isDesktop() ? null : 'shadow', theme.mode, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
+    :class="['sider', isDesktop() ? null : 'shadow', sideTheme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
   >
     <logo />
-    <s-menu :collapsed="collapsed" :menu="menus" :theme="theme.mode" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
+    <s-menu :collapsed="collapsed" :menu="menus" :theme="sideTheme" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
   </a-layout-sider>
 </template>
 
@@ -46,6 +46,11 @@ export default {
     menus: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    sideTheme() {
+      return this.theme.mode == 'light' ? this.theme.mode : 'dark'
     }
   },
   methods: {

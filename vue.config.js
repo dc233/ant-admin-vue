@@ -6,11 +6,14 @@ const { resolveCss } = require('./src/utils/theme-color-replacer-extend')
 const resolvecore = (dir) => path.join(__dirname, dir)
 
 // 外部引入的cdn
-const cdn = {
+const assetsCDN = {
+  // webpack build externals
+  externals: {
+    '@antv/data-set': 'DataSet'
+  },
   css: [],
-  js: []
+  js: ['//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js']
 }
-const externals = {}
 module.exports = {
   publicPath: '/', // 默认'/'，部署应用包时的基本 URL
   outputDir: process.env.outputDir || 'dist', // 'dist', 生产环境构建文件的目录
@@ -29,7 +32,7 @@ module.exports = {
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
       return {
-        externals: externals,
+        externals: assetsCDN.externals,
         plugins: [
           new ThemeColorReplacer({
             fileName: 'css/theme-colors-[contenthash:8].css',
@@ -78,6 +81,13 @@ module.exports = {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
       config.plugin('optimize-css').tap((args) => {
         args[0].cssnanoOptions.preset[1].colormin = false
+        return args
+      })
+    }
+    // 生产环境下使用CDN
+    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
+      config.plugin('html').tap((args) => {
+        args[0].cdn = assetsCDN
         return args
       })
     }
