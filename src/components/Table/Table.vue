@@ -135,14 +135,15 @@ export default {
 <style lang="less">
 .resize-table-th {
   position: relative;
-}
-.table-draggable-handle {
-  /* width: 10px !important; */
-  height: 100% !important;
-  left: auto !important;
-  right: -5px;
-  cursor: col-resize;
-  touch-action: none;
-  border: none;
+  .table-draggable-handle {
+    transform: none !important;
+    position: absolute;
+    height: 100% !important;
+    bottom: 0;
+    left: auto !important;
+    right: -5px;
+    cursor: col-resize;
+    touch-action: none;
+  }
 }
 </style>
