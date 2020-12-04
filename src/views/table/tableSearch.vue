@@ -128,21 +128,65 @@
                 <a-button type="primary" size="default" @click="exportTable">
                   导出所有
                 </a-button>
-                <table-config @Tablesize="receivesize" :columns.sync="columns" />
               </a-space>
             </div>
           </a-col>
         </a-row>
-        <a-alert class="alert" type="info" v-if="seletChecknum">
-          <template slot="message">
-            <span>
-              已选择
-              <a style="font-weight: 500;">{{ seletChecknum }}</a>
-              项
+        <div>
+          <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
+            <i class="anticon anticon-info-circle ant-alert-icon"></i>
+            已选择
+            <a style="font-weight: 600">{{ seletChecknum }}</a>
+            项
+            <a style="margin-left: 24px" @click="hadelTableChekbox">清空</a>
+            <span style="float:right;">
+              <a>
+                <a-icon type="sync" />
+                刷新
+              </a>
+              <a-divider type="vertical" />
+              <a-dropdown :trigger="['click']">
+                <a>
+                  <a-icon type="column-height" />
+                  密度
+                </a>
+                <a-menu slot="overlay" @click="handelDrown">
+                  <a-menu-item key="default">
+                    <a>默认</a>
+                  </a-menu-item>
+                  <a-menu-item key="middle">
+                    <a>中等</a>
+                  </a-menu-item>
+                  <a-menu-item key="small">
+                    <a>紧凑</a>
+                  </a-menu-item>
+                </a-menu>
+              </a-dropdown>
+              <a-divider type="vertical" />
+              <a-popover title="自定义列" trigger="click" placement="leftBottom">
+                <template slot="content">
+                  <a-checkbox-group @change="onColSettingsChange" v-model="settingColumns" :defaultValue="settingColumns">
+                    <a-row style="width:200px">
+                      <vuedraggable v-model="defColumns" animation="300" @update="handelUpdata" class="vuedraggable">
+                        <transition-group type="transition" name="flip-list">
+                          <a-col span="24" v-for="(item, index) in defColumns" :key="item.key">
+                            <template v-if="item.key != 'rowIndex' && item.dataIndex != 'action'">
+                              <a-checkbox :value="item.dataIndex">{{ item.title }}</a-checkbox>
+                            </template>
+                          </a-col>
+                        </transition-group>
+                      </vuedraggable>
+                    </a-row>
+                  </a-checkbox-group>
+                </template>
+                <a>
+                  <a-icon type="setting" />
+                  设置
+                </a>
+              </a-popover>
             </span>
-            <a class="deletcheck" @click="hadelTableChekbox">清除</a>
-          </template>
-        </a-alert>
+          </div>
+        </div>
         <xkt-table
           :loading="loading"
           :columns="columns"
@@ -237,19 +281,20 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { getTableList } from '@/api/table.js'
 import XktTable from '@/components/Table/Table.vue'
 import XktModal from '@/components/modal/modal.vue'
-import TableConfig from '@/components/tableconfiguration'
 import TableBatch from '@/components/tablebatch'
 import moment from 'moment'
+import vuedraggable from 'vuedraggable'
 export default {
   name: 'TableSearch',
   components: {
     XktTable,
     XktModal,
-    TableConfig,
-    TableBatch
+    TableBatch,
+    vuedraggable
   },
   data() {
     return {
@@ -277,9 +322,12 @@ export default {
         showQuickJumper: true
       },
       selectedRowKeys: [],
-      columns: [
+      columns: [],
+      defColumns: [
         {
           title: '序号',
+          dataIndex: '',
+          key: 'rowIndex',
           customRender: (value, row, index) => `${(this.pagination.current - 1) * 10 + index + 1}`,
           align: 'center',
           width: 100
@@ -310,131 +358,10 @@ export default {
           scopedSlots: { customRender: 'department' }
         },
         {
-          title: 'Column 1',
-          dataIndex: 'department',
-          key: 'Column 1',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 2',
-          dataIndex: 'department',
-          key: 'Column 2',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 3',
-          dataIndex: 'department',
-          key: 'Column 3',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 4',
-          dataIndex: 'department',
-          key: 'Column 4',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 5',
-          dataIndex: 'department',
-          key: 'Column 5',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 6',
-          dataIndex: 'department',
-          key: 'Column 6',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 7',
-          dataIndex: 'department',
-          key: 'Column 7',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 9',
-          dataIndex: 'department',
-          key: 'Column 9',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 10',
-          dataIndex: 'department',
-          key: 'Column 10',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 11',
-          dataIndex: 'department',
-          key: 'Column 11',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 12',
-          dataIndex: 'department',
-          key: 'Column 12',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 13',
-          dataIndex: 'department',
-          key: 'Column 13',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 14',
-          dataIndex: 'department',
-          key: 'Column 14',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 15',
-          dataIndex: 'department',
-          key: 'Column 15',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
-          title: 'Column 16',
-          dataIndex: 'department',
-          key: 'Column 16',
-          align: 'center',
-          width: 150,
-          scopedSlots: { customRender: 'department' }
-        },
-        {
           title: '操作',
+          dataIndex: 'action',
           key: 'action',
           align: 'center',
-          width: 200,
-          fixed: 'right',
           scopedSlots: { customRender: 'operation' }
         }
       ],
@@ -476,7 +403,9 @@ export default {
       ],
       json: '',
       batchShow: false,
-      fileList: []
+      fileList: [],
+      //列设置
+      settingColumns: []
     }
   },
   computed: {
@@ -486,6 +415,7 @@ export default {
   },
   created() {
     this.handleGetData()
+    this.initColumns()
   },
   methods: {
     onSelectChange(selectedRowKeys, selectedRows) {
@@ -638,6 +568,52 @@ export default {
         path: '/table/content',
         query: { id: val.workId }
       })
+    },
+    //列设置更改事件
+    onColSettingsChange(checkedValues) {
+      var key = this.$route.name + ':colsettings'
+      Vue.ls.set(key, checkedValues, 7 * 24 * 60 * 60 * 1000)
+      this.settingColumns = checkedValues
+      const cols = this.defColumns.filter((item) => {
+        if (item.key == 'rowIndex' || item.dataIndex == 'action') {
+          return true
+        }
+        if (this.settingColumns.includes(item.dataIndex)) {
+          return true
+        }
+        return false
+      })
+      this.columns = cols
+    },
+    initColumns() {
+      let key = this.$route.name + ':colsettings'
+      let colSettings = Vue.ls.get(key)
+      if (colSettings == null || colSettings == undefined) {
+        let allSettingColumns = []
+        this.defColumns.forEach((item, i, array) => {
+          allSettingColumns.push(item.dataIndex)
+        })
+        this.settingColumns = allSettingColumns
+        this.columns = this.defColumns
+      } else {
+        this.settingColumns = colSettings
+        const cols = this.defColumns.filter((item) => {
+          if (item.key == 'rowIndex' || item.dataIndex == 'action') {
+            return true
+          }
+          if (colSettings.includes(item.dataIndex)) {
+            return true
+          }
+          return false
+        })
+        this.columns = cols
+      }
+    },
+    handelUpdata() {
+      this.columns = this.defColumns
+    },
+    handelDrown(val) {
+      this.size = val.key
     }
   }
 }
@@ -657,5 +633,27 @@ export default {
   position: absolute;
   left: 30%;
   top: 20%;
+}
+.vuedraggable {
+  .ant-col {
+    font-weight: normal;
+    font-size: 14px;
+    padding: 2px 0;
+    line-height: 22px;
+    white-space: nowrap;
+    cursor: move;
+    transition: all 0.3s;
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      color: #fff;
+    }
+  }
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
 }
 </style>

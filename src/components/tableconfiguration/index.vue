@@ -1,12 +1,22 @@
 <template>
   <div>
-    <a-space>
-      <a-tooltip>
-        <template slot="title">
-          密度
-        </template>
+    <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
+      <i class="anticon anticon-info-circle ant-alert-icon"></i>
+      已选择
+      <a style="font-weight: 600">{{ seletChecknum }}</a>
+      项
+      <a style="margin-left: 24px" @click="hadelTableChekbox">清空</a>
+      <span style="float:right;">
+        <a @click="refresh">
+          <a-icon type="sync" />
+          刷新
+        </a>
+        <a-divider type="vertical" />
         <a-dropdown :trigger="['click']">
-          <a-icon type="column-height" class="table-icon" />
+          <a>
+            <a-icon type="column-height" />
+            密度
+          </a>
           <a-menu slot="overlay" @click="handelDrown">
             <a-menu-item key="default">
               <a>默认</a>
@@ -19,188 +29,148 @@
             </a-menu-item>
           </a-menu>
         </a-dropdown>
-      </a-tooltip>
-      <!-- 列设置 -->
-      <a-tooltip>
-        <template slot="title">
-          列设置
-        </template>
-        <a-dropdown :trigger="['click']" v-model="visible">
-          <a-icon type="setting" class="table-icon" />
-          <a-menu slot="overlay" @click="handleMenuClick" class="t-menu">
-            <a-menu-item class="table-menu">
-              列展示
-              <a-button type="link" @click="handelrecovery">重置</a-button>
-            </a-menu-item>
-            <a-menu-divider />
-            <vuedraggable v-model="arr" animation="300" filter=".forbid" @update="handelUpdata" class="vuedraggable">
-              <a-menu-item :class="item.title === '操作' ? 'forbid' : ''" class="table-copymenu" v-for="(item, index) in arr" :key="item.title">
-                <span class="move">
-                  <a-icon type="more" />
-                </span>
-                <a>{{ item.title }}</a>
-                <span class="move-config">
-                  <a-space>
-                    <a-tooltip>
-                      <template slot="title">
-                        固定在列首
-                      </template>
-                      <a-icon @click="hadelTableTop(item.title)" class="table-size" type="vertical-align-top" />
-                    </a-tooltip>
-                    <a-tooltip>
-                      <template slot="title">
-                        固定在列尾
-                      </template>
-                      <a-icon @click="handelTableBottom(item.title)" class="table-size" type="vertical-align-bottom" />
-                    </a-tooltip>
-                  </a-space>
-                </span>
-              </a-menu-item>
-            </vuedraggable>
-          </a-menu>
-        </a-dropdown>
-      </a-tooltip>
-    </a-space>
+        <a-divider type="vertical" />
+        <a-popover title="自定义列" trigger="click" placement="leftBottom">
+          <template slot="content">
+            <a-checkbox-group @change="onColSettingsChange" :defaultValue="settingColumns">
+              <a-row style="width:200px">
+                <vuedraggable v-model="defColumns" animation="300" @update="handelUpdata" class="vuedraggable">
+                  <transition-group type="transition" name="flip-list">
+                    <a-col span="24" v-for="(item, index) in defColumns" :key="item.key">
+                      <a-checkbox :value="item.dataIndex">{{ item.title }}</a-checkbox>
+                    </a-col>
+                  </transition-group>
+                </vuedraggable>
+              </a-row>
+            </a-checkbox-group>
+          </template>
+          <a>
+            <a-icon type="setting" />
+            设置
+          </a>
+        </a-popover>
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import vuedraggable from 'vuedraggable'
 export default {
   props: {
+    // 表格选中的数据总数
+    seletChecknum: {
+      type: Number,
+      required: true
+    },
+    // 自定义列的参数
+    settingColumns: {
+      type: Array,
+      required: true
+    },
+    // 默认的列配置
+    defColumns: {
+      type: Array,
+      required: true
+    },
+    // 动态列
     columns: {
-      type: Array
+      type: Array,
+      required: true
     }
   },
   components: {
     vuedraggable
   },
-  computed: {
-    plainOptions() {
-      let list = []
-      for (let i = 0; i < this.arr.length; i++) {
-        list.push(this.arr[i]['title'])
-      }
-      return list
-    }
-  },
   data() {
-    return {
-      indeterminate: true,
-      checkAll: false,
-      visible: false,
-      recovery: this.columns,
-      arr: this.columns,
-      copyarr: this.columns
-    }
+    return {}
+  },
+  created() {
+    this.initColumns()
   },
   methods: {
+    // 清空选中的表格总数
+    hadelTableChekbox() {
+      this.$emit('cleardata', [])
+    },
+    // 刷新表格数据
+    refresh() {
+      this.$emit('refreshdata')
+    },
+    // 表格密度大小设置
     handelDrown(val) {
-      this.$emit('Tablesize', val.key)
+      this.$emit('tablesize', val.key)
     },
-    onCheckAllChange(e) {
-      console.log(e)
+    // 列设置更改事件
+    onColSettingsChange(checkedValues) {
+      console.log(checkedValues)
+      let key = this.$route.name + ':colsettings'
+      Vue.ls.set(key, checkedValues, 7 * 24 * 60 * 60 * 1000)
+      this.$emit('update:settingColumns', checkedValues)
+      const cols = this.defColumns.filter((item) => {
+        if (item.key == 'rowIndex' || item.dataIndex == 'action') {
+          return true
+        }
+        if (this.settingColumns.includes(item.dataIndex)) {
+          return true
+        }
+        return false
+      })
+      this.$emit('update:columns', cols)
     },
-    handleMenuClick(e) {},
+    // 初始化列
+    initColumns() {
+      let key = this.$route.name + ':colsettings'
+      let colSettings = Vue.ls.get(key)
+      if (colSettings == null || colSettings == undefined) {
+        let allSettingColumns = []
+        this.defColumns.forEach((item, i, array) => {
+          allSettingColumns.push(item.dataIndex)
+        })
+        this.$emit('update:settingColumns', allSettingColumns)
+        this.$emit('update:columns', this.defColumns)
+      } else {
+        this.$emit('update:settingColumns', colSettings)
+        const cols = this.defColumns.filter((item) => {
+          if (item.key == 'rowIndex' || item.dataIndex == 'action') {
+            return true
+          }
+          if (colSettings.includes(item.dataIndex)) {
+            return true
+          }
+          return false
+        })
+        this.$emit('update:columns', cols)
+      }
+    },
     handelUpdata() {
-      this.$emit('update:columns', this.arr)
-    },
-    // 重置
-    handelrecovery() {
-      this.arr = this.recovery
-      this.handelUpdata()
-    },
-    // 固定列首
-    hadelTableTop(val) {
-      let tem, index
-      for (let i = 0; i < this.arr.length; i++) {
-        if (this.arr[i]['title'] === val) {
-          tem = this.arr[i]
-          index = i
-        }
-      }
-      this.arr.splice(index, 1)
-      this.arr.unshift(tem)
-    },
-    // 固定在列尾
-    handelTableBottom(val) {
-      let tem, index
-      for (let i = 0; i < this.arr.length; i++) {
-        if (this.arr[i]['title'] === val) {
-          tem = this.arr[i]
-          index = i
-        }
-      }
-      this.arr.splice(index, 1)
-      this.arr.push(tem)
+      this.$emit('update:columns', this.defColumns)
     }
   }
 }
 </script>
-
 <style lang="less" scoped>
-.table-icon {
-  font-size: 22px;
-  cursor: pointer;
-}
-.table-menu {
-  width: 240px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.table-copymenu {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0;
-}
-.table-copymenu:hover .move-config {
-  display: block;
-}
-.columns-title {
-  padding: 0 10px;
-}
-.t-menu {
-  height: 400px;
-  overflow: auto;
-}
-.t-menu::-webkit-scrollbar {
-  width: 4px;
-}
-.t-menu::-webkit-scrollbar-thumb {
-  background-color: #ddd;
-}
-.t-menu::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-.move {
-  cursor: move;
-}
-.move-config {
-  display: none;
-  width: 100px;
-  cursor: pointer;
-  text-align: right;
-}
-.table-size {
-  font-size: 16px;
-}
 .vuedraggable {
-  li {
-    clear: both;
-    margin: 0;
-    padding: 5px 12px;
-    color: rgba(0, 0, 0, 0.65);
+  .ant-col {
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
+    padding: 2px 0;
     white-space: nowrap;
-    cursor: pointer;
+    cursor: move;
     transition: all 0.3s;
     &:hover {
-      background-color: #e6f7ff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      color: #fff;
     }
   }
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
 }
 </style>

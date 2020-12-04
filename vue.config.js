@@ -9,10 +9,22 @@ const resolvecore = (dir) => path.join(__dirname, dir)
 const assetsCDN = {
   // webpack build externals
   externals: {
-    '@antv/data-set': 'DataSet'
+    vue: 'Vue',
+    '@antv/data-set': 'DataSet',
+    'vue-router': 'VueRouter',
+    vuex: 'Vuex',
+    axios: 'axios',
+    xlsx: 'XLSX'
   },
   css: [],
-  js: ['//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js']
+  js: [
+    '//cdn.jsdelivr.net/npm/@antv/data-set@0.11.4/build/data-set.min.js',
+    '//cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+    '//cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js',
+    '//cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.min.js',
+    '//cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js',
+    '//cdn.jsdelivr.net/npm/xlsx@0.16.7/dist/xlsx.min.js'
+  ]
 }
 module.exports = {
   publicPath: '/', // 默认'/'，部署应用包时的基本 URL
@@ -43,7 +55,7 @@ module.exports = {
         ]
       }
     }
-    // config.entry.app = ['babel-polyfill', 'whatwg-fetch', './src/main.js']
+    config.entry.app = ['babel-polyfill', 'whatwg-fetch', './src/main.js']
     config.performance = {
       hints: false
     }
