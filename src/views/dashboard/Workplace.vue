@@ -42,7 +42,7 @@
           <!-- 动态 -->
           <a-card :loading="loading" title="动态" :bordered="false">
             <a-list item-layout="horizontal" :data-source="dynamic">
-              <a-list-item slot="renderItem" slot-scope="item, index">
+              <a-list-item slot="renderItem" slot-scope="item">
                 <a-list-item-meta :description="item.dynamic_time">
                   <a slot="title" href="https://www.antdv.com/">{{ item.dynamic_title }}</a>
                   <a-avatar slot="avatar" :src="item.dynamic_avtr" />
@@ -57,21 +57,41 @@
           </a-card>
           <a-card title="Card Title" :bordered="false" style="margin-top:40px">
             <a-card-grid style="width:50%;text-align:center">
-              <a-statistic title="Feedback" :value="11.28" :precision="2" suffix="%" :value-style="{ color: '#3f8600' }" style="margin-right: 50px">
+              <a-statistic
+                title="Feedback"
+                :value="11.28"
+                :precision="2"
+                suffix="%"
+                :value-style="{ color: '#3f8600' }"
+                style="margin-right: 50px"
+              >
                 <template #prefix>
                   <a-icon type="arrow-up" />
                 </template>
               </a-statistic>
             </a-card-grid>
             <a-card-grid style="width:50%;text-align:center">
-              <a-statistic title="Idle" :value="9.3" :precision="2" suffix="%" class="demo-class" :value-style="{ color: '#cf1322' }">
+              <a-statistic
+                title="Idle"
+                :value="9.3"
+                :precision="2"
+                suffix="%"
+                class="demo-class"
+                :value-style="{ color: '#cf1322' }"
+              >
                 <template #prefix>
                   <a-icon type="arrow-down" />
                 </template>
               </a-statistic>
             </a-card-grid>
           </a-card>
-          <a-card title="XX 指数" style="margin-top: 24px;" :loading="radarLoading" :bordered="false" :body-style="{ padding: 0 }">
+          <a-card
+            title="XX 指数"
+            style="margin-top: 24px;"
+            :loading="radarLoading"
+            :bordered="false"
+            :body-style="{ padding: 0 }"
+          >
             <div style="text-align:center">
               <!-- :scale="scale" :axis1Opts="axis1Opts" :axis2Opts="axis2Opts"  -->
               <radar :data="radarData" />

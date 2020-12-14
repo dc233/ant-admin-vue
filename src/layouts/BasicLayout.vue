@@ -20,11 +20,25 @@
         :class="['mobilemenu']"
       ></side-menu>
     </a-drawer>
-    <side-menu v-else-if="isSideMenu()" mode="inline" :menus="menus" :theme="theme.mode" :collapsed="collapsed" :collapsible="true"></side-menu>
+    <side-menu
+      v-else-if="isSideMenu()"
+      mode="inline"
+      :menus="menus"
+      :theme="theme.mode"
+      :collapsed="collapsed"
+      :collapsible="true"
+    ></side-menu>
     <a-layout :class="[layoutMode]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
       <a-layout :class="[`content-width-${contentWidth}`]">
         <!--layout header -->
-        <global-header :mode="layoutMode" :menus="menus" :theme="theme.mode" :collapsed="collapsed" :device="device" @toggle="toggle" />
+        <global-header
+          :mode="layoutMode"
+          :menus="menus"
+          :theme="theme.mode"
+          :collapsed="collapsed"
+          :device="device"
+          @toggle="toggle"
+        />
         <!-- layout contennt -->
         <a-layout-content
           :style="{

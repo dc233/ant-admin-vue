@@ -5,8 +5,21 @@
       <div v-if="col.dataType === 'boolean'" :class="['title', { active: col.search.value !== undefined }]">
         <template v-if="col.title">{{ col.title }}:</template>
         <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
-        <a-switch @change="onSwitchChange(col)" class="switch" v-model="col.search.value" size="small" checked-children="是" un-checked-children="否" />
-        <a-icon v-if="col.search.value !== undefined" class="close" @click="(e) => onCloseClick(e, col)" type="close-circle" theme="filled" />
+        <a-switch
+          @change="onSwitchChange(col)"
+          class="switch"
+          v-model="col.search.value"
+          size="small"
+          checked-children="是"
+          un-checked-children="否"
+        />
+        <a-icon
+          v-if="col.search.value !== undefined"
+          class="close"
+          @click="(e) => onCloseClick(e, col)"
+          type="close-circle"
+          theme="filled"
+        />
       </div>
       <div v-else-if="col.dataType === 'time'" :class="['title', { active: col.search.value }]">
         <template v-if="col.title">{{ col.title }}:</template>
@@ -76,7 +89,11 @@
           </template>
           <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
           <div class="value " v-if="col.search.value">
-            :&nbsp;&nbsp;{{ col.search.format && typeof col.search.format === 'function' ? col.search.format(col.search.value) : col.search.value }}
+            :&nbsp;&nbsp;{{
+              col.search.format && typeof col.search.format === 'function'
+                ? col.search.format(col.search.value)
+                : col.search.value
+            }}
           </div>
           <a-icon v-if="!col.search.value" class="icon-down" type="down" />
           <div class="operations" slot="content">
@@ -94,7 +111,13 @@
             />
           </div>
         </a-popover>
-        <a-icon v-if="col.search.value" @click="(e) => onCloseClick(e, col)" class="close" type="close-circle" theme="filled" />
+        <a-icon
+          v-if="col.search.value"
+          @click="(e) => onCloseClick(e, col)"
+          class="close"
+          type="close-circle"
+          theme="filled"
+        />
       </div>
     </div>
   </div>

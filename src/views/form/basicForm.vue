@@ -10,7 +10,14 @@
       </p>
     </div>
     <div class="formode">
-      <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol" style="width:500px">
+      <a-form-model
+        ref="ruleForm"
+        :model="form"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        style="width:500px"
+      >
         <a-form-model-item ref="name" label="姓名" prop="name">
           <a-input
             placeholder="请填写姓名"

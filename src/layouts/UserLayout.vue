@@ -1,16 +1,5 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', device]">
-    <div class=" waveAnimation">
-      <div class="waveWrapperInner bgTop">
-        <div class="wave waveTop"></div>
-      </div>
-      <div class="waveWrapperInner bgMiddle">
-        <div class="wave waveMiddle"></div>
-      </div>
-      <div class="waveWrapperInner bgBottom">
-        <div class="wave waveBottom"></div>
-      </div>
-    </div>
     <div class="container">
       <div class="top">
         <div class="header">
@@ -23,8 +12,14 @@
           Ant Admin 是一个开箱即用的中后台脚手架
         </div>
       </div>
-
-      <router-view />
+      <a-row type="flex" justify="space-around" align="center">
+        <a-col :span="6">
+          <img class="loginimg" src="../assets/24271-teamwork.gif" alt="" />
+        </a-col>
+        <a-col :span="6">
+          <router-view />
+        </a-col>
+      </a-row>
 
       <div class="footer">
         <div class="links">
@@ -60,110 +55,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@keyframes move_wave {
-  0% {
-    transform: translateX(0) translateZ(0) scaleY(1);
-  }
-  50% {
-    transform: translateX(-25%) translateZ(0) scaleY(0.55);
-  }
-  100% {
-    transform: translateX(-50%) translateZ(0) scaleY(1);
-  }
-}
-@media screen and (max-width: 670px) {
-  .container {
-    padding: 110px 0 110px !important;
-    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-  }
-  .container .main {
-    width: 340px !important;
-  }
-  .waveWrapper,
-  .waveWrapperInner,
-  .waveTop,
-  .waveMiddle,
-  .waveBottom {
-    display: none;
-  }
-  .container > .footer {
-    bottom: 0 !important;
-  }
-  .footer {
-    position: absolute;
-    bottom: 0;
-  }
-}
-@media screen and (max-width: 320px) {
-  .container .main {
-    width: 295px !important;
-  }
-  .container {
-    padding: 38px 0 14px !important;
-  }
-}
-.waveWrapper {
-  position: absolute;
-  height: 100%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  margin: auto;
-}
-.waveWrapperInner {
-  position: absolute;
-  width: 100%;
-  overflow: hidden;
-  height: 100%;
-  background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-}
-.bgTop {
-  z-index: 15;
-  opacity: 0.5;
-}
-.bgMiddle {
-  z-index: 10;
-  opacity: 0.75;
-}
-.bgBottom {
-  z-index: 5;
-}
-.wave {
-  position: absolute;
-  left: 0;
-  width: 200%;
-  height: 100%;
-  background-repeat: repeat no-repeat;
-  background-position: 0 bottom;
-  transform-origin: center bottom;
-}
-.waveTop {
-  background-image: url('../assets/wave-top.png');
-  background-size: 50% 100px;
-}
-.waveAnimation .waveTop {
-  animation: move-wave 3s;
-  -webkit-animation: move-wave 3s;
-  -webkit-animation-delay: 1s;
-  animation-delay: 1s;
-}
-.waveMiddle {
-  background-image: url('../assets/wave-mid.png');
-  background-size: 50% 120px;
-}
-.waveAnimation .waveMiddle {
-  animation: move_wave 10s linear infinite;
-}
-.waveBottom {
-  background-image: url('../assets/wave-bot.png');
-  background-size: 50% 100px;
-}
-.waveAnimation .waveBottom {
-  animation: move_wave 15s linear infinite;
-}
-.user-layout-wrapper {
-  height: 100%;
+.loginimg {
+  width: 520px;
+  height: auto;
 }
 .container {
   position: relative;
@@ -175,20 +69,21 @@ export default {
   .main {
     min-width: 260px;
     width: 368px;
-    margin: 0 auto;
+    padding: 40px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    // margin: 0 auto;
   }
   .footer {
     position: absolute;
     width: 100%;
-    bottom: 100px;
+    bottom: 20px;
     padding: 0 16px;
-    margin: 48px 0 24px;
     text-align: center;
     .links {
       margin-bottom: 8px;
       font-size: 14px;
       a {
-        color: #fff;
+        color: rgba(0, 0, 0, 0.65);
         transition: all 0.3s;
       }
       a:not(:last-child) {
@@ -196,13 +91,13 @@ export default {
       }
     }
     .copyright {
-      color: #fff;
+      color: rgba(0, 0, 0, 0.65);
       font-size: 14px;
     }
   }
 }
 .top {
-  text-align: center;
+  padding-left: 200px;
   .header {
     height: 44px;
     line-height: 44px;
@@ -214,7 +109,7 @@ export default {
     }
     .title {
       font-size: 33px;
-      color: rgba(255, 255, 255, 255);
+      color: rgba(0, 0, 0, 0.65);
       font-weight: 600;
       position: relative;
       top: 2px;
@@ -222,7 +117,7 @@ export default {
   }
   .desc {
     font-size: 14px;
-    color: #fff;
+    color: rgba(0, 0, 0, 0.65);
     margin-top: 12px;
     margin-bottom: 40px;
   }

@@ -16,7 +16,12 @@
           ]"
         ></a-input>
       </a-form-item>
-      <a-popover placement="rightTop" :trigger="['focus']" :c="(trigger) => trigger.parentElement" v-model="state.passwordLevelChecked">
+      <a-popover
+        placement="rightTop"
+        :trigger="['focus']"
+        :c="(trigger) => trigger.parentElement"
+        v-model="state.passwordLevelChecked"
+      >
         <template slot="content">
           <div :style="{ width: '240px' }">
             <div :class="['user-register', passwordLevelClass]">
@@ -39,7 +44,10 @@
             v-decorator="[
               'password',
               {
-                rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordLevel }],
+                rules: [
+                  { required: true, message: '至少6位密码，区分大小写' },
+                  { validator: this.handlePasswordLevel }
+                ],
                 validateTrigger: ['change', 'blur']
               }
             ]"

@@ -26,11 +26,23 @@
                 @click.stop="handleroles(item)"
               >
                 <span slot="actions">
-                  <a-switch size="small" checked-children="启用" un-checked-children="关闭" v-model="item.status" @change="handeleChange" />
+                  <a-switch
+                    size="small"
+                    checked-children="启用"
+                    un-checked-children="关闭"
+                    v-model="item.status"
+                    @change="handeleChange"
+                  />
                 </span>
                 <a slot="actions" @click.stop="handelrolesEdit(item)">编辑</a>
                 <a slot="actions" @click.stop="hadnelrolesDelet(item)">
-                  <a-popconfirm title="您确定要删除该角色？" ok-text="确定" cancel-text="取消" @confirm="confirm(item)" @cancel="cancel">
+                  <a-popconfirm
+                    title="您确定要删除该角色？"
+                    ok-text="确定"
+                    cancel-text="取消"
+                    @confirm="confirm(item)"
+                    @cancel="cancel"
+                  >
                     删除
                   </a-popconfirm>
                 </a>
@@ -91,7 +103,14 @@
         保存
       </a-button>
     </div>
-    <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
+    <xkt-modal
+      :title="title"
+      :visible="visible"
+      :data="modaldata"
+      :width="width"
+      @Modelok="handelDetermine"
+      @Modecancel="handelParntcancel"
+    >
       <template v-slot="{ data }">
         <a-form-model ref="ruleFrom" :rules="rules" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
           <a-form-model-item ref="name" prop="name" label="角色名" labelAlign="left">

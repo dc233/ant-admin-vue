@@ -13,10 +13,18 @@
           <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
           <template slot="actions">
             <a-tooltip title="固定在列头" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
-              <a-icon :class="['left', { active: col.fixed === 'left' }]" @click="fixColumn('left', col)" type="vertical-align-top" />
+              <a-icon
+                :class="['left', { active: col.fixed === 'left' }]"
+                @click="fixColumn('left', col)"
+                type="vertical-align-top"
+              />
             </a-tooltip>
             <a-tooltip title="固定在列尾" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
-              <a-icon :class="['right', { active: col.fixed === 'right' }]" @click="fixColumn('right', col)" type="vertical-align-bottom" />
+              <a-icon
+                :class="['right', { active: col.fixed === 'right' }]"
+                @click="fixColumn('right', col)"
+                type="vertical-align-bottom"
+              />
             </a-tooltip>
             <a-tooltip title="添加搜索" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
               <a-icon :class="{ active: col.searchAble }" @click="setSearch(col)" type="search" />

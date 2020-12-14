@@ -187,10 +187,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@deep: ~'>>>';
 .main {
   .login-form-forgot {
     float: right;
-    color: #fff;
+    color: rgba(0, 0, 0, 0.65);
   }
   .item-icon {
     font-size: 24px;
@@ -208,20 +209,20 @@ export default {
   }
 }
 .main {
-  /deep/ .ant-tabs {
-    color: #fff;
+  @{deep} .ant-tabs {
+    color: rgba(0, 0, 0, 0.65);
   }
-  /deep/ .ant-tabs-nav .ant-tabs-tab-active {
-    color: #fff;
+  @{deep} .ant-tabs-nav .ant-tabs-tab-active {
+    color: rgba(0, 0, 0, 0.65);
   }
-  /deep/ .ant-tabs-nav .ant-tabs-tab:hover {
-    color: #fff;
+  @{deep} .ant-tabs-nav .ant-tabs-tab:hover {
+    color: rgba(0, 0, 0, 0.65);
   }
-  /deep/ .ant-tabs-nav-scroll {
+  @{deep} .ant-tabs-nav-scroll {
     text-align: center;
   }
-  /deep/ .ant-tabs-bar {
-    border-bottom: none;
+  @{deep} .ant-tabs-bar {
+    border-bottom: none !important;
   }
 }
 </style>

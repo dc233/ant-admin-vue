@@ -218,7 +218,11 @@ export default {
       return (
         <a-tab-pane style={{ height: 0 }} key={page.fullPath} closable={pages.length > 1}>
           <span slot="tab">
-            <a-icon class={{ hide: page.fullPath != this.activeKey }} type={this.loading ? 'loading' : 'sync'} onClick={() => this.haneltabClick(page)} />
+            <a-icon
+              class={{ hide: page.fullPath != this.activeKey }}
+              type={this.loading ? 'loading' : 'sync'}
+              onClick={() => this.haneltabClick(page)}
+            />
             {this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
           </span>
         </a-tab-pane>

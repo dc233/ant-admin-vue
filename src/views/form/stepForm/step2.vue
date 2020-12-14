@@ -19,7 +19,10 @@
         <a-input
           type="password"
           style="width: 80%;"
-          v-decorator="['paymentPassword', { initialValue: '123456', rules: [{ required: true, message: '请输入支付密码' }] }]"
+          v-decorator="[
+            'paymentPassword',
+            { initialValue: '123456', rules: [{ required: true, message: '请输入支付密码' }] }
+          ]"
         />
       </a-form-item>
       <a-form-item :wrapperCol="{ span: 19, offset: 5 }">

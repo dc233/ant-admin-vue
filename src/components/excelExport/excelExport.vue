@@ -180,7 +180,34 @@ export default {
           // 第一个元素为title，剩余以空字符串填充
           title = [title].concat(Array(titleLength - 1).fill(''))
           // 处理标题的合并\
-          const cell = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+          const cell = [
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O',
+            'P',
+            'Q',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'W',
+            'X',
+            'Y',
+            'Z'
+          ]
           let mergeSecond = 'A1'
           if (titleLength > 26) {
             const one = parseInt(titleLength / 26)

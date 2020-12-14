@@ -44,8 +44,14 @@
         <template :slot="slot" v-for="slot in slots">
           <slot :name="slot"></slot>
         </template>
-        <template slot-scope="record, index, indent, expanded" :slot="$scopedSlots.expandedRowRender ? 'expandedRowRender' : ''">
-          <slot v-bind="{ record, index, indent, expanded }" :name="$scopedSlots.expandedRowRender ? 'expandedRowRender' : ''"></slot>
+        <template
+          slot-scope="record, index, indent, expanded"
+          :slot="$scopedSlots.expandedRowRender ? 'expandedRowRender' : ''"
+        >
+          <slot
+            v-bind="{ record, index, indent, expanded }"
+            :name="$scopedSlots.expandedRowRender ? 'expandedRowRender' : ''"
+          ></slot>
         </template>
       </a-table>
     </a-spin>

@@ -35,7 +35,11 @@
             >
               <a-icon slot="switcherIcon" type="down" />
               <template slot="title" slot-scope="{ name }">
-                <span v-html="name.replace(new RegExp(searchValue, 'g'), '<span style=color:#f50>' + searchValue + '</span>')"></span>
+                <span
+                  v-html="
+                    name.replace(new RegExp(searchValue, 'g'), '<span style=color:#f50>' + searchValue + '</span>')
+                  "
+                ></span>
               </template>
             </a-tree>
             <a-empty :image="simpleImage" v-else description="没有检索到相关数据  " />
@@ -68,7 +72,14 @@
       </a-row>
     </div>
     <!-- 弹框 -->
-    <xkt-modal :title="title" :visible="visible" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
+    <xkt-modal
+      :title="title"
+      :visible="visible"
+      :data="modaldata"
+      :width="width"
+      @Modelok="handelDetermine"
+      @Modecancel="handelParntcancel"
+    >
       <template v-slot="{ data }">
         <a-form-model ref="ruleFrom" :rules="rules" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
           <a-form-model-item ref="name" prop="name" label="机构名" labelAlign="left">
@@ -403,7 +414,7 @@ export default {
     },
     //获取该节点的所有祖先节点
     getAllParentKey(key, tree) {
-      var parentKey
+      let parentKey
       if (key) {
         //获得父亲节点
         parentKey = this.getParentKey(key, tree)

@@ -1,5 +1,13 @@
 <template>
-  <a-modal :visible="visible" :okText="okText" :title="title" :width="width" @ok="handelok" @cancel="handelCancel" :zIndex="zIndex">
+  <a-modal
+    :visible="visible"
+    :okText="okText"
+    :title="title"
+    :width="width"
+    @ok="handelok"
+    @cancel="handelCancel"
+    :zIndex="zIndex"
+  >
     <slot :data="data"></slot>
     <slot name="customize"></slot>
   </a-modal>

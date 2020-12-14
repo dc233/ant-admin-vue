@@ -7,7 +7,14 @@
     :class="['sider', isDesktop() ? null : 'shadow', sideTheme, fixSiderbar ? 'ant-fixed-sidemenu' : null]"
   >
     <logo />
-    <s-menu :collapsed="collapsed" :menu="menus" :theme="sideTheme" :mode="mode" @select="onSelect" style="padding: 16px 0px;"></s-menu>
+    <s-menu
+      :collapsed="collapsed"
+      :menu="menus"
+      :theme="sideTheme"
+      :mode="mode"
+      @select="onSelect"
+      style="padding: 16px 0px;"
+    ></s-menu>
   </a-layout-sider>
 </template>
 

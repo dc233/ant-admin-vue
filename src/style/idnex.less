@@ -1,8 +1,7 @@
+@deep: ~'>>>';
 #app {
     height: 100%;
 }
-
-
 .layout.ant-layout {
     height: auto;
     overflow-x: hidden;
@@ -430,7 +429,7 @@ body::-webkit-scrollbar-track {
     background-color: #fff;
 }
 // table size:small 背景颜色
-.table /deep/  .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th {
+.table @{deep} .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th {
     background-color: #fafafa !important;
 }
 .ant-pro-footer-toolbar {

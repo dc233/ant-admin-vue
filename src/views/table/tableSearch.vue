@@ -92,7 +92,10 @@
               </template>
               <a-col :sm="{ span: 24 }" :md="{ span: 12 }" :lg="{ span: 6 }">
                 <a-form-model-item>
-                  <span class="table-page-search-submitButtons" :style="(advanced && { float: 'left', overflow: 'hidden' }) || {}">
+                  <span
+                    class="table-page-search-submitButtons"
+                    :style="(advanced && { float: 'left', overflow: 'hidden' }) || {}"
+                  >
                     <a-button type="primary">查询</a-button>
                     <a-button style="margin-left: 8px">重置</a-button>
                     <a @click="toggleAdvanced" style="margin-left: 8px">
@@ -165,11 +168,15 @@
               <a-divider type="vertical" />
               <a-popover title="自定义列" trigger="click" placement="leftBottom">
                 <template slot="content">
-                  <a-checkbox-group @change="onColSettingsChange" v-model="settingColumns" :defaultValue="settingColumns">
+                  <a-checkbox-group
+                    @change="onColSettingsChange"
+                    v-model="settingColumns"
+                    :defaultValue="settingColumns"
+                  >
                     <a-row style="width:200px">
                       <vuedraggable v-model="defColumns" animation="300" @update="handelUpdata" class="vuedraggable">
                         <transition-group type="transition" name="flip-list">
-                          <a-col span="24" v-for="(item, index) in defColumns" :key="item.key">
+                          <a-col span="24" v-for="item in defColumns" :key="item.key">
                             <template v-if="item.key != 'rowIndex' && item.dataIndex != 'action'">
                               <a-checkbox :value="item.dataIndex">{{ item.title }}</a-checkbox>
                             </template>
@@ -226,7 +233,14 @@
       </a-card>
     </div>
     <!-- 编辑修改model -->
-    <xkt-modal :visible="visible" :title="title" :data="modaldata" :width="width" @Modelok="handelDetermine" @Modecancel="handelParntcancel">
+    <xkt-modal
+      :visible="visible"
+      :title="title"
+      :data="modaldata"
+      :width="width"
+      @Modelok="handelDetermine"
+      @Modecancel="handelParntcancel"
+    >
       <template v-slot="{ data }">
         <a-form-model ref="ruleFrom" :model="data" :wrapper-col="wrapperCol" :label-col="labelCol">
           <a-form-model-item label="成员姓名" labelAlign="left">
@@ -254,7 +268,13 @@
       </template>
     </xkt-modal>
     <!-- 表格导出 -->
-    <excel-export :bookType="bookType" :filename="filename" :sheet="sheet" :manual="true" ref="excelExport"></excel-export>
+    <excel-export
+      :bookType="bookType"
+      :filename="filename"
+      :sheet="sheet"
+      :manual="true"
+      ref="excelExport"
+    ></excel-export>
     <table-batch :visible="batchShow">
       <a-dropdown>
         <a-menu slot="overlay">
@@ -571,7 +591,7 @@ export default {
     },
     //列设置更改事件
     onColSettingsChange(checkedValues) {
-      var key = this.$route.name + ':colsettings'
+      let key = this.$route.name + ':colsettings'
       Vue.ls.set(key, checkedValues, 7 * 24 * 60 * 60 * 1000)
       this.settingColumns = checkedValues
       const cols = this.defColumns.filter((item) => {

@@ -1,6 +1,15 @@
 <template>
   <div class="setting-drawer">
-    <a-drawer title="系统主题设置" placement="right" :closable="true" :visible="showLayout" @close="onClose" :maskClosable="true" :handle="handle" width="300">
+    <a-drawer
+      title="系统主题设置"
+      placement="right"
+      :closable="true"
+      :visible="showLayout"
+      @close="onClose"
+      :maskClosable="true"
+      :handle="handle"
+      width="300"
+    >
       <div class="setting-drawer-index-content">
         <!--  侧边栏 -->
         <div :style="{ marginBottom: '24px' }">
@@ -86,7 +95,12 @@
                   <template slot="title">
                     该设定仅 [顶部栏导航] 时有效
                   </template>
-                  <a-select size="small" style="width: 80px;" :defaultValue="contentWidth" @change="handleContentWidthChange">
+                  <a-select
+                    size="small"
+                    style="width: 80px;"
+                    :defaultValue="contentWidth"
+                    @change="handleContentWidthChange"
+                  >
                     <a-select-option value="Fixed">固定</a-select-option>
                     <a-select-option value="Fluid" v-if="layoutMode !== 'sidemenu'">流式</a-select-option>
                   </a-select>
@@ -102,7 +116,13 @@
                 </a-list-item-meta>
               </a-list-item> -->
               <a-list-item>
-                <a-switch slot="actions" size="small" :disabled="layoutMode === 'topmenu'" :defaultChecked="fixSiderbar" @change="handleFixSiderbar" />
+                <a-switch
+                  slot="actions"
+                  size="small"
+                  :disabled="layoutMode === 'topmenu'"
+                  :defaultChecked="fixSiderbar"
+                  @change="handleFixSiderbar"
+                />
                 <a-list-item-meta>
                   <div
                     slot="title"
@@ -144,7 +164,9 @@
               <div slot="title">动画效果</div>
             </a-list-item-meta>
             <a-select size="small" style="width: 80px;" :defaultValue="animatename" @change="changeAnimateName">
-              <a-select-option v-for="(item, index) in preset" :key="index" :value="item.value">{{ item.name }}</a-select-option>
+              <a-select-option v-for="(item, index) in preset" :key="index" :value="item.value">{{
+                item.name
+              }}</a-select-option>
             </a-select>
           </a-list-item>
         </div>
@@ -182,7 +204,7 @@ export default {
       this.$store.dispatch('showLayout', false)
     },
     handleMenuTheme(theme) {
-      var logo = document.querySelector('.logo')
+      let logo = document.querySelector('.logo')
       logo.setAttribute('data-theme', theme)
       this.$store.dispatch('ToggleTheme', theme)
     },
