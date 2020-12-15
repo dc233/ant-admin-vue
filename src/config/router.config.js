@@ -105,6 +105,23 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/other',
+        name: 'other',
+        component: BlankView,
+        meta: {
+          title: '其它',
+          icon: 'appstore'
+        },
+        children: [
+          {
+            path: '/other/imgpreview',
+            name: 'imgpreview',
+            component: () => import('@/views/other/PicturPreview'),
+            meta: { title: '图片预览' }
+          }
+        ]
+      },
+      {
         path: 'systemsting',
         name: 'SystemSting',
         component: BlankView,

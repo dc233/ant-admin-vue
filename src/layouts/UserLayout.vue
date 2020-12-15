@@ -12,11 +12,11 @@
           Ant Admin 是一个开箱即用的中后台脚手架
         </div>
       </div>
-      <a-row type="flex" justify="space-around" align="center">
-        <a-col :span="6">
+      <a-row type="flex" justify="space-around">
+        <a-col :xs="24" :lg="6">
           <img class="loginimg" src="../assets/24271-teamwork.gif" alt="" />
         </a-col>
-        <a-col :span="6">
+        <a-col :xs="24" :lg="6">
           <router-view />
         </a-col>
       </a-row>

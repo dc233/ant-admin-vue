@@ -130,6 +130,7 @@ export default {
   },
   created() {
     this.handelgetrole()
+    console.log('123' + this.$test)
   },
   methods: {
     beforeUpload(file, fileList) {
