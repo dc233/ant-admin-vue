@@ -1,7 +1,7 @@
 <template>
-  <page-toggle-transition>
+  <PageToggleTransition>
     <router-view />
-  </page-toggle-transition>
+  </PageToggleTransition>
 </template>
 
 <script>

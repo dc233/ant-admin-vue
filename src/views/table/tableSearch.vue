@@ -1,5 +1,5 @@
 <template>
-  <page-view :title="false">
+  <page-view :title="true">
     <div class="table">
       <!-- 查询 -->
       <a-card :bordered="false">
@@ -128,7 +128,7 @@
                 <a-button type="primary" size="default" @click="exportTable">
                   导出当前
                 </a-button>
-                <a-button type="primary" size="default" @click="exportTable">
+                <a-button type="primary" size="default" @click="exportExcel">
                   导出所有
                 </a-button>
               </a-space>
@@ -267,14 +267,6 @@
         </excel-import>
       </template>
     </xkt-modal>
-    <!-- 表格导出 -->
-    <excel-export
-      :bookType="bookType"
-      :filename="filename"
-      :sheet="sheet"
-      :manual="true"
-      ref="excelExport"
-    ></excel-export>
     <table-batch :visible="batchShow">
       <a-dropdown>
         <a-menu slot="overlay">
@@ -411,11 +403,11 @@ export default {
               cell: 'A1',
               font: {
                 sz: 14,
-                color: { rgb: 'ffffff' },
+                color: { rgb: '333333' },
                 bold: true
               },
               fill: {
-                fgColor: { rgb: 'ff7e00' }
+                fgColor: { rgb: 'F5F5F5' }
               }
             }
           ]
@@ -513,6 +505,38 @@ export default {
         item.table = this.data
       })
       this.$refs.excelExport.pikaExportExcel()
+    },
+    exportExcel() {
+      import('@/utils/Export2Excel').then((excel) => {
+        const tHeader = ['成员姓名', '工号', '所属部门']
+        const title = ['人员统计', '', ''] //标题
+        const filterVal = ['name', 'workId', 'department']
+        const list = this.data
+        const data = this.formatJson(filterVal, list)
+        data.map((item) => {
+          item.map((i, index) => {
+            if (!i) {
+              item[index] = ''
+            }
+          })
+        })
+        const merges = ['A1:I1'] //合并单元格
+        let time = moment(new Date())
+          .add(0, 'year')
+          .format('YYYYMMDD')
+        excel.export_json_to_excel({
+          title: title,
+          header: tHeader,
+          data,
+          merges,
+          filename: `岗位表格${time}`,
+          autoWidth: true,
+          bookType: 'xlsx'
+        })
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]))
     },
     // 导入表格
     onSuccess(response, file) {

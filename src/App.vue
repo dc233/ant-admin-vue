@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :locale="locale">
     <div id="app">
-      <router-view v-if="isRouterAliver" />
+      <router-view />
     </div>
   </a-config-provider>
 </template>
@@ -15,15 +15,9 @@ moment.locale('zh-cn')
 import { mixin, AppDeviceEnquire } from '@/utils/mixin'
 export default {
   mixins: [mixin, AppDeviceEnquire],
-  provide() {
-    return {
-      reload: this.reload
-    }
-  },
   data() {
     return {
-      locale: zhCN,
-      isRouterAliver: true
+      locale: zhCN
     }
   },
   mounted() {
@@ -37,14 +31,6 @@ export default {
     'theme.color': function(val) {
       let closeMessage = this.$message.loading(`您选择了主题色 ${val}, 正在切换...`)
       themeUtil.changeThemeColor(val, this.theme.mode).then(closeMessage)
-    }
-  },
-  methods: {
-    reload() {
-      this.isRouterAliver = false
-      this.$nextTick(function() {
-        this.isRouterAliver = true
-      })
     }
   }
 }

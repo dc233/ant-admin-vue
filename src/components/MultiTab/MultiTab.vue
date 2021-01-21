@@ -1,23 +1,27 @@
 <script>
 import events from './events'
-import { FULL_PATH_LIST, PRO_PAGES, PRO_ACTIVEKEY } from '@/store/mutation-types'
 import Vue from 'vue'
 import { mixin } from '@/utils/mixin.js'
 export default {
   name: 'MultiTab',
   mixins: [mixin],
   props: {
-    cachedKey: {
+    fullPathList: {
+      type: Array
+    },
+    pages: {
+      type: Array
+    },
+    activeKey: {
       type: String
+    },
+    loading: {
+      type: Boolean
     }
   },
   data() {
     return {
-      fullPathList: [],
-      pages: [],
-      activeKey: '',
-      newTabIndex: 0,
-      loading: false
+      visible: false
     }
   },
   created() {
@@ -44,119 +48,49 @@ export default {
           this.$forceUpdate()
         } catch (e) {}
       })
-    let tab = Vue.ls.get(PRO_PAGES)
-    let pahtlist = Vue.ls.get(FULL_PATH_LIST)
-    let active = Vue.ls.get(PRO_ACTIVEKEY)
-    if (tab === null && pahtlist === null && active === null) {
-      this.pages.push(this.creataPage(this.$route))
-      this.fullPathList.push(this.$route.fullPath)
-    } else {
-      this.pages.push(...tab)
-      this.fullPathList.push(...pahtlist)
-      this.activeKey = active
-    }
-  },
-  watch: {
-    $route: function(newVal) {
-      this.activeKey = newVal.fullPath
-      if (this.fullPathList.indexOf(newVal.fullPath) < 0) {
-        this.fullPathList.push(newVal.fullPath)
-        this.pages.push(this.creataPage(newVal))
-        this.$store.dispatch('AddFuliPatnList', this.fullPathList)
-        this.$store.dispatch('AddPages', this.pages)
-        this.$store.dispatch('AddActiveKey', this.activeKey)
-      }
-    },
-    activeKey: function(newPathKey) {
-      this.$router.push({ path: newPathKey })
-      this.$store.dispatch('AddActiveKey', newPathKey)
-    }
   },
   methods: {
     onEdit(targetKey, action) {
+      console.log(targetKey, action)
       this[action](targetKey)
     },
     remove(targetKey) {
-      let index = this.pages.findIndex((item) => item.fullPath === targetKey)
-      let clearCaches = this.pages.splice(index, 1).map((page) => page.cachedKey)
-      this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
-      this.$store.dispatch('AddFuliPatnList', this.fullPathList)
-      this.$store.dispatch('AddPages', this.pages)
-      // 判断当前标签是否关闭，若关闭则跳转到最后一个还存在的标签页
-      if (!this.fullPathList.includes(this.activeKey)) {
-        this.selectedLastPath()
-      }
-      this.$emit('close', clearCaches)
+      this.$emit('close', targetKey)
     },
     copyremove(targetKey) {
-      let index = this.pages.findIndex((item) => item.fullPath === targetKey)
-      this.pages.splice(index, 1).map((page) => page.cachedKey)
-      this.fullPathList = this.fullPathList.filter((path) => path !== targetKey)
-      this.$store.dispatch('AddFuliPatnList', this.fullPathList)
-      this.$store.dispatch('AddPages', this.pages)
-      // 判断当前标签是否关闭，若关闭则跳转到最后一个还存在的标签页
-      if (!this.fullPathList.includes(this.activeKey)) {
-        this.selectedLastPath()
-      }
+      this.$emit('copyremove', targetKey)
     },
-    selectedLastPath() {
-      this.activeKey = this.fullPathList[this.fullPathList.length - 1]
-      this.$store.dispatch('AddActiveKey', this.activeKey)
-    },
+
     // content menu
     closeThat(e) {
-      // 判断是否为最后一个标签页，如果是最后一个，则无法被关闭
-      if (this.fullPathList.length > 1) {
-        this.remove(e)
-      } else {
-        this.$message.info('这是最后一个标签了, 无法被关闭')
-      }
+      this.$emit('closeThat', e)
     },
     closeLeft(e) {
-      const index = this.pages.findIndex((item) => item.fullPath === e)
-      const clearPages = this.pages.filter((item, i) => i < index && !item.unclose)
-      let clearCaches = clearPages.map((item) => item.cachedKey)
-      this.$emit('close', clearCaches)
-      const currentIndex = this.fullPathList.indexOf(e)
-      if (currentIndex > 0) {
-        this.fullPathList.forEach((item, index) => {
-          if (index < currentIndex) {
-            this.copyremove(item)
-          }
-        })
-      } else {
-        this.$message.info('左侧没有标签')
-      }
+      console.log(e)
+      this.$emit('closeLeft', e)
     },
     closeRight(e) {
-      const index = this.pages.findIndex((item) => item.fullPath === e)
-      const clearPages = this.pages.filter((item, i) => i > index && !item.unclose)
-      let clearCaches = clearPages.map((item) => item.cachedKey)
-      this.$emit('close', clearCaches)
-      const currentIndex = this.fullPathList.indexOf(e)
-      if (currentIndex < this.fullPathList.length - 1) {
-        this.fullPathList.forEach((item, index) => {
-          if (index > currentIndex) {
-            this.copyremove(item)
-          }
-        })
-      } else {
-        this.$message.info('右侧没有标签')
-      }
+      this.$emit('closeRight', e)
     },
     closeAll(e) {
-      const clearPages = this.pages.filter((item) => item.fullPath !== e && !item.unclose)
-      let clearCaches = clearPages.map((item) => item.cachedKey)
-      this.$emit('close', clearCaches)
-      const currentIndex = this.fullPathList.indexOf(e)
-      this.fullPathList.forEach((item, index) => {
-        if (index !== currentIndex) {
-          this.copyremove(item)
-        }
-      })
+      this.$emit('closeAll', e)
     },
     closeMenuClick(key, route) {
+      console.log(key, route)
       this[key](route)
+    },
+    // 刷新Vue组件方法
+    haneltabClick(activeKey) {
+      let page = this.pages.find((item) => item.fullPath === activeKey)
+      this.$emit('refresh', page)
+    },
+    // 切换页面的回调
+    tabChange(activeKey) {
+      this.$emit('update:activeKey', activeKey)
+    },
+    haneltabFixed(val) {
+      this.visible = !this.visible
+      this.$store.dispatch('setFixedtabs', this.visible)
     },
     renderTabPaneMenu(e) {
       return (
@@ -175,81 +109,61 @@ export default {
         </a-menu>
       )
     },
-
     // render
-    renderTabPane(title, keyPath) {
-      const menu = this.renderTabPaneMenu(keyPath)
-      return (
-        <a-dropdown overlay={menu} trigger={['contextmenu']}>
-          <span style={{ userSelect: 'none' }}>{title}</span>
-        </a-dropdown>
-      )
-    },
-    // 刷新Vue组件方法
-    haneltabClick(page) {
-      this.loading = true
-      this.$emit('refresh', page.fullPath, page)
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
-    },
-    // 遍历router 取值
-    creataPage(route) {
-      console.log(route)
-      return {
-        name: route.name,
-        meta: route.meta,
-        keyPath: route.matched[route.matched.length - 1].path,
-        fullPath: route.fullPath,
-        cachedKey: route.fullPath,
-        _init_: true,
-        loading: false,
-        unclose: route.meta && route.meta.page && route.meta.page.closable === false
-      }
+    renderTabPane(title) {
+      return <span style={{ userSelect: 'none' }}>{title}</span>
     }
   },
   render() {
     const {
       onEdit,
-      refresh,
-      $data: { pages }
+      haneltabFixed,
+      tabChange,
+      $props: { pages, fullPathList, activeKey },
+      $data: { visible }
     } = this
     const panes = pages.map((page) => {
       return (
         <a-tab-pane style={{ height: 0 }} key={page.fullPath} closable={pages.length > 1}>
-          <span slot="tab">
-            <a-icon
-              class={{ hide: page.fullPath != this.activeKey }}
-              type={this.loading ? 'loading' : 'sync'}
-              onClick={() => this.haneltabClick(page)}
-            />
-            {this.renderTabPane(page.meta.customTitle || page.meta.title, page.fullPath)}
-          </span>
+          <span slot="tab">{this.renderTabPane(page.meta.customTitle || page.meta.title)}</span>
         </a-tab-pane>
       )
     })
     return (
-      <div>
-        <div class={{ 'ant-pro-multi-tab': true }}>
-          <div
-            class={{
-              'ant-top-multi-tab-wrapper ': this.layoutMode === 'topmenu',
-              'ant-pro-multi-tab-wrapper': true,
-              'ant-filud-multi-tab-wrapper': this.contentWidth === 'Fluid' && this.layoutMode === 'topmenu'
-            }}>
-            <a-tabs
-              hideAdd
-              type={'editable-card'}
-              v-model={this.activeKey}
-              tabBarStyle={{
-                margin: 0
-              }}
-              {...{ on: { edit: onEdit } }}>
-              {panes}
-            </a-tabs>
+      <div class={{ 'ant-pro-multi-tab': true }}>
+        <div
+          class={{
+            'ant-top-multi-tab-wrapper ': this.layoutMode === 'topmenu',
+            'ant-pro-multi-tab-wrapper': true,
+            'ant-filud-multi-tab-wrapper': this.contentWidth === 'Fluid' && this.layoutMode === 'topmenu',
+            'ant-fiexed': this.fixdTaps && this.layoutMode === 'sidemenu',
+            'ant-top-fiexed': this.fixdTaps && this.layoutMode === 'topmenu' && this.contentWidth === 'Fixed',
+            'ant-top-fluid-fiexed': this.fixdTaps && this.layoutMode === 'topmenu' && this.contentWidth === 'Fluid'
+          }}>
+          <a-tabs
+            hideAdd
+            type={'editable-card'}
+            activeKey={this.activeKey}
+            tabBarStyle={{
+              margin: 0
+            }}
+            {...{ on: { edit: onEdit, change: tabChange } }}>
+            {panes}
+          </a-tabs>
+          <div class="action">
+            <div class="extra-redo" onClick={() => this.haneltabClick(activeKey)}>
+              <a-icon type={this.loading ? 'loading' : 'sync'} />
+            </div>
+            <a-dropdown overlay={this.renderTabPaneMenu(activeKey)} trigger={['click']}>
+              <div class="extra-redo">
+                <a-icon type="down" />
+              </div>
+            </a-dropdown>
+            <div class="extra-redo" onClick={() => this.haneltabFixed(visible)}>
+              <a-icon type={this.visible ? 'unlock' : 'lock'} />
+            </div>
           </div>
         </div>
-        <div style="height:40px"></div>
       </div>
     )
   }

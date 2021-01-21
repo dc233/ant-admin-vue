@@ -4,8 +4,10 @@
       <a-layout-header
         v-if="visible"
         :class="[
+          'admin-header',
           fixedHeader && 'ant-header-fixedHeader',
-          sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed'
+          sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed',
+          fixedtabs
         ]"
         :style="{ padding: '0' }"
       >
@@ -40,7 +42,6 @@ import SMenu from './menu'
 import Logo from '../../components/tools/Logo'
 import { mixin } from '@/utils/mixin'
 export default {
-  inject: ['reload'],
   props: {
     mode: {
       type: String,
@@ -72,6 +73,14 @@ export default {
   computed: {
     sideTheme() {
       return this.theme.mode == 'light' ? this.theme.mode : 'dark'
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    fixedtabs() {
+      if (this.fixdTaps && this.fixedHeader === false) {
+        return 'ant-header-fixedtab'
+      } else if (this.fixedHeader) {
+        return 'fixed-heade-tabs'
+      }
     }
   },
   components: {
@@ -126,8 +135,8 @@ export default {
 @import '../../style/idnex.less';
 .header-animat {
   position: relative;
-  z-index: 105;
-  transition: top 0.2s;
+  z-index: 98;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 }
 .showHeader-enter-active {
   transition: all 0.25s ease;

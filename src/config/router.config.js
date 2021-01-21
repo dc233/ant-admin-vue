@@ -11,6 +11,24 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
+        path: 'newPage',
+        name: 'newPage',
+        component: () => import('@/views/NewPage'),
+        meta: {
+          title: '新页面',
+          cacheAble: false
+        }
+      },
+      {
+        path: 'testpage',
+        name: 'testpage',
+        component: () => import('@/views/newptest'),
+        meta: {
+          title: '新页面1',
+          cacheAble: false
+        }
+      },
+      {
         path: 'dashboard',
         name: 'dashboard',
         redirect: '/dashboard/workplace',
@@ -18,6 +36,7 @@ export const asyncRouterMap = [
         meta: {
           title: '仪表盘',
           icon: 'line-chart',
+          cacheAble: false,
           permission: ['dashboard']
         },
         children: [
@@ -49,6 +68,7 @@ export const asyncRouterMap = [
         meta: {
           title: '表单页',
           icon: 'form',
+          cacheAble: false,
           permission: ['form']
         },
         children: [
@@ -79,6 +99,7 @@ export const asyncRouterMap = [
         component: BlankView,
         meta: {
           title: '表格',
+          cacheAble: false,
           icon: 'table',
           permission: ['table']
         },
@@ -110,6 +131,7 @@ export const asyncRouterMap = [
         component: BlankView,
         meta: {
           title: '其它',
+          cacheAble: false,
           icon: 'appstore'
         },
         children: [
@@ -128,6 +150,7 @@ export const asyncRouterMap = [
         meta: {
           title: '系统设置',
           icon: 'setting',
+          cacheAble: false,
           permission: ['setting']
         },
         children: [

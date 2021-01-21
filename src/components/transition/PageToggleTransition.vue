@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade" :enter-active-class="`${disable ? 'animate__animated' : ''}  ${animatename}`">
+  <transition :enter-active-class="`${disable ? 'animate__animated' : ''}  ${animatename}`">
     <slot></slot>
   </transition>
 </template>

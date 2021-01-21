@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header">
+  <div :class="['page-header', fixdTaps && 'page-fixedtabs-header']">
     <div class="page-header-index-wide">
       <!-- <s-breadcrumb /> -->
       <div class="detail">
@@ -33,10 +33,14 @@
 
 <script>
 // import Breadcrumb from '@/components/tools/Breadcrumb'
+import { mapState } from 'vuex'
 export default {
   name: 'PageHeader',
   components: {
     // 's-breadcrumb': Breadcrumb
+  },
+  computed: {
+    ...mapState({ fixdTaps: (state) => state.app.fixdTaps })
   },
   props: {
     title: {
@@ -59,10 +63,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.page-fixedtabs-header {
+  padding: 56px 32px 0 !important;
+}
 .page-header {
   background: #fff;
   padding: 16px 32px 0;
   border-bottom: 1px solid #e8e8e8;
+  border-top: 1px solid #e8e8e8;
   .breadcrumb {
     margin-bottom: 16px;
   }

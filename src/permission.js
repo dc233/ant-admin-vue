@@ -17,6 +17,7 @@ router.beforeEach((to, from, next) => {
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
     if (to.path === '/user/login') {
+      console.log('fuck')
       next({ path: defaultRoutePath })
       qprogress.finish()
     } else {
@@ -27,6 +28,8 @@ router.beforeEach((to, from, next) => {
             const roles = res.data && res.data.roles
             store.dispatch('GenerateRoutes', { roles }).then(() => {
               // 根据roles权限生成可访问的路由表
+              // 在$router的实例上加上路由
+              router.options.routes.push(...store.getters.addRouters)
               // 动态添加可访问路由表
               router.addRoutes(store.getters.addRouters)
               // 请求带有 redirect 重定向时，登录自动重定向到该地址

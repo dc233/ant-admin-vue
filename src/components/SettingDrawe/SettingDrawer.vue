@@ -109,12 +109,12 @@
                   <div slot="title">内容区域宽度</div>
                 </a-list-item-meta>
               </a-list-item>
-              <!-- <a-list-item>
+              <a-list-item>
                 <a-switch slot="actions" size="small" :defaultChecked="fixedHeader" @change="handleFixedHeader" />
                 <a-list-item-meta>
                   <div slot="title">固定 Header</div>
                 </a-list-item-meta>
-              </a-list-item> -->
+              </a-list-item>
               <a-list-item>
                 <a-switch
                   slot="actions"

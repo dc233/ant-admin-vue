@@ -76,7 +76,26 @@ export function remove(arr, item) {
     }
   }
 }
-
+const _toString = Object.prototype.toString
 export function isRegExp(v) {
   return _toString.call(v) === '[object RegExp]'
+}
+// 判断是否String
+export function isString(input) {
+  return input instanceof String || Object.prototype.toString.call(input) === '[object String]'
+}
+
+// 判断是否是对象
+export function isObject(input) {
+  return Object.prototype.toString.call(input) === '[object Object]'
+}
+
+// 判断是否是数组
+export function isArray(input) {
+  return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]'
+}
+
+// 判断是否是数字
+export function isNumber(input) {
+  return input instanceof Number || Object.prototype.toString.call(input) === '[object Number]'
 }

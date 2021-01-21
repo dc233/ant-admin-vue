@@ -1,10 +1,29 @@
+/**
+ *  Author: 图片预览插件
+ * 插件以全局已入
+ * 调用方法
+ * @param {String Array}
+ * @function this.$imagePreview()
+ */
+
 import ImagePreview from './index.vue'
 
-let obj = {}
+const VueImageSwipe = {}
 
-obj.install = function(Vue, options) {
-  Vue.prototype.$test = 'hello vue'
-  Vue.component(ImagePreview.name, ImagePreview)
+VueImageSwipe.install = (Vue, options = {}) => {
+  const PreviewController = Vue.extend(ImagePreview)
+  Vue.prototype.$imagePreview = (opts = {}) => {
+    const elem = document.createElement('div')
+    let instance = new PreviewController()
+    instance.$mount(elem)
+    instance.isShow = true
+    instance.datas = opts
+    document.body.appendChild(instance.$el)
+    instance.$on('close', () => {
+      document.body.removeChild(instance.$el)
+      instance = null
+    })
+  }
 }
 
-export default obj
+export default VueImageSwipe

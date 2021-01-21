@@ -18,7 +18,7 @@ export default {
   navTheme: 'dark',
   layout: 'sidemenu',
   contentWidth: 'Fixed',
-  fixedHeader: true,
+  fixedHeader: false,
   fixSiderbar: true,
   fixdTaps: false,
   autoHideHeader: false,

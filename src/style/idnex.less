@@ -167,7 +167,19 @@
         z-index: 99;
       }
 }
-
+.admin-header {
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+.page-loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
 // 固定header
 .sidemenu {
     .ant-header-fixedHeader {
@@ -175,8 +187,8 @@
       top: 0;
       right: 0;
       z-index: 9;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       width: 100%;
-      transition: width 0.2s;
 
       &.ant-header-side-opened {
         width: calc(100% - 256px);
@@ -185,6 +197,11 @@
       &.ant-header-side-closed {
         width: calc(100% - 80px);
       }
+    }
+    .ant-header-fixedtab {
+        position: static;
+        width: 100%;
+        height: 0;
     }
   }
 .topmenu {
@@ -213,6 +230,11 @@
           width: 100%;
         }
       }
+      .ant-header-fixedtab {
+        position: static;
+        width: 100%;
+        height: 0;
+    }
 }
 .top-nav-header-index {
     box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
@@ -355,7 +377,6 @@
             }
             .ant-pro-multi-tab-wrapper {
                 max-width: 1200px;
-                margin: 0 auto;
             }
             .page-header-index-wide {
                 max-width: 1200px;

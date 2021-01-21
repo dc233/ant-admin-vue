@@ -14,7 +14,8 @@ import {
   DEFAULT_MULTI_TAB,
   FULL_PATH_LIST,
   PRO_PAGES,
-  PRO_ACTIVEKEY
+  PRO_ACTIVEKEY,
+  DEFAULT_FIXED_TABS
 } from '@/store/mutation-types'
 const app = {
   state: {
@@ -24,6 +25,7 @@ const app = {
     contentWidth: '',
     fixedHeader: false,
     fixSiderbar: true,
+    fixdTaps: false,
     autoHideHeader: false,
     color: null,
     weak: false,
@@ -105,6 +107,10 @@ const app = {
     },
     SET_ANIMATE_NAME: (state, val) => {
       state.animate.name = val
+    },
+    DEFAULT_FIXED_TABS: (state, tabs) => {
+      state.fixdTaps = tabs
+      Vue.ls.set(DEFAULT_FIXED_TABS, tabs)
     }
   },
   actions: {
@@ -164,6 +170,9 @@ const app = {
     },
     setAnimateName({ commit }, val) {
       commit('SET_ANIMATE_NAME', val)
+    },
+    setFixedtabs({ commit }, val) {
+      commit('DEFAULT_FIXED_TABS', val)
     }
   }
 }
