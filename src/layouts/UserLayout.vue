@@ -12,15 +12,7 @@
           Ant Admin 是一个开箱即用的中后台脚手架
         </div>
       </div>
-      <a-row type="flex" justify="space-around">
-        <a-col :xs="24" :lg="6">
-          <img class="loginimg" src="../assets/24271-teamwork.gif" alt="" />
-        </a-col>
-        <a-col :xs="24" :lg="6">
-          <router-view />
-        </a-col>
-      </a-row>
-
+      <router-view />
       <div class="footer">
         <div class="links">
           <a href="_self">帮助</a>
@@ -55,23 +47,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.loginimg {
-  width: 520px;
-  height: auto;
+.user-layout-wrapper {
+  width: 100%;
+  height: 100%;
+  background: url('../assets/bg.a382c67a.svg') no-repeat center 50% / cover;
 }
 .container {
   position: relative;
   z-index: 99;
   width: 100%;
   min-height: 100%;
-  padding: 110px 0 144px;
-  // background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  padding: 100px 0;
   .main {
-    min-width: 260px;
-    width: 368px;
+    width: 448px;
     padding: 40px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    // margin: 0 auto;
+    margin: 0 auto;
   }
   .footer {
     position: absolute;
@@ -97,7 +87,7 @@ export default {
   }
 }
 .top {
-  padding-left: 200px;
+  text-align: center;
   .header {
     height: 44px;
     line-height: 44px;

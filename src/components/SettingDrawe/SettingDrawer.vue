@@ -142,7 +142,7 @@
               </a-list-item>
               <a-alert type="warning" show-icon>
                 <div slot="message">
-                  多页签模式开启后会缓存页面
+                  多页签模式开启后会缓存页面并占用浏览器内存
                 </div>
               </a-alert>
             </a-list>

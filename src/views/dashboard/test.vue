@@ -2,22 +2,26 @@
   <div>
     <test-children :visbile.sync="database" />
     <xkt-upload listType="picture-card" :beforeUpload="beforeUpload" />
-
-    <a-table bordered :columns="columns" :components="components" :data-source="data">
-      <template v-slot:action>
-        <a href="javascript:;">Delete</a>
-      </template>
-    </a-table>
+    <sprite-animate
+      style="opacity:0.6"
+      spriteName="moreSprite"
+      :scale="0.5"
+      :isTrigger="isTrigger"
+      @click="handeltest"
+    ></sprite-animate>
+    <button @click="handeltest">123</button>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import VueDraggableResizable from 'vue-draggable-resizable'
 import TestChildren from './testChildren'
 import XktUpload from '@/components/upload'
 import { getRole } from '@/api/login'
 import { BlankView, RouteView } from '@/layouts'
+import AdmintestDome from './test2'
+import SpriteAnimate from '@/components/spriteAnimate/spriteAnimate'
+import Footer from './Footer'
 const columns = [
   {
     title: 'Date',
@@ -113,7 +117,12 @@ export default {
   name: 'test',
   components: {
     TestChildren,
-    XktUpload
+    XktUpload,
+    SpriteAnimate,
+    // eslint-disable-next-line vue/no-unused-components
+    AdmintestDome,
+    // eslint-disable-next-line vue/no-unused-components
+    Footer
   },
   data() {
     this.components = {
@@ -125,7 +134,10 @@ export default {
       database: 'dartalist',
       asdas: '23',
       data,
-      columns
+      columns,
+      isTrigger: true,
+      msg: '我就草了',
+      form: {}
     }
   },
   created() {
@@ -202,6 +214,52 @@ export default {
         let arr = this.treejson(res.data)
         console.log(arr)
       })
+    },
+    hadelecesi() {
+      console.log(this.$refs.ruleForm.handetest())
+    },
+    handeltest() {
+      let self = this
+      let dome = this.$createAntdModal({
+        modalProps: {
+          title: '新增',
+          width: '500px',
+          mask: true
+        },
+        content: {
+          template: AdmintestDome,
+          props: {
+            form: self.form
+          },
+          ref: 'ruleForm'
+        },
+        // footer: {
+        //   template: Footer,
+        //   props: {
+        //     cancelText: '自定义取消',
+        //     okText: '自定义确定',
+        //     ruleFormobj: dome
+        //   }
+        // },
+        beforeClose: function() {
+          console.log('我要关闭了')
+          dome.$refs.ruleForm.resetForm()
+        },
+        afterClose: function() {
+          console.log('我已经关闭了')
+        },
+        async onOk() {
+          // dome.$refs.ruleForm.submitForm()
+          // return false
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              console.log('点了确定')
+              resolve()
+            }, 3000)
+          })
+        }
+      })
+      console.log(dome)
     }
   }
 }

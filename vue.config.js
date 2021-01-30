@@ -9,6 +9,7 @@ const resolvecore = (dir) => path.join(__dirname, dir)
 const assetsCDN = {
   // webpack build externals
   externals: {
+    'createjs-module': 'createjs',
     vue: 'Vue',
     '@antv/data-set': 'DataSet',
     'vue-router': 'VueRouter',
@@ -23,7 +24,8 @@ const assetsCDN = {
     '//cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js',
     '//cdn.jsdelivr.net/npm/vuex@3.4.0/dist/vuex.min.js',
     '//cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js',
-    '//cdn.jsdelivr.net/npm/xlsx@0.16.7/dist/xlsx.min.js'
+    '//cdn.jsdelivr.net/npm/xlsx@0.16.7/dist/xlsx.min.js',
+    '//cdn.jsdelivr.net/npm/createjs-module@0.8.3/createjs.min.js'
   ]
 }
 module.exports = {
@@ -117,6 +119,7 @@ module.exports = {
     }
   },
   devServer: {
+    contentBase: path.join(__dirname, 'src'),
     port: '8080',
     hot: true,
     proxy: {

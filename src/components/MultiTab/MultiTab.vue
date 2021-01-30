@@ -136,7 +136,8 @@ export default {
             'ant-top-multi-tab-wrapper ': this.layoutMode === 'topmenu',
             'ant-pro-multi-tab-wrapper': true,
             'ant-filud-multi-tab-wrapper': this.contentWidth === 'Fluid' && this.layoutMode === 'topmenu',
-            'ant-fiexed': this.fixdTaps && this.layoutMode === 'sidemenu',
+            'ant-fiexed': this.fixdTaps && this.layoutMode === 'sidemenu' && this.sidebarOpened,
+            'ant-side-fiexed': this.fixdTaps && this.layoutMode === 'sidemenu' && this.sidebarOpened === false,
             'ant-top-fiexed': this.fixdTaps && this.layoutMode === 'topmenu' && this.contentWidth === 'Fixed',
             'ant-top-fluid-fiexed': this.fixdTaps && this.layoutMode === 'topmenu' && this.contentWidth === 'Fluid'
           }}>
