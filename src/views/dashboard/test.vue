@@ -9,7 +9,7 @@
       :isTrigger="isTrigger"
       @click="handeltest"
     ></sprite-animate>
-    <button @click="handeltest">123</button>
+    <button class="btn" @click="handeltest">123</button>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ import { getRole } from '@/api/login'
 import { BlankView, RouteView } from '@/layouts'
 import AdmintestDome from './test2'
 import SpriteAnimate from '@/components/spriteAnimate/spriteAnimate'
-import Footer from './Footer'
+import Title from './title'
 const columns = [
   {
     title: 'Date',
@@ -117,12 +117,7 @@ export default {
   name: 'test',
   components: {
     TestChildren,
-    XktUpload,
-    SpriteAnimate,
-    // eslint-disable-next-line vue/no-unused-components
-    AdmintestDome,
-    // eslint-disable-next-line vue/no-unused-components
-    Footer
+    XktUpload
   },
   data() {
     this.components = {
@@ -136,7 +131,7 @@ export default {
       data,
       columns,
       isTrigger: true,
-      msg: '我就草了',
+      msg: '标题',
       form: {}
     }
   },
@@ -222,8 +217,11 @@ export default {
       let self = this
       let dome = this.$createAntdModal({
         modalProps: {
-          title: '新增',
-          width: '500px',
+          width: '800px',
+          bodyStyle: {
+            height: '600px',
+            overflow: 'auto'
+          },
           mask: true
         },
         content: {
@@ -232,6 +230,12 @@ export default {
             form: self.form
           },
           ref: 'ruleForm'
+        },
+        title: {
+          template: Title,
+          props: {
+            title: self.msg
+          }
         },
         // footer: {
         //   template: Footer,
@@ -243,20 +247,23 @@ export default {
         // },
         beforeClose: function() {
           console.log('我要关闭了')
-          dome.$refs.ruleForm.resetForm()
         },
         afterClose: function() {
           console.log('我已经关闭了')
         },
         async onOk() {
-          // dome.$refs.ruleForm.submitForm()
-          // return false
-          await new Promise((resolve) => {
-            setTimeout(() => {
-              console.log('点了确定')
-              resolve()
-            }, 3000)
+          console.log('123')
+          // 判断表单验证成功后
+          let pr = await dome.$refs.ruleForm.submitForm().catch((err) => {
+            return err
           })
+          // 验证成功调取接口
+          console.log(pr)
+          if (pr) {
+            // 异步调取接口逻辑
+            return pr
+          }
+          return pr
         }
       })
       console.log(dome)
@@ -277,6 +284,11 @@ export default {
     right: -5px;
     cursor: col-resize;
     touch-action: none;
+  }
+}
+.btn {
+  &:hover {
+    background: @item-hover-bg;
   }
 }
 </style>

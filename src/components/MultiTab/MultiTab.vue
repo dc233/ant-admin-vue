@@ -110,8 +110,8 @@ export default {
       )
     },
     // render
-    renderTabPane(title) {
-      return <span style={{ userSelect: 'none' }}>{title}</span>
+    renderTabPane(page) {
+      return <span style={{ userSelect: 'none' }}>{page.meta.title}</span>
     }
   },
   render() {
@@ -125,10 +125,11 @@ export default {
     const panes = pages.map((page) => {
       return (
         <a-tab-pane style={{ height: 0 }} key={page.fullPath} closable={pages.length > 1}>
-          <span slot="tab">{this.renderTabPane(page.meta.customTitle || page.meta.title)}</span>
+          <span slot="tab">{this.renderTabPane(page)}</span>
         </a-tab-pane>
       )
     })
+
     return (
       <div class={{ 'ant-pro-multi-tab': true }}>
         <div

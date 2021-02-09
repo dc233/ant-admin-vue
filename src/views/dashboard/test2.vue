@@ -1,10 +1,10 @@
 <template>
   <div>
     <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
-      <a-form-model-item ref="name" label="Activity name" prop="name">
+      <a-form-model-item ref="name" label="Activity name" prop="name" labelAlign="left">
         <a-input v-model="form.name" />
       </a-form-model-item>
-      <a-form-model-item label="Activity zone" prop="region">
+      <a-form-model-item label="Activity zone" prop="region" labelAlign="left">
         <a-select v-model="form.region" placeholder="please select your zone">
           <a-select-option value="shanghai">
             Zone one
@@ -15,6 +15,12 @@
         </a-select>
       </a-form-model-item>
     </a-form-model>
+    <div class="box">1</div>
+    <div class="box">1</div>
+
+    <div class="box">1</div>
+    <div class="box">1</div>
+    <div class="box">1</div>
   </div>
 </template>
 
@@ -34,21 +40,14 @@ export default {
         ],
         region: [{ required: true, message: 'Please select Activity zone', trigger: 'change' }]
       },
-      labelCol: { span: 6 },
-      wrapperCol: { span: 18 }
+      labelCol: { span: 4 },
+      wrapperCol: { span: 20 },
+      verify: false
     }
   },
   methods: {
     submitForm() {
-      this.$refs.ruleForm.validate((valid) => {
-        console.log(valid)
-        if (valid) {
-          console.log('cenggogn')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+      return this.$refs.ruleForm.validate()
     },
     resetForm() {
       this.$refs.ruleForm.resetFields()
@@ -57,4 +56,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.box {
+  width: 400px;
+  height: 400px;
+  background-color: pink;
+}
+</style>

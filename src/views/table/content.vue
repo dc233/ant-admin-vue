@@ -1,5 +1,5 @@
 <template>
-  <page-view :title="false">
+  <page-view :title="true">
     <div slot="headerContent">
       <div>单据详情：{{ tid }}</div>
       <detail-list size="small" :col="2" slot="headerContent">
@@ -98,12 +98,16 @@
       <a-table v-if="activeTabKey === '2'" :columns="operationColumns" :dataSource="operation2" :pagination="false" />
       <a-table v-if="activeTabKey === '3'" :columns="operationColumns" :dataSource="operation3" :pagination="false" />
     </a-card>
+    <a-card>
+      <taskTab :tabInfo="tabInfo"></taskTab>
+    </a-card>
   </page-view>
 </template>
 
 <script>
 import DetailList from '@/components/tools/DetailList'
 import AStepItem from '@/components/tools/AStepItem'
+import taskTab from '../common/infoTab'
 const DetailListItem = DetailList.Item
 const AStepItemGroup = AStepItem.Group
 
@@ -150,17 +154,10 @@ const operationColumns = [
 ]
 export default {
   name: 'content',
-  components: { AStepItem, AStepItemGroup, DetailListItem, DetailList },
-  created() {
-    // console.log(this.$route.query.id)
-  },
-  activated() {
-    this.tid = this.$route.query.id
-    console.log(this.$route.query.id)
-    console.log('激活')
-  },
-  deactivated() {
-    console.log(this)
+  components: { AStepItem, AStepItemGroup, DetailListItem, DetailList, taskTab },
+  mounted() {
+    console.log(this.$route.query.tid)
+    this.tid = this.$route.query.tid
   },
   data() {
     return {
@@ -171,7 +168,8 @@ export default {
       operation1: [],
       operation2: [],
       operation3: [],
-      operationColumns
+      operationColumns,
+      tabInfo: ['任务信息', '订单信息', '学生信息', '开课信息', '通话记录']
     }
   }
 }

@@ -99,7 +99,6 @@ export const asyncRouterMap = [
         component: BlankView,
         meta: {
           title: '表格',
-          cacheAble: false,
           icon: 'table',
           permission: ['table']
         },

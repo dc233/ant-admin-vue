@@ -37,12 +37,12 @@ module.exports = {
   parallel: require('os').cpus().length > 1,
   // 是否保存时开启eslint
   lintOnSave: undefined,
-  // pluginOptions: {
-  //   'style-resources-loader': {
-  //     preProcessor: 'less',
-  //     patterns: [path.resolve(__dirname, './src/theme/theme.less')]
-  //   }
-  // },
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, './src/theme/theme.less')]
+    }
+  },
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'exploit') {
       return {

@@ -1,5 +1,7 @@
 <template>
-  <div>测试1</div>
+  <div>
+    <a-card>123</a-card>
+  </div>
 </template>
 
 <script>

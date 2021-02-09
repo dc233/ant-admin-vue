@@ -17,7 +17,7 @@
     </multi-tab>
     <span class="page-loading"> <a-spin size="large" :spinning="this.loading"/></span>
     <a-keep-alive v-if="this.multiTab" :exclude-keys="excludeKeys" v-model="clearCaches" :max="10">
-      <router-view v-if="!refreshing" ref="tabContent" :key="$route.path" />
+      <router-view v-if="!refreshing" ref="tabContent" :key="$route.fullPath" />
     </a-keep-alive>
     <router-view v-else-if="!refreshing" />
   </basic-layout>
